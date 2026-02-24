@@ -1,0 +1,15 @@
+.app-layout {
+  display: flex;
+}
+
+.main-layout {
+  flex: 1;
+  padding: 40px;
+  min-height: 100vh;
+  background: linear-gradient(
+    180deg,
+    #fffaf8 0%,
+    #fbefe1 35%,
+    #f3e5ca 100%
+  );
+}

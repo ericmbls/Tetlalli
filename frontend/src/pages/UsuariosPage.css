@@ -1,0 +1,360 @@
+/* Layout similar a Dashboard */
+.dashboard-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 40px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.page-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 4px 0 0 0;
+}
+
+.btn-primary-brown {
+  background-color: #8B6F47;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary-brown:hover {
+  background-color: #705838;
+}
+
+/* Stats (KPIs) Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border: 1px solid #f3e8dc;
+  background-color: #fffbf7;
+  /* Crema suave */
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.stat-icon {
+  color: #6b7280;
+  opacity: 0.6;
+}
+
+/* Roles Info Row */
+.roles-info-row h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 20px;
+}
+
+.roles-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.role-info-card {
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.role-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.role-icon-card {
+  color: #4b5563;
+}
+
+.role-count-badge {
+  background: rgba(0, 0, 0, 0.1);
+  color: #4b5563;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.role-info-card h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #1f2937;
+}
+
+.role-info-card p {
+  font-size: 13px;
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Search Bar */
+.search-bar-row {
+  margin-top: 10px;
+}
+
+.search-input-wrapper {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  /* Rounded full like pill */
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-icon-input {
+  color: #9ca3af;
+}
+
+.search-input-wrapper input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+/* Users Table */
+.users-table-container {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.users-table-custom {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table-custom thead {
+  background: #fffbf7;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.users-table-custom th {
+  text-align: left;
+  padding: 16px 24px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4b5563;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.users-table-custom td {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f3f4f6;
+  font-size: 14px;
+  color: #1f2937;
+  vertical-align: middle;
+}
+
+.users-table-custom tbody tr:hover {
+  background: #f9fafb;
+}
+
+/* User Profile Cell */
+.user-cell-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar-small {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-email-text {
+  font-weight: 500;
+  color: #111;
+}
+
+/* Badges */
+.role-pill {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.role-pill.administrador {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+/* Verde suave */
+.role-pill.agrónomo {
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+/* Naranja suave */
+.role-pill.operador {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+/* Gris */
+
+.modules-pill {
+  background: #f3f4f6;
+  color: #4b5563;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.status-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #4b5563;
+}
+
+/* Actions */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn-ghost {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.icon-btn-ghost:hover {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+/* Invites Section */
+.invites-section {
+  background: #fffbf7;
+  /* Crema */
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #f3e8dc;
+}
+
+.invite-content-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.invite-icon-box {
+  width: 48px;
+  height: 48px;
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+.invite-texts h4 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.invite-texts p {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.btn-secondary-brown {
+  background: #8B6F47;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .invites-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .btn-secondary-brown {
+    width: 100%;
+    justify-content: center;
+  }
+}

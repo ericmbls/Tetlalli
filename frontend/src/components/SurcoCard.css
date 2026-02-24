@@ -1,0 +1,60 @@
+.surco-card {
+  background: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.surco-card:hover {
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  transform: translateY(-4px);
+}
+
+.surco-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.surco-content {
+  padding: 15px;
+}
+
+.surco-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.surco-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-brown {
+  background: #8B6F47;
+  color: white;
+}
+
+.badge-outline {
+  background: var(--muted);
+  color: var(--muted-text);
+  border: 1px solid rgba(15,23,42,0.06);
+}
+
+.badge-meta {
+  background: #fbfdfb;
+  color: var(--muted-text);
+  border: 1px solid rgba(15,23,42,0.04);
+}

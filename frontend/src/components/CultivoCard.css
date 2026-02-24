@@ -1,0 +1,49 @@
+.cultivo-card {
+  background: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.cultivo-card:hover {
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  transform: translateY(-4px);
+}
+
+.cultivo-image {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.cultivo-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.badge-cultivo {
+  display: inline-block;
+  background: #8B6F47;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.badge-source {
+  display: inline-block;
+  background: var(--muted);
+  color: var(--muted-text);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid rgba(15,23,42,0.06);
+}

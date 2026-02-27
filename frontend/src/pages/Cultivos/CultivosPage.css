@@ -1,0 +1,273 @@
+.cultivos-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+}
+
+body.dark .cultivos-content {
+  background: #1a1a1a;
+}
+
+.surco-section {
+  margin-bottom: 40px;
+}
+
+.surco-section h2 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin: 0 0 20px 0;
+  letter-spacing: 0.3px;
+}
+
+body.dark .surco-section h2 {
+  color: #f5f5f5;
+}
+
+.cultivos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.cultivo-card-large {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+body.dark .cultivo-card-large {
+  background: #2a2a2a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.cultivo-card-large:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+body.dark .cultivo-card-large:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.cultivo-card-large img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.cultivo-card-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+body.dark .cultivo-card-content {
+  color: #f5f5f5;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.badge-cultivo {
+  background: #8B6F47;
+  color: white;
+}
+
+body.dark .badge-cultivo {
+  background: #b0895a;
+}
+
+.badge-source {
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #ddd;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+body.dark .badge-source {
+  background: #3a3a3a;
+  color: #d0d0d0;
+  border-color: #555;
+}
+
+.estado-activo {
+  border: 2px solid #16a34a;
+}
+
+body.dark .estado-activo {
+  border-color: #4ade80;
+}
+
+.estado-pendiente {
+  border: 2px solid #f59e0b;
+}
+
+body.dark .estado-pendiente {
+  border-color: #fbbf24;
+}
+
+.estado-inactivo {
+  border: 2px solid #dc2626;
+}
+
+body.dark .estado-inactivo {
+  border-color: #f87171;
+}
+
+.cultivo-placeholder {
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  background: #f8f5ef;
+  border-radius: 12px;
+}
+
+body.dark .cultivo-placeholder {
+  background: #333;
+  color: #a0a0a0;
+}
+
+.empty-state {
+  text-align: center;
+  margin-top: 40px;
+  color: #6b7280;
+}
+
+body.dark .empty-state {
+  color: #a0a0a0;
+}
+
+@media (max-width: 1200px) {
+  .cultivos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 18px;
+  }
+}
+
+@media (max-width: 992px) {
+  .cultivos-content {
+    padding: 25px;
+  }
+  
+  .cultivos-grid {
+    gap: 16px;
+  }
+  
+  .cultivo-card-large img,
+  .cultivo-placeholder {
+    height: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cultivos-content {
+    padding: 20px;
+  }
+
+  .cultivos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .surco-section {
+    margin-bottom: 30px;
+  }
+  
+  .surco-section h2 {
+    font-size: 17px;
+    margin-bottom: 15px;
+  }
+  
+  .cultivo-card-large img,
+  .cultivo-placeholder {
+    height: 140px;
+  }
+  
+  .cultivo-card-content {
+    padding: 10px;
+    gap: 6px;
+  }
+  
+  .badge {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+  
+  .badge-source {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .cultivos-content {
+    padding: 15px;
+  }
+  
+  .cultivos-grid {
+    gap: 12px;
+  }
+  
+  .surco-section h2 {
+    font-size: 16px;
+  }
+  
+  .cultivo-card-large img,
+  .cultivo-placeholder {
+    height: 120px;
+  }
+  
+  .cultivo-card-content {
+    padding: 8px;
+  }
+  
+  .badge {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+  
+  .cultivo-placeholder {
+    font-size: 36px;
+  }
+  
+  .empty-state {
+    margin-top: 30px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 375px) {
+  .cultivos-content {
+    padding: 12px;
+  }
+  
+  .cultivos-grid {
+    gap: 10px;
+  }
+  
+  .cultivo-card-large img,
+  .cultivo-placeholder {
+    height: 100px;
+  }
+  
+  .cultivo-card-content {
+    padding: 6px;
+  }
+  
+  .cultivo-placeholder {
+    font-size: 30px;
+  }
+}

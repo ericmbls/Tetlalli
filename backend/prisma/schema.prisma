@@ -15,22 +15,50 @@ model User {
   role      Role      @default(user)
   createdAt DateTime  @default(now())
   cultivos  Cultivo[]
+<<<<<<< HEAD
 }
 
 model Cultivo {
   id              Int      @id @default(autoincrement())
+=======
+  darkMode  Boolean   @default(false)
+  language  String?   @default("es")
+  farmName  String?
+  location  String?
+}
+
+model Cultivo {
+  id              Int            @id @default(autoincrement())
+>>>>>>> 743b11d50e10de0d8abcac4b1ae09b420b60a52e
   nombre          String
   descripcion     String?
   fechaSiembra    DateTime
   ubicacion       String
   frecuenciaRiego Int
+<<<<<<< HEAD
   estado          String
   userId          Int
   createdAt       DateTime @default(now())
   user            User     @relation(fields: [userId], references: [id])
+=======
+  estado          EstadoCultivo  @default(activo)
+  userId          Int
+  createdAt       DateTime       @default(now())
+  user            User           @relation(fields: [userId], references: [id])
+>>>>>>> 743b11d50e10de0d8abcac4b1ae09b420b60a52e
 }
 
 enum Role {
   admin
   user
 }
+<<<<<<< HEAD
+=======
+
+enum EstadoCultivo {
+  activo
+  inactivo
+  cosechado
+  perdido
+}
+>>>>>>> 743b11d50e10de0d8abcac4b1ae09b420b60a52e

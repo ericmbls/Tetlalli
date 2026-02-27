@@ -13,4 +13,9 @@ export const createCultivo = async (data) => {
   });
 
   return res.json();
+<<<<<<< HEAD
 };
+=======
+};
+
+>>>>>>> 743b11d50e10de0d8abcac4b1ae09b420b60a52e

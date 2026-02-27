@@ -42,7 +42,8 @@
     /* Crema suave */
     border-radius: 16px;
     padding: 32px;
-    border: 1px solid #f3e8dc;
+    border: 1px solid rgba(243, 232, 220, 0.5);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
 }
 
 .section-header {

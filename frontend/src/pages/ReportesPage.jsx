@@ -2,15 +2,18 @@ import {
   FileText, Calendar, Filter, Download, Share2,
   Droplets, DollarSign, TrendingUp
 } from 'lucide-react';
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+} from 'recharts';
 import './ReportesPage.css';
 
 export default function ReportesPage() {
 
   const kpis = [
-    { title: 'Producción total', value: '2,450 Kg', badge: '+18%', sub: 'Este mes', icon: <SproutIcon /> },
-    { title: 'Ahorro de Agua', value: '2,660 L', badge: '-22%', sub: 'Este mes', icon: <Droplets size={20} color="#0EA5E9" /> },
-    { title: 'Ingresos', value: '$18,450', badge: '+24%', sub: 'Este mes', icon: <DollarSign size={20} color="#16A34A" /> },
-    { title: 'Eficiencia', value: '94%', badge: '+12%', sub: 'Promedio general', icon: <TrendingUp size={20} color="#EA580C" /> },
+    { title: 'Producción total', value: '2,450 Kg', badge: '+18%', trend: 'positive', sub: 'Este mes', icon: <SproutIcon /> },
+    { title: 'Ahorro de Agua', value: '2,660 L', badge: '-22%', trend: 'negative', sub: 'Este mes', icon: <Droplets size={20} color="#0EA5E9" /> },
+    { title: 'Ingresos', value: '$18,450', badge: '+24%', trend: 'positive', sub: 'Este mes', icon: <DollarSign size={20} color="#16A34A" /> },
+    { title: 'Eficiencia', value: '94%', badge: '+12%', trend: 'positive', sub: 'Promedio general', icon: <TrendingUp size={20} color="#EA580C" /> },
   ];
 
   const chartData = [
@@ -29,7 +32,7 @@ export default function ReportesPage() {
   ];
 
   return (
-    <div className="dashboard-content">
+    <div className="reportes-content">
 
       <div className="page-header-row">
         <div>
@@ -38,7 +41,7 @@ export default function ReportesPage() {
             Genera y consulta reportes del sistema
           </p>
         </div>
-        <button className="btn-primary">
+        <button type="button" className="btn-primary" aria-label="Generar reporte">
           <FileText size={18} style={{ marginRight: 8 }} />
           Generar Reporte
         </button>
@@ -46,14 +49,16 @@ export default function ReportesPage() {
 
       <div className="kpi-row">
         {kpis.map((kpi, index) => (
-          <div key={index} className="kpi-card-report">
+          <div key={index} className={`kpi-card-report animate-slide-up card-hover-effect delay-${(index % 4 + 1) * 100}`} role="group" aria-label={kpi.title}>
             <div className="kpi-top">
               <div className="kpi-icon-wrapper">
                 {kpi.icon}
               </div>
-              <span className="kpi-badge">
-                {kpi.badge}
-              </span>
+              {kpi.badge && (
+                <span className={`kpi-badge ${kpi.trend === 'positive' ? 'positive' : 'negative'}`}>
+                  {kpi.badge}
+                </span>
+              )}
             </div>
             <div className="kpi-content">
               <span className="kpi-label">{kpi.title}</span>
@@ -64,21 +69,21 @@ export default function ReportesPage() {
         ))}
       </div>
 
-      <div className="chart-card-section">
+      <div className="chart-card-section animate-slide-up delay-200">
         <div className="chart-controls">
           <div className="chart-tabs">
-            <button className="chart-tab active">Producción</button>
-            <button className="chart-tab">Consumo de Agua</button>
-            <button className="chart-tab">Financiero</button>
+            <button type="button" className="chart-tab active" aria-pressed="true">Producción</button>
+            <button type="button" className="chart-tab" aria-pressed="false">Consumo de Agua</button>
+            <button type="button" className="chart-tab" aria-pressed="false">Financiero</button>
           </div>
           <div className="chart-actions">
-            <button className="btn-secondary">
+            <button type="button" className="btn-secondary" aria-label="Seleccionar rango">
               <Calendar size={14} /> Rango
             </button>
-            <button className="btn-secondary">
+            <button type="button" className="btn-secondary" aria-label="Abrir filtros">
               <Filter size={14} /> Filtros
             </button>
-            <button className="btn-secondary">
+            <button type="button" className="btn-secondary" aria-label="Exportar reporte">
               <Download size={14} /> Exportar
             </button>
           </div>
@@ -88,40 +93,43 @@ export default function ReportesPage() {
           Producción por Cultivo
         </h3>
 
-        <div className="chart-legend">
+        <div className="chart-legend" role="list" aria-label="Leyenda de cultivos">
           <LegendItem color="#F472B6" label="Fresa" />
           <LegendItem color="#4ADE80" label="Lechuga" />
           <LegendItem color="#FCD34D" label="Pimiento" />
           <LegendItem color="#EF4444" label="Tomate" />
         </div>
 
-        <div className="bar-chart-container">
-          {chartData.map((data, i) => (
-            <div key={i} className="chart-group">
-              {data.fresa > 0 ? (
-                <div className="bars-wrapper">
-                  <div className="bar" style={{ height: `${data.fresa}%`, background: '#F472B6' }} />
-                  <div className="bar" style={{ height: `${data.lechuga}%`, background: '#4ADE80' }} />
-                  <div className="bar" style={{ height: `${data.pimiento}%`, background: '#FCD34D' }} />
-                  <div className="bar" style={{ height: `${data.tomate}%`, background: '#EF4444' }} />
-                </div>
-              ) : (
-                <div className="bars-empty" />
-              )}
-              <span className="chart-label">
-                {data.month}
-              </span>
-            </div>
-          ))}
+        <div style={{ width: '100%', height: 300, marginTop: '20px' }}>
+          <ResponsiveContainer>
+            <BarChart
+              data={chartData}
+              margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+              barSize={12}
+            >
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+              <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 13, fontWeight: 600 }} dy={10} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 13 }} />
+              <Tooltip
+                cursor={{ fill: '#f3f4f6' }}
+                contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+              />
+              <Bar dataKey="fresa" fill="#F472B6" radius={[4, 4, 0, 0]} name="Fresa" />
+              <Bar dataKey="lechuga" fill="#4ADE80" radius={[4, 4, 0, 0]} name="Lechuga" />
+              <Bar dataKey="pimiento" fill="#FCD34D" radius={[4, 4, 0, 0]} name="Pimiento" />
+              <Bar dataKey="tomate" fill="#EF4444" radius={[4, 4, 0, 0]} name="Tomate" />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
 
-      <div className="reportes-list-section">
+      <div className="reportes-list-section animate-slide-up delay-300">
         <h3>Reportes Generados</h3>
+        <p className="page-subtitle" style={{ marginTop: 6 }}>Últimos {reportes.length} reportes</p>
 
         <div className="reportes-stack">
           {reportes.map((rep) => (
-            <div key={rep.id} className="reporte-item">
+            <div key={rep.id} className="reporte-item card-hover-effect" role="listitem" tabIndex={0} aria-label={rep.title}>
               <div className="reporte-left">
                 <div className="file-icon-wrapper">
                   <FileText size={24} color="#8B6F47" />
@@ -139,10 +147,10 @@ export default function ReportesPage() {
                   </button>
                 ) : (
                   <>
-                    <button className="btn-action-text">
+                    <button type="button" className="btn-action-text" aria-label={`Compartir ${rep.title}`}>
                       <Share2 size={16} /> Compartir
                     </button>
-                    <button className="btn-action-text">
+                    <button type="button" className="btn-action-text" aria-label={`Descargar ${rep.title}`}>
                       <Download size={16} /> Descargar
                     </button>
                   </>

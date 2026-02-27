@@ -1,11 +1,12 @@
-/* Layout similar a Dashboard */
+/* Layout principal para Reportes (contenedor centrado y adaptable) */
 .reportes-content {
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  padding: 40px;
-  max-width: 1600px;
+  gap: 28px;
+  padding: 36px;
+  max-width: 1400px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .page-header-row {
@@ -15,10 +16,11 @@
 }
 
 .page-title {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 700;
-  color: #1f2937;
+  color: #0f172a;
   margin: 0;
+  letter-spacing: -0.2px;
 }
 
 .page-subtitle {
@@ -28,20 +30,28 @@
 }
 
 .btn-primary {
-  background-color: #8B6F47;
+  background: #8e7456;
+  /* Tonos mate y lisos como en la captura */
   color: white;
   border: none;
   padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: 10px;
+  /* Redondez generosa */
+  font-size: 14px;
   font-weight: 600;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  gap: 8px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: transform .12s ease, box-shadow .12s ease;
 }
 
-.btn-primary:hover {
-  background-color: #705838;
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-primary:focus {
+  outline: 3px solid rgba(142, 116, 86, 0.2);
 }
 
 /* KPIs Row */
@@ -52,15 +62,17 @@
 }
 
 .kpi-card-report {
-  background: white;
-  /* El diseño original usa un fondo crema muy suave en toda la app, aquí usamos blanco para contraste o crema según tema */
-  background-color: #fffbf7;
+  background-color: #FFFFFF;
+  /* Tarjeta blanca */
   border-radius: 16px;
   padding: 24px;
-  border: 1px solid #f3e8dc;
+  border: 1px solid rgba(139, 111, 71, 0.08);
+  /* Borde café muy tenue */
+  box-shadow: 0 4px 16px rgba(139, 111, 71, 0.04);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+  min-height: 110px;
 }
 
 .kpi-top {
@@ -77,13 +89,27 @@
 }
 
 .kpi-badge {
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
   border-radius: 12px;
-  background-color: #fff;
+  background-color: #f3f4f6;
+  /* Gray base fallback */
   color: #4b5563;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.kpi-badge.positive {
+  background-color: #ecfdf5;
+  /* Verde muy pálido */
+  color: #059669;
+  /* Verde esmeralda */
+}
+
+.kpi-badge.negative {
+  background-color: #fef2f2;
+  /* Rojo muy pálido */
+  color: #dc2626;
+  /* Rojo */
 }
 
 .kpi-content {
@@ -99,9 +125,9 @@
 }
 
 .kpi-number {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1f2937;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
   margin: 0;
 }
 
@@ -119,11 +145,12 @@
 
 /* Chart Section */
 .chart-card-section {
-  background: #fff;
-  border-radius: 20px;
+  background: #FFFFFF;
+  /* Blanco limpio */
+  border-radius: 16px;
   padding: 32px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-  border: 1px solid #f3e8dc;
+  box-shadow: 0 8px 30px rgba(139, 111, 71, 0.03);
+  border: 1px solid rgba(139, 111, 71, 0.08);
 }
 
 .chart-controls {
@@ -136,31 +163,35 @@
 }
 
 .chart-tabs {
-  background: #f3f4f6;
+  background: #fcfbf9;
+  /* Super sutil */
   padding: 4px;
-  border-radius: 20px;
-  /* Pill shape container */
+  border-radius: 30px;
+  /* Cápsula total */
   display: flex;
   gap: 4px;
+  border: 1px solid rgba(139, 111, 71, 0.08);
 }
 
 .chart-tab {
   background: transparent;
   border: none;
-  padding: 6px 16px;
-  border-radius: 16px;
+  padding: 8px 18px;
+  border-radius: 24px;
+  /* Forma de píldora */
   font-size: 13px;
   font-weight: 600;
-  color: #6b7280;
+  color: #9ca3af;
+  /* Gris sutil para inactivos */
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .chart-tab.active {
-  background: #8B6F47;
-  /* Marrón activo */
+  background: #8e7456;
+  /* Marrón mate de la imagen */
   color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(142, 116, 86, 0.2);
 }
 
 .chart-actions {
@@ -169,13 +200,16 @@
 }
 
 .btn-secondary {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: #fffcf9;
+  /* Fondo crema claro */
+  border: 1px solid rgba(139, 111, 71, 0.2);
+  /* Borde café */
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: #4b5563;
+  color: #8B6F47;
+  /* Texto café oscuro */
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -184,8 +218,8 @@
 }
 
 .btn-secondary:hover {
-  background: #f9fafb;
-  border-color: #d1d5db;
+  background: #fdfaf5;
+  border-color: rgba(139, 111, 71, 0.3);
 }
 
 .chart-title {
@@ -197,8 +231,9 @@
 .chart-legend {
   display: flex;
   justify-content: center;
-  gap: 24px;
-  margin-bottom: 40px;
+  gap: 18px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
 }
 
 .legend-item {
@@ -219,14 +254,14 @@
 /* Bar Chart Mock CSS */
 .bar-chart-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: flex-end;
   height: 300px;
-  padding-bottom: 40px;
-  /* Espacio para etiquetas */
+  padding-bottom: 48px;
   position: relative;
-  border-bottom: 2px solid #8B6F47;
-  /* Eje X línea marrón */
+  border-bottom: 2px solid #efe6db;
+  gap: 8px;
+  overflow-x: auto;
 }
 
 .chart-group {
@@ -243,16 +278,16 @@
   display: flex;
   align-items: flex-end;
   gap: 6px;
-  /* Espacio entre barras del mismo grupo */
   height: 100%;
-  padding: 0 10px;
+  padding: 0 6px;
 }
 
 .bar {
-  width: 24px;
-  border-radius: 4px 4px 0 0;
-  transition: height 0.5s ease-out;
+  width: 18px;
+  border-radius: 6px 6px 0 0;
+  transition: height 0.5s ease-out, box-shadow 0.12s;
   min-height: 4px;
+  box-shadow: 0 6px 12px rgba(15, 23, 42, 0.06);
 }
 
 .chart-label {
@@ -265,12 +300,12 @@
 
 /* Reportes List */
 .reportes-list-section {
-  background: #fff;
-  /* O crema suave */
-  border-radius: 20px;
-  padding: 32px;
-  background-color: #fffbf7;
-  /* Crema suave */
+  background: #FFFFFF;
+  /* Blanco limpio */
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 6px 24px rgba(139, 111, 71, 0.03);
+  border: 1px solid rgba(139, 111, 71, 0.08);
 }
 
 .reportes-list-section h3 {
@@ -283,22 +318,47 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 8px;
+  /* Espacio para el scrollbar */
+}
+
+/* Custom Scrollbar for Reportes Stack */
+.reportes-stack::-webkit-scrollbar {
+  width: 6px;
+}
+
+.reportes-stack::-webkit-scrollbar-track {
+  background: #f3f4f6;
+  border-radius: 4px;
+}
+
+.reportes-stack::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.reportes-stack::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 .reporte-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  background: #fff;
-  /* Contrastando con el fondo crema */
-  border-radius: 12px;
-  border: 1px solid #f3e8dc;
-  transition: box-shadow 0.2s;
+  padding: 14px;
+  background: #fffcf9;
+  /* Ligerísimo crema de contraste dentro de la tarjeta blanca */
+  border-radius: 10px;
+  border: 1px solid rgba(139, 111, 71, 0.10);
+  transition: box-shadow 0.16s, transform 0.12s;
 }
 
 .reporte-item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 30px rgba(139, 111, 71, 0.08);
+  /* Sombra café suave al hover */
+  transform: translateY(-2px);
 }
 
 .reporte-left {
@@ -308,14 +368,15 @@
 }
 
 .file-icon-wrapper {
-  width: 40px;
-  height: 40px;
-  background: #fdfaf6;
-  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  background: #fdfaf5;
+  /* Crema muy pálido */
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #f3e8dc;
+  border: 1px solid rgba(139, 111, 71, 0.2);
 }
 
 .reporte-details h4 {
@@ -340,19 +401,24 @@
   background: #8B6F47;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
   font-size: 13px;
-  font-weight: 500;
-  display: flex;
+  font-weight: 700;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: transform .08s, box-shadow .08s;
+  box-shadow: 0 6px 14px rgba(11, 9, 6, 0.06);
 }
 
-.btn-action-text:hover {
-  background: #705838;
+.btn-action-text:active {
+  transform: translateY(1px);
+}
+
+.btn-action-text:focus {
+  outline: 3px solid rgba(139, 111, 71, 0.14);
 }
 
 .btn-processing {
@@ -367,6 +433,20 @@
   opacity: 0.8;
 }
 
+@media (max-width: 992px) {
+  .reportes-content {
+    padding: 20px;
+  }
+
+  .bar-chart-container {
+    height: 240px;
+  }
+
+  .kpi-number {
+    font-size: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .chart-controls {
     flex-direction: column;
@@ -377,14 +457,23 @@
     overflow-x: auto;
   }
 
+  .chart-legend {
+    justify-content: flex-start;
+    gap: 12px;
+  }
+
   .reporte-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 12px;
   }
 
   .reporte-actions {
     width: 100%;
     justify-content: flex-end;
+  }
+
+  .bars-wrapper {
+    padding: 0 4px;
   }
 }

@@ -53,14 +53,15 @@
 
 .stat-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 24px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  border: 1px solid #f3e8dc;
+  border: 1px solid rgba(243, 232, 220, 0.5);
   background-color: #fffbf7;
   /* Crema suave */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
 }
 
 .stat-content {
@@ -102,9 +103,10 @@
 }
 
 .role-info-card {
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 24px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
 }
 
 .role-card-header {
@@ -172,9 +174,10 @@
 /* Users Table */
 .users-table-container {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.02);
 }
 
 .users-table-custom {
@@ -296,12 +299,13 @@
 .invites-section {
   background: #fffbf7;
   /* Crema */
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #f3e8dc;
+  border: 1px solid rgba(243, 232, 220, 0.5);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.02);
 }
 
 .invite-content-left {

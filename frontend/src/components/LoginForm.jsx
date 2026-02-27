@@ -1,179 +1,195 @@
 import { useState } from 'react';
-import { Mail, Lock, User, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, LogIn, UserPlus } from 'lucide-react';
 import './LoginForm.css';
 
-export default function LoginForm({ onLogin, mode = 'login' }) {
+export default function LoginForm({ onLogin, mode, setMode }) {
   const [formData, setFormData] = useState({
-    name: '',
+    fullName: '',
     email: '',
     password: '',
-    role: 'user',
+    confirmPassword: '',
+    agree: false
   });
 
-  const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-
-  const validate = (values) => {
-    const newErrors = {};
-
-    if (!values.email) newErrors.email = 'El correo es requerido';
-    if (!values.password) newErrors.password = 'La contraseña es requerida';
-    if (mode === 'register' && !values.name)
-      newErrors.name = 'El nombre es requerido';
-
-    return newErrors;
-  };
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-
+    const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'email' ? value.trim().toLowerCase() : value,
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    onLogin(); // Llama la funcion que pasa el auth
+  };
 
-    const validationErrors = validate(formData);
-    setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length !== 0) return;
-
-    const endpoint = mode === 'login' ? '/auth/login' : '/auth/register';
-
-    const body =
-      mode === 'login'
-        ? { email: formData.email, password: formData.password }
-        : {
-            name: formData.name,
-            email: formData.email,
-            password: formData.password,
-            role: formData.role,
-          };
-
-    try {
-      const res = await fetch(`http://localhost:3000${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-
-      if (!res.ok) throw new Error('Error en autenticación');
-
-      const data = await res.json();
-      localStorage.setItem('authToken', data.access_token);
-      onLogin();
-    } catch (err) {
-      alert(err.message);
-    }
+  // Verificación dinámica visual de regex (Password Requirements)
+  const pwdReqs = {
+    length: formData.password.length >= 8,
+    upper: /[A-Z]/.test(formData.password),
+    lower: /[a-z]/.test(formData.password),
+    number: /[0-9]/.test(formData.password),
+    special: /[^A-Za-z0-9]/.test(formData.password)
   };
 
   return (
-    <div className="login-form-container">
-      <div className="login-header">
-        <h1 className="form-title">
-          {mode === 'login' ? 'Bienvenido de nuevo' : 'Crea tu cuenta'}
-        </h1>
-        <p className="form-subtitle">
-          {mode === 'login'
-            ? 'Ingresa tus credenciales para acceder'
-            : 'Completa los datos para registrarte'}
-        </p>
-      </div>
+    <div className="login-form-container glass-panel">
 
-      <form onSubmit={handleSubmit} className="login-form" noValidate>
+      {mode === 'login' ? (
+        <div className="form-content fade-in">
+          <div className="form-header-center">
+            <div className="icon-box login-icon">
+              <LogIn size={26} color="#fff" strokeWidth={2.5} />
+            </div>
+            <h2>Bienvenido</h2>
+            <p>Inicia sesión en tu cuenta para continuar</p>
+          </div>
 
-        {mode === 'register' && (
-          <div className={`form-group ${errors.name ? 'has-error' : ''}`}>
-            <label>Nombre</label>
-            <div className="input-wrapper">
-              <User size={20} className="input-icon left" />
+          <form onSubmit={handleSubmit} className="custom-form">
+            <div className="input-group">
+              <label>Correo Electrónico</label>
               <input
-                type="text"
-                name="name"
-                placeholder="Tu nombre"
-                value={formData.name}
+                type="email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
-                className="form-input has-icon-left"
+                placeholder="tu@ejemplo.com"
+                required
               />
             </div>
-            {errors.name && (
-              <span className="error-message">
-                <AlertCircle size={14} /> {errors.name}
-              </span>
-            )}
-          </div>
-        )}
 
-        <div className={`form-group ${errors.email ? 'has-error' : ''}`}>
-          <label>Correo Electrónico</label>
-          <div className="input-wrapper">
-            <Mail size={20} className="input-icon left" />
-            <input
-              type="email"
-              name="email"
-              placeholder="correo@dominio.com"
-              value={formData.email}
-              onChange={handleChange}
-              className="form-input has-icon-left"
-            />
-          </div>
-          {errors.email && (
-            <span className="error-message">
-              <AlertCircle size={14} /> {errors.email}
-            </span>
-          )}
-        </div>
+            <div className="input-group">
+              <div className="label-row">
+                <label>Contraseña</label>
+                <a href="#" className="forgot-link">¿Olvidaste la contraseña?</a>
+              </div>
+              <div className="password-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  required
+                />
+                <button type="button" className="eye-btn" onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
 
-        <div className={`form-group ${errors.password ? 'has-error' : ''}`}>
-          <label>Contraseña</label>
-          <div className="input-wrapper">
-            <Lock size={20} className="input-icon left" />
-            <input
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              placeholder="Tu contraseña"
-              value={formData.password}
-              onChange={handleChange}
-              className="form-input has-icon-left has-icon-right"
-            />
-            <button
-              type="button"
-              className="password-toggle"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            <button type="submit" className="glass-btn primary-btn btn-login-anim">
+              <LogIn size={18} style={{ marginRight: '8px' }} /> Iniciar Sesión
             </button>
-          </div>
-          {errors.password && (
-            <span className="error-message">
-              <AlertCircle size={14} /> {errors.password}
-            </span>
-          )}
+
+            <div className="divider">
+              <span>O continúa con</span>
+            </div>
+
+            <div className="social-buttons">
+              <button type="button" className="glass-btn social-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" width="18" />
+                Google
+              </button>
+              <button type="button" className="glass-btn social-btn">
+                <svg viewBox="0 0 24 24" fill="#6B5945" width="18" height="18"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" /></svg>
+                GitHub
+              </button>
+            </div>
+
+            <div className="footer-link">
+              ¿No tienes una cuenta? <span onClick={() => setMode('register')}>Regístrate</span>
+            </div>
+          </form>
         </div>
-
-        {mode === 'register' && (
-          <div className="form-group">
-            <label>Rol</label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="form-input"
-            >
-              <option value="user">Usuario</option>
-              <option value="admin">Administrador</option>
-            </select>
+      ) : (
+        <div className="form-content fade-in">
+          <div className="form-header-center">
+            <div className="icon-box register-icon">
+              <UserPlus size={26} color="#fff" strokeWidth={2.5} />
+            </div>
+            <h2>Crear Cuenta</h2>
+            <p>Únete a nosotros hoy para comenzar</p>
           </div>
-        )}
 
-        <button type="submit" className="login-button">
-          {mode === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'}
-        </button>
+          <form onSubmit={handleSubmit} className="custom-form">
+            <div className="input-group">
+              <label>Nombre Completo</label>
+              <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Ej. Juan Pérez" required />
+            </div>
 
-      </form>
+            <div className="input-group">
+              <label>Correo Electrónico</label>
+              <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="tu@ejemplo.com" required />
+            </div>
+
+            <div className="input-group">
+              <label>Contraseña</label>
+              <div className="password-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  required
+                />
+                <button type="button" className="eye-btn" onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Panel de validaciones estilo imagen */}
+            <div className="password-rules-glass">
+              <p>Requisitos de contraseña:</p>
+              <div className="rules-grid">
+                <span className={pwdReqs.length ? 'valid' : ''}>• 8+ caracteres</span>
+                <span className={pwdReqs.upper ? 'valid' : ''}>• Letra Mayúscula</span>
+                <span className={pwdReqs.lower ? 'valid' : ''}>• Letra Minúscula</span>
+                <span className={pwdReqs.number ? 'valid' : ''}>• Número</span>
+                <span className={pwdReqs.special ? 'valid' : ''}>• Car. especial</span>
+              </div>
+            </div>
+
+            <div className="input-group">
+              <label>Confirmar Contraseña</label>
+              <div className="password-wrapper">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="••••••••"
+                  required
+                />
+                <button type="button" className="eye-btn" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                  {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            <div className="terms-checkbox">
+              <input type="checkbox" id="terms" name="agree" checked={formData.agree} onChange={handleChange} required />
+              <label htmlFor="terms">
+                Acepto los <a href="#">Términos de Servicio</a> y la <a href="#">Política de Privacidad</a>
+              </label>
+            </div>
+
+            <button type="submit" className="glass-btn register-btn btn-login-anim">
+              <UserPlus size={18} style={{ marginRight: '8px' }} /> Registrarse
+            </button>
+
+            <div className="footer-link">
+              ¿Ya tienes una cuenta? <span onClick={() => setMode('login')}>Inicia sesión</span>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }

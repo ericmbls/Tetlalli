@@ -71,7 +71,7 @@ export default function UsuariosPage() {
 
       <div className="stats-row">
         {stats.map((stat, index) => (
-          <div key={index} className="stat-card">
+          <div key={index} className={`stat-card animate-slide-up card-hover-effect delay-${(index % 4 + 1) * 100}`}>
             <div>
               <span className="stat-title">{stat.title}</span>
               <h2 className="stat-value">{stat.value}</h2>
@@ -87,7 +87,7 @@ export default function UsuariosPage() {
           {rolesInfo.map((role, index) => (
             <div
               key={index}
-              className="role-info-card"
+              className={`role-info-card animate-slide-up card-hover-effect delay-${(index % 3 + 1) * 100}`}
               style={{ background: role.color }}
             >
               <div className="role-card-header">
@@ -115,7 +115,7 @@ export default function UsuariosPage() {
         </div>
       </div>
 
-      <div className="users-table-container">
+      <div className="users-table-container animate-slide-up delay-300">
         <table className="users-table-custom">
           <thead>
             <tr>
@@ -178,7 +178,7 @@ export default function UsuariosPage() {
         </table>
       </div>
 
-      <div className="invites-section">
+      <div className="invites-section animate-slide-up card-hover-effect delay-400">
         <div className="invite-content-left">
           <div className="invite-icon-box">
             <Mail size={24} />

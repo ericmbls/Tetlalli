@@ -1,38 +1,44 @@
 import { useState } from 'react';
 import { Globe, Sliders, Shield } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { Toaster, toast } from 'sonner';
 import Header from '../components/Header';
 import './AjustesPage.css';
 
 export default function AjustesPage() {
   const [activeTab, setActiveTab] = useState('general');
 
-  const [settings, setSettings] = useState({
-    language: 'es-mx',
-    timezone: 'cst',
-    units: 'metric',
-    currency: 'mxn',
-    farmName: 'Xihuitl Farms S.A de C.V.',
-    location: 'Jalisco, México',
-    darkMode: false,
-    animations: true,
-    compactMode: false,
+  const { register, handleSubmit, watch } = useForm({
+    defaultValues: {
+      language: 'es-mx',
+      timezone: 'cst',
+      units: 'metric',
+      currency: 'mxn',
+      farmName: 'Xihuitl Farms S.A de C.V.',
+      location: 'Jalisco, México',
+      darkMode: false,
+      animations: true,
+      compactMode: false,
+    }
   });
 
-  const handleChange = (key, value) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
-  };
-
-  const handleToggle = (key) => {
-    setSettings(prev => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const handleSave = () => {
-    console.log('Guardar configuración:', settings);
+  const onSubmit = (data) => {
+    console.log('Guardar configuración:', data);
+    toast.success('Los ajustes se han guardado exitosamente.', {
+      style: { background: '#16A34A', color: 'white', border: 'none' }
+    });
     // Aquí después conectas con backend
   };
 
+  const toggles = [
+    { key: 'darkMode', title: 'Modo Oscuro', desc: 'Cambiar el tema visual de la aplicación' },
+    { key: 'animations', title: 'Animaciones', desc: 'Habilitar transiciones y efectos visuales' },
+    { key: 'compactMode', title: 'Modo Compacto', desc: 'Mostrar más información en menos espacio' },
+  ];
+
   return (
     <>
+      <Toaster position="top-right" />
       <div className="dashboard-content">
 
         {/* Header */}
@@ -43,7 +49,7 @@ export default function AjustesPage() {
               Ajustes de preferencias y parámetros de Xihuitl
             </p>
           </div>
-          <button className="btn-primary" onClick={handleSave}>
+          <button className="btn-primary" onClick={handleSubmit(onSubmit)}>
             Guardar
           </button>
         </div>
@@ -66,7 +72,7 @@ export default function AjustesPage() {
           <div className="settings-content">
 
             {/* Regional */}
-            <div className="settings-section">
+            <div className="settings-section animate-slide-up card-hover-effect delay-100">
               <div className="section-header">
                 <Globe size={20} />
                 <h3>Configuración Regional</h3>
@@ -76,46 +82,42 @@ export default function AjustesPage() {
 
                 <div className="form-group">
                   <label>Idioma del sistema</label>
-                  <select
-                    value={settings.language}
-                    onChange={(e) => handleChange('language', e.target.value)}
-                  >
-                    <option value="es-mx">Español México</option>
-                    <option value="en-us">English US</option>
-                  </select>
+                  <div className="select-wrapper">
+                    <select className="input-filled" {...register('language')}>
+                      <option value="es-mx">Español México</option>
+                      <option value="en-us">English US</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="form-group">
                   <label>Zona Horaria</label>
-                  <select
-                    value={settings.timezone}
-                    onChange={(e) => handleChange('timezone', e.target.value)}
-                  >
-                    <option value="cst">América/México_City (CST)</option>
-                    <option value="est">América/New_York (EST)</option>
-                  </select>
+                  <div className="select-wrapper">
+                    <select className="input-filled" {...register('timezone')}>
+                      <option value="cst">América/México_City (CST)</option>
+                      <option value="est">América/New_York (EST)</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="form-group">
                   <label>Sistema de Unidades</label>
-                  <select
-                    value={settings.units}
-                    onChange={(e) => handleChange('units', e.target.value)}
-                  >
-                    <option value="metric">Métrico (Kg, L, °C)</option>
-                    <option value="imperial">Imperial (Lb, Gal, °F)</option>
-                  </select>
+                  <div className="select-wrapper">
+                    <select className="input-filled" {...register('units')}>
+                      <option value="metric">Métrico (Kg, L, °C)</option>
+                      <option value="imperial">Imperial (Lb, Gal, °F)</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="form-group">
                   <label>Moneda</label>
-                  <select
-                    value={settings.currency}
-                    onChange={(e) => handleChange('currency', e.target.value)}
-                  >
-                    <option value="mxn">MXN - Peso Mexicano</option>
-                    <option value="usd">USD - Dólar Estadounidense</option>
-                  </select>
+                  <div className="select-wrapper">
+                    <select className="input-filled" {...register('currency')}>
+                      <option value="mxn">MXN - Peso Mexicano</option>
+                      <option value="usd">USD - Dólar Estadounidense</option>
+                    </select>
+                  </div>
                 </div>
 
               </div>
@@ -126,8 +128,8 @@ export default function AjustesPage() {
                   <label>Nombre de la Granja</label>
                   <input
                     type="text"
-                    value={settings.farmName}
-                    onChange={(e) => handleChange('farmName', e.target.value)}
+                    className="input-filled"
+                    {...register('farmName', { required: true })}
                   />
                 </div>
 
@@ -135,8 +137,8 @@ export default function AjustesPage() {
                   <label>Ubicación</label>
                   <input
                     type="text"
-                    value={settings.location}
-                    onChange={(e) => handleChange('location', e.target.value)}
+                    className="input-filled"
+                    {...register('location', { required: true })}
                   />
                 </div>
 
@@ -144,7 +146,7 @@ export default function AjustesPage() {
             </div>
 
             {/* Visual */}
-            <div className="settings-section">
+            <div className="settings-section animate-slide-up card-hover-effect delay-200">
               <div className="section-header">
                 <Sliders size={20} />
                 <h3>Preferencias de Visualización</h3>
@@ -152,21 +154,16 @@ export default function AjustesPage() {
 
               <div className="toggles-list">
 
-                {[
-                  { key: 'darkMode', title: 'Modo Oscuro', desc: 'Cambiar el tema visual de la aplicación' },
-                  { key: 'animations', title: 'Animaciones', desc: 'Habilitar transiciones y efectos visuales' },
-                  { key: 'compactMode', title: 'Modo Compacto', desc: 'Mostrar más información en menos espacio' },
-                ].map(item => (
+                {toggles.map(item => (
                   <div key={item.key} className="toggle-item">
-                    <div>
+                    <div className="toggle-info">
                       <h4>{item.title}</h4>
                       <p>{item.desc}</p>
                     </div>
                     <label className="switch">
                       <input
                         type="checkbox"
-                        checked={settings[item.key]}
-                        onChange={() => handleToggle(item.key)}
+                        {...register(item.key)}
                       />
                       <span className="slider round"></span>
                     </label>
@@ -180,7 +177,7 @@ export default function AjustesPage() {
         )}
 
         {activeTab !== 'general' && (
-          <div className="empty-state">
+          <div className="empty-state animate-slide-up delay-100">
             <div className="empty-icon">
               <Shield size={48} color="#ddd" />
             </div>

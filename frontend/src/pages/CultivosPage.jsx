@@ -1,4 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
+import { motion } from "framer-motion";
+import "@fontsource/inter/400.css";
 import EditCultivoModal from "../components/EditCultivoModal";
 import AddCultivoModal from "../components/AddCultivoModal";
 import "./CultivosPage.css";
@@ -79,7 +81,7 @@ export default function CultivosPage() {
 
   return (
     <>
-      {/* 🔥 Header con botón */}
+      {/* HEADER */}
       <div className="cultivos-header">
         <button
           className="btn-add-cultivo"
@@ -89,32 +91,56 @@ export default function CultivosPage() {
         </button>
       </div>
 
+      {/* CONTENIDO */}
       <div className="cultivos-content">
         {surcos.map((surco) => (
           <section key={surco.id} className="surco-section">
             <h2>{surco.nombre}</h2>
 
-            <div className="cultivos-grid">
+            <motion.div
+              className="cultivos-grid"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
               {surco.cultivos.map((cultivo) => (
-                <div
+                <motion.div
                   key={cultivo.id}
                   className={`cultivo-card-large estado-${cultivo.estado?.toLowerCase()}`}
                   onClick={() => setSelectedCultivo(cultivo)}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.99 }}
                 >
-                  <div className="cultivo-placeholder">🌱</div>
+                  <div
+                    className="cultivo-image"
+                    style={
+                      cultivo.imagen || cultivo.image
+                        ? { backgroundImage: `url(${cultivo.imagen || cultivo.image})` }
+                        : undefined
+                    }
+                  >
+                    {!cultivo.imagen && !cultivo.image && "🌱"}
+                  </div>
+
+                  <div className="image-overlay">
+                    <span className="floating-label">
+                      {cultivo.nombre}
+                    </span>
+                    <span className="floating-label label-status">
+                      Estado: {cultivo.estado || "—"}
+                    </span>
+                  </div>
 
                   <div className="cultivo-card-content">
                     <span className="badge badge-cultivo">
                       {cultivo.nombre}
                     </span>
-
                     <span className="badge badge-source">
-                      Estado: {cultivo.estado}
+                      {cultivo.origen || "Origen desconocido"}
                     </span>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </section>
         ))}
 
@@ -128,8 +154,8 @@ export default function CultivosPage() {
       {/* 🔥 Modal editar */}
       <EditCultivoModal
         isOpen={!!selectedCultivo}
-        onClose={() => setSelectedCultivo(null)}
         cultivo={selectedCultivo}
+        onClose={() => setSelectedCultivo(null)}
         onSave={handleUpdateCultivo}
       />
 

@@ -1,7 +1,11 @@
 .cultivos-content {
   flex: 1;
   overflow-y: auto;
-  padding: 30px;
+  padding: 40px;
+  background: linear-gradient(180deg, #fbf7f1 0%, #fffdfa 100%);
+  --glass-bg: rgba(255,255,255,0.28);
+  --glass-border: rgba(255,255,255,0.6);
+  --card-shadow-glass: 0 12px 30px rgba(15,23,42,0.10);
 }
 
 .surco-section {
@@ -23,30 +27,69 @@
 }
 
 .cultivo-card-large {
-  background: white;
-  border-radius: 12px;
+  background: var(--glass-bg);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  box-shadow: var(--card-shadow-glass);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
   cursor: pointer;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  position: relative;
 }
 
 .cultivo-card-large:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(15,23,42,0.12);
+  transform: translateY(-6px);
 }
 
-.cultivo-card-large img {
+.cultivo-card-large .cultivo-image {
   width: 100%;
-  height: 160px;
+  height: 200px;
   object-fit: cover;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.9);
+  font-size: 44px;
+}
+
+.cultivo-card-large .image-overlay {
+  position: absolute;
+  inset: auto 12px 12px 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.floating-label {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(250,250,250,0.18);
+  color: #0f172a;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 12px;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.label-status {
+  background: linear-gradient(180deg, rgba(189,85,52,0.92), rgba(169,66,43,0.9));
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(168,76,49,0.12);
 }
 
 .cultivo-card-content {
-  padding: 12px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  background: transparent;
 }
 
 .badge {
@@ -59,16 +102,16 @@
 }
 
 .badge-cultivo {
-  background: #8B6F47;
+  background: linear-gradient(180deg,#1f4f2f 0%, #285a3a 100%);
   color: white;
 }
 
 .badge-source {
-  background: #f5f5f5;
-  color: #666;
-  border: 1px solid #ddd;
+  background: rgba(255,255,255,0.14);
+  color: rgba(15,23,42,0.85);
+  border: 1px solid rgba(255,255,255,0.06);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 @media (max-width: 1024px) {
@@ -100,12 +143,12 @@
 }
 
 .cultivo-placeholder {
-  height: 160px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 42px;
-  background: #f8f5ef;
+  background: linear-gradient(180deg, rgba(240,235,228,0.6), rgba(248,243,237,0.6));
   border-radius: 12px;
 }
 

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Sprout, AlertCircle, Download, Activity,
   Droplets, CloudSun, CloudRain, Sun
@@ -6,46 +6,46 @@ import {
 import AddCultivoModal from '../../components/cultivo/AddCultivoModal';
 import './DashboardPage.css';
 
-const kpis = [
-  { title: 'Total de cultivos', value: '12', sub: '+2 este mes', icon: <Sprout size={20} />, status: 'neutral' },
-  { title: 'Alertas Activas', value: '3', sub: 'Ver Alertas', icon: <AlertCircle size={20} />, status: 'danger' },
-  { title: 'Estado del Sistema', value: '98%', sub: 'Operativo', icon: <Download size={20} />, status: 'success' },
-  { title: 'Salud Promedio', value: '94%', sub: 'Excelente', icon: <Activity size={20} />, status: 'success' },
-];
-
-const pronostico = [
-  { day: 'Lun', icon: <Sun size={18} color="#F59E0B" />, temp: '24°' },
-  { day: 'Mar', icon: <CloudSun size={18} color="#78716c" />, temp: '22°' },
-  { day: 'Mié', icon: <CloudRain size={18} color="#78716c" />, temp: '20°' },
-  { day: 'Jue', icon: <Sun size={18} color="#F59E0B" />, temp: '23°' },
-  { day: 'Vie', icon: <Sun size={18} color="#F59E0B" />, temp: '25°' },
-];
-
-const zonasCultivo = [
-  { name: 'Tomate', lugar: 'Campo A', humedad: '72%', temp: '24°C', status: 'ok' },
-  { name: 'Lechuga', lugar: 'Hidropónico', humedad: '68%', temp: '22°C', status: 'ok' },
-  { name: 'Pimientos', lugar: 'Invernadero', humedad: '65%', temp: '26°C', status: 'alert' },
-  { name: 'Fresa', lugar: 'Campo B', humedad: '75%', temp: '21°C', status: 'ok' },
-];
-
-const heatmapZones = Array.from({ length: 16 }, (_, i) => ({
-  id: i + 1,
-  status: [6, 12].includes(i + 1) ? 'alert' : 'ok'
-}));
-
 export default function DashboardPage() {
   const [showAddModal, setShowAddModal] = useState(false);
+  const [kpis, setKpis] = useState([]);
+  const [pronostico, setPronostico] = useState([]);
+  const [zonasCultivo, setZonasCultivo] = useState([]);
+  const [heatmapZones, setHeatmapZones] = useState([]);
+
+  useEffect(() => {
+    async function loadDashboard() {
+      try {
+        const res = await fetch('http://localhost:3000/api/dashboard', {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        });
+        if (!res.ok) throw new Error('Error al obtener dashboard');
+        const data = await res.json();
+        setKpis(data.kpis ?? []);
+        setPronostico(data.pronostico ?? []);
+        setZonasCultivo(data.zonasCultivo ?? []);
+        setHeatmapZones(data.heatmapZones ?? []);
+      } catch (err) {
+        console.error('Error cargando dashboard', err);
+      }
+    }
+    loadDashboard();
+  }, []);
 
   return (
     <>
       <div className="dashboard-content">
-
         <section className="kpi-grid">
           {kpis.map(kpi => (
             <div key={kpi.title} className={`kpi-card ${kpi.status}`}>
               <div className="kpi-header">
                 <span>{kpi.title}</span>
-                <div className="kpi-icon">{kpi.icon}</div>
+                <div className="kpi-icon">
+                  {kpi.icon === 'sprout' && <Sprout size={20} />}
+                  {kpi.icon === 'alertCircle' && <AlertCircle size={20} />}
+                  {kpi.icon === 'download' && <Download size={20} />}
+                  {kpi.icon === 'activity' && <Activity size={20} />}
+                </div>
               </div>
               <div className="kpi-value">{kpi.value}</div>
               <div className={`kpi-sub ${kpi.status}`}>{kpi.sub}</div>
@@ -68,11 +68,15 @@ export default function DashboardPage() {
           <div className="forecast-card">
             <h3>Pronóstico</h3>
             <div className="forecast-list">
-              {pronostico.map(day => (
-                <div key={day.day} className="forecast-item">
-                  <span>{day.day}</span>
-                  <div className="forecast-icon">{day.icon}</div>
-                  <span className="forecast-temp">{day.temp}</span>
+              {pronostico.map(item => (
+                <div key={item.id} className="forecast-item">
+                  <span>{item.day}</span>
+                  <div className="forecast-icon">
+                    {item.icon === 'sun' && <Sun size={18} color="#F59E0B" />}
+                    {item.icon === 'cloudSun' && <CloudSun size={18} color="#78716c" />}
+                    {item.icon === 'cloudRain' && <CloudRain size={18} color="#78716c" />}
+                  </div>
+                  <span className="forecast-temp">{item.temp}</span>
                 </div>
               ))}
             </div>
@@ -82,30 +86,35 @@ export default function DashboardPage() {
         <section className="zones-section">
           {zonasCultivo.map(zona => (
             <div
-              key={zona.name}
-              className={`zone-card ${zona.status === 'alert' ? 'zone-alert-border' : ''}`}
+              key={zona.id}
+              className={`zone-card ${zona.estado === 'alert' ? 'zone-alert-border' : ''}`}
             >
               <div className="zone-header">
                 <div>
-                  <h4>{zona.name}</h4>
-                  <span className="zone-location">{zona.lugar}</span>
+                  <h4>{zona.nombre}</h4>
+                  <span className="zone-location">{zona.ubicacion}</span>
                 </div>
-                {zona.status === 'ok'
+                {zona.estado === 'ok'
                   ? <span className="check-icon">✓</span>
-                  : <AlertCircle size={18} className="alert-icon-red" />
-                }
+                  : <AlertCircle size={18} className="alert-icon-red" />}
               </div>
+
+              {zona.imagen && (
+                <div className="zone-image">
+                  <img src={zona.imagen} alt={zona.nombre} className="cultivo-img" />
+                </div>
+              )}
 
               <div className="zone-metrics">
                 <div className="z-metric">
                   <Droplets size={14} />
-                  <span>Humedad</span>
-                  <strong>{zona.humedad}</strong>
+                  <span>Frecuencia Riego</span>
+                  <strong>{zona.frecuenciaRiego} días</strong>
                 </div>
                 <div className="z-metric">
                   <CloudSun size={14} />
-                  <span>Temperatura</span>
-                  <strong>{zona.temp}</strong>
+                  <span>Estado</span>
+                  <strong>{zona.estado}</strong>
                 </div>
               </div>
             </div>
@@ -140,7 +149,6 @@ export default function DashboardPage() {
             </svg>
           </div>
         </section>
-
       </div>
 
       <AddCultivoModal

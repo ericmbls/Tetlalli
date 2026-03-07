@@ -1,4 +1,12 @@
-import { IsString, IsNotEmpty, IsInt, IsDateString, IsEnum, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsInt,
+  IsDateString,
+  IsEnum,
+  IsOptional,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 import { EstadoCultivo } from '@prisma/client';
 
 export class CreateCultivoDto {
@@ -18,6 +26,7 @@ export class CreateCultivoDto {
   @IsNotEmpty()
   ubicacion: string;
 
+  @Type(() => Number)
   @IsInt()
   @IsNotEmpty()
   frecuenciaRiego: number;
@@ -26,7 +35,12 @@ export class CreateCultivoDto {
   @IsOptional()
   estado?: EstadoCultivo;
 
+  @Type(() => Number)
   @IsInt()
   @IsNotEmpty()
-  userId: number; 
+  userId: number;
+
+  @IsString()
+  @IsOptional()
+  imagen?: string;
 }

@@ -23,14 +23,14 @@ export class CultivosService {
     return cultivo;
   }
 
-  async create(data: CreateCultivoDto) {
+  async create(data: CreateCultivoDto & { imagen?: string }) {
     return this.prisma.cultivo.create({
       data,
     });
   }
 
-  async update(id: number, data: UpdateCultivoDto) {
-    await this.findOne(id); 
+  async update(id: number, data: UpdateCultivoDto & { imagen?: string }) {
+    await this.findOne(id);
 
     return this.prisma.cultivo.update({
       where: { id },
@@ -38,8 +38,8 @@ export class CultivosService {
     });
   }
 
-  async delete(id: number) {
-    await this.findOne(id); 
+  async remove(id: number) {
+    await this.findOne(id);
 
     return this.prisma.cultivo.delete({
       where: { id },

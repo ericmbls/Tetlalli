@@ -31,6 +31,7 @@ model Cultivo {
   estado          EstadoCultivo  @default(activo)
   userId          Int
   createdAt       DateTime       @default(now())
+  imagen          String?        
   user            User           @relation(fields: [userId], references: [id])
 }
 

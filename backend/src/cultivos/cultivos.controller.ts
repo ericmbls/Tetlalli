@@ -1,4 +1,17 @@
-import { Controller, Get, Post, Patch, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Body,
+  Param,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 import { CultivosService } from './cultivos.service';
 import { CreateCultivoDto } from './dto/create-cultivo.dto';
 import { UpdateCultivoDto } from './dto/update-cultivo.dto';
@@ -12,16 +25,60 @@ export class CultivosController {
     return this.cultivosService.findAll();
   }
 
-  @Post()
-  create(@Body() createCultivoDto: CreateCultivoDto) {
-    return this.cultivosService.create(createCultivoDto);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.cultivosService.findOne(Number(id));
   }
 
+  @Post()
+@UseInterceptors(
+  FileInterceptor('imagen', {
+    storage: diskStorage({
+      destination: './uploads',
+      filename: (req, file, cb) => {
+        const uniqueSuffix =
+          Date.now() + '-' + Math.round(Math.random() * 1e9);
+        cb(null, uniqueSuffix + extname(file.originalname));
+      },
+    }),
+  }),
+)
+create(
+  @Body() createCultivoDto: CreateCultivoDto,
+  @UploadedFile() file: Express.Multer.File,
+) {
+  return this.cultivosService.create({
+    ...createCultivoDto,
+    imagen: file ? `/uploads/${file.filename}` : undefined,
+  });
+}
+
   @Patch(':id')
+  @UseInterceptors(
+    FileInterceptor('imagen', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, cb) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, uniqueSuffix + extname(file.originalname));
+        },
+      }),
+    }),
+  )
   update(
     @Param('id') id: string,
+    @UploadedFile() file: Express.Multer.File,
     @Body() updateCultivoDto: UpdateCultivoDto,
   ) {
-    return this.cultivosService.update(Number(id), updateCultivoDto);
+    return this.cultivosService.update(Number(id), {
+      ...updateCultivoDto,
+      imagen: file ? `/uploads/${file.filename}` : undefined,
+    });
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.cultivosService.remove(Number(id));
   }
 }

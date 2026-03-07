@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { EstadoCultivo } from '@prisma/client';
+import axios from 'axios';
 
 @Injectable()
 export class DashboardService {
@@ -19,11 +20,35 @@ export class DashboardService {
       { title: 'Cosechados', value: cosechados, sub: 'Finalizados', icon: 'download', status: 'neutral' },
     ];
 
-    const pronostico = [
-      { id: 1, day: 'Lun', icon: 'sun', temp: '24°' },
-      { id: 2, day: 'Mar', icon: 'cloudSun', temp: '22°' },
-      { id: 3, day: 'Mié', icon: 'cloudRain', temp: '20°' },
-    ];
+    const apiKey = process.env.OPENWEATHER_API_KEY;
+    const location = 'Huamantla,mx';
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}&units=metric&lang=es`;
+
+    const forecastRes = await axios.get(url);
+    const forecastData = forecastRes.data.list;
+
+    const pronostico: any[] = [];
+    const diasVistos = new Set();
+
+    for (const item of forecastData) {
+      const fecha = new Date(item.dt * 1000);
+      const dayName = fecha.toLocaleDateString('es-MX', { weekday: 'short' });
+
+      if (!diasVistos.has(dayName)) {
+        diasVistos.add(dayName);
+
+        let icon = 'sun';
+        if (item.weather[0].main === 'Clouds') icon = 'cloudSun';
+        if (item.weather[0].main === 'Rain') icon = 'cloudRain';
+
+        pronostico.push({
+          id: pronostico.length + 1,
+          day: dayName,
+          icon,
+          temp: `${Math.round(item.main.temp)}°C`,
+        });
+      }
+    }
 
     const zonasCultivo = await this.prisma.cultivo.findMany({
       where: { userId },

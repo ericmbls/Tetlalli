@@ -19,11 +19,9 @@ export default function AddCultivoModal({ isOpen, onClose, onSave }) {
 
   const handleSave = () => {
     const { nombre, fechaSiembra, ubicacion, descripcion, imagen } = formData;
-    
     if (!nombre || !fechaSiembra) return;
 
     const data = new FormData();
-    
     data.append("nombre", nombre);
     data.append("descripcion", descripcion);
     data.append("ubicacion", ubicacion || "Sin ubicación");
@@ -31,10 +29,10 @@ export default function AddCultivoModal({ isOpen, onClose, onSave }) {
     data.append("frecuenciaRiego", "2");
     data.append("estado", "activo");
     data.append("userId", "1");
-    
     if (imagen) data.append("imagen", imagen);
 
     onSave(data);
+    onClose();
   };
 
   return (

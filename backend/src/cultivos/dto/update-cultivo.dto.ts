@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateCultivoDto } from './create-cultivo.dto';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString, IsDateString } from 'class-validator';
 import { EstadoCultivo } from '@prisma/client';
 
 export class UpdateCultivoDto extends PartialType(CreateCultivoDto) {
@@ -11,4 +11,8 @@ export class UpdateCultivoDto extends PartialType(CreateCultivoDto) {
   @IsString()
   @IsOptional()
   imagen?: string;
+
+  @IsDateString()
+  @IsOptional()
+  fechaSiembra?: string;
 }

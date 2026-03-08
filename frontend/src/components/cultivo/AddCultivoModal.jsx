@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Upload, X, ChevronDown } from "lucide-react";
+import { Upload, X, ChevronDown, MapPin, Calendar, FileText, Info } from "lucide-react";
 import "./AddCultivoModal.css";
 
 export default function AddCultivoModal({ isOpen, onClose, onSave }) {
@@ -38,42 +38,63 @@ export default function AddCultivoModal({ isOpen, onClose, onSave }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
-        <div className="modal-header">
-          <h2>Nuevo cultivo</h2>
-          <button className="modal-close-btn" onClick={onClose}>
-            <X size={20} />
-          </button>
-        </div>
+        <button className="modal-close-btn" onClick={onClose} aria-label="Cerrar">
+          <X size={16} />
+        </button>
+        
+        <h2>Nuevo cultivo</h2>
 
         <div className="modal-body">
           <div className="left-column">
             <div className="image-upload-area">
-              <Upload size={32} strokeWidth={1.5} />
-              <span>Subir imagen</span>
+              <Upload className="upload-icon" size={40} strokeWidth={1.5} />
+              <span className="upload-text">Subir imagen</span>
+              <span className="upload-hint">
+                <Info size={10} />
+                PNG, JPG hasta 5MB
+              </span>
               <input
                 type="file"
                 accept="image/*"
                 onChange={e => handleChange("imagen", e.target.files[0])}
+                style={{ 
+                  position: 'absolute', 
+                  inset: 0, 
+                  opacity: 0, 
+                  cursor: 'pointer',
+                  width: '100%',
+                  height: '100%'
+                }}
               />
             </div>
           </div>
 
           <div className="right-column">
             <div className="form-group">
-              <label>Nombre</label>
+              <label>
+                <FileText size={12} />
+                Nombre del cultivo
+              </label>
               <input
                 type="text"
                 className="input-flushed"
+                placeholder="Ej: Tomates Cherry"
                 value={formData.nombre}
                 onChange={e => handleChange("nombre", e.target.value)}
               />
+              <div className="field-hint">
+                <Info size={10} />
+                Máximo 50 caracteres
+              </div>
             </div>
 
             <div className="form-group">
-              <label>Ubicación</label>
+              <label>
+                <MapPin size={12} />
+                Ubicación
+              </label>
               <div className="select-wrapper">
                 <select
-                  className="input-flushed"
                   value={formData.ubicacion}
                   onChange={e => handleChange("ubicacion", e.target.value)}
                 >
@@ -82,36 +103,58 @@ export default function AddCultivoModal({ isOpen, onClose, onSave }) {
                   <option value="Invernadero B">Invernadero B</option>
                   <option value="Campo Abierto">Campo Abierto</option>
                 </select>
-                <ChevronDown size={16} className="select-arrow" />
+                <ChevronDown className="select-arrow" size={14} />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>
+                  <Calendar size={12} />
+                  Fecha siembra
+                </label>
+                <input
+                  type="date"
+                  className="input-flushed"
+                  value={formData.fechaSiembra}
+                  onChange={e => handleChange("fechaSiembra", e.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <label>
+                  <Calendar size={12} />
+                  Tipo
+                </label>
+                <div className="select-wrapper">
+                  <select defaultValue="hortaliza">
+                    <option value="hortaliza">Hortaliza</option>
+                    <option value="fruta">Fruta</option>
+                    <option value="verdura">Verdura</option>
+                    <option value="flor">Flor</option>
+                  </select>
+                  <ChevronDown className="select-arrow" size={14} />
+                </div>
               </div>
             </div>
 
             <div className="form-group">
-              <label>Plantado</label>
-              <input
-                type="date"
-                className="input-flushed"
-                value={formData.fechaSiembra}
-                onChange={e => handleChange("fechaSiembra", e.target.value)}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Descripción</label>
+              <label>
+                <FileText size={12} />
+                Descripción
+              </label>
               <textarea
                 className="textarea-bordered"
-                placeholder="Describe el cultivo sembrado"
+                placeholder="Describe el cultivo sembrado, variedad, características..."
+                rows={3}
                 value={formData.descripcion}
                 onChange={e => handleChange("descripcion", e.target.value)}
               />
             </div>
 
             <div className="modal-actions">
-              <button className="btn-cancel" onClick={onClose}>
-                Cancelar
-              </button>
               <button className="btn-save" onClick={handleSave}>
-                Guardar
+                <span>Guardar cultivo</span>
               </button>
             </div>
           </div>

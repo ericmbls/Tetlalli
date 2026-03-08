@@ -12,27 +12,26 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from { transform: translateY(30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  0% { transform: translateY(30px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  100% { transform: rotate(360deg); }
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
+  0%, 100% { transform: scale(1); }
   50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
 }
 
 @keyframes rotateAndScale {
-  0% { transform: rotate(0deg) scale(1); }
+  0% { transform: rotate(0) scale(1); }
   50% { transform: rotate(180deg) scale(1.2); }
   100% { transform: rotate(360deg) scale(1); }
 }
@@ -44,7 +43,7 @@
 }
 
 .modal-content {
-  background: #ffffff;
+  background: #fff;
   border-radius: 24px;
   width: 95%;
   max-width: 700px;
@@ -161,7 +160,7 @@
   height: 100%;
   object-fit: cover;
   opacity: 0.9;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s;
 }
 
 .image-upload-area.has-image:hover img {
@@ -181,7 +180,7 @@
   font-size: 13px;
   color: #475569;
   font-weight: 500;
-  background: white;
+  background: #fff;
   padding: 5px 12px;
   border-radius: 40px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -207,11 +206,10 @@ h2 {
   font-size: 24px;
   font-weight: 700;
   color: #0f172a;
-  margin: 0 0 4px 0;
+  margin: 0 0 4px;
   letter-spacing: -0.02em;
   line-height: 1.2;
   padding-right: 32px;
-  opacity: 1;
 }
 
 .section-title {
@@ -253,7 +251,7 @@ h2 {
   font-size: 14px;
   color: #0f172a;
   background: transparent;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
   width: 100%;
   font-weight: 500;
 }
@@ -290,7 +288,7 @@ h2 {
   font-size: 14px;
   color: #0f172a;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
 }
 
 .select-wrapper select:hover {
@@ -311,7 +309,7 @@ h2 {
   color: #8B6F47;
   width: 14px;
   height: 14px;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s;
 }
 
 .select-wrapper:hover .select-arrow {
@@ -333,9 +331,9 @@ h2 {
   resize: vertical;
   min-height: 80px;
   margin-top: 4px;
-  transition: all 0.2s ease;
+  transition: all 0.2s;
   font-family: inherit;
-  background: #ffffff;
+  background: #fff;
   color: #0f172a;
 }
 
@@ -364,14 +362,14 @@ h2 {
 
 .btn-save {
   background: linear-gradient(135deg, #8B6F47, #6b4f2f);
-  color: white;
+  color: #fff;
   padding: 10px 28px;
   border-radius: 40px;
   font-size: 14px;
   font-weight: 600;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -401,9 +399,8 @@ h2 {
   height: 16px;
   top: 50%;
   left: 50%;
-  margin-left: -8px;
-  margin-top: -8px;
-  border: 2px solid white;
+  margin: -8px 0 0 -8px;
+  border: 2px solid #fff;
   border-top-color: transparent;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -452,18 +449,18 @@ h2 {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-
+  
   .image-upload-area {
     height: 180px;
     max-width: 300px;
     margin: 0 auto;
   }
-
+  
   .form-row {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-
+  
   .modal-close-btn {
     top: 12px;
     right: 12px;

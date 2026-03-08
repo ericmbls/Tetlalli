@@ -36,6 +36,10 @@ export const createUsuarioAdmin = async (data) => {
 };
 
 export const updateUsuario = async (id, data) => {
+  if (data.role) {
+    data.role = data.role.toLowerCase(); 
+  }
+
   return request(`${API_URL}/${id}`, {
     method: "PATCH",
     headers: {

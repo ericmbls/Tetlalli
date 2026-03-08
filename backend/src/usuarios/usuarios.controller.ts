@@ -19,7 +19,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
-  // preferencias primero
   @UseGuards(JwtAuthGuard)
   @Get('preferences')
   getPreferences(@Req() req) {

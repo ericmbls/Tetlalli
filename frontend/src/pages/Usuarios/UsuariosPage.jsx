@@ -1,27 +1,38 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Trash2, Search, Plus, Edit3, MoreVertical, Lock, Unlock } from 'lucide-react';
 import './UsuariosPage.css';
-import { getUsuarios, deleteUsuario, createUsuarioAdmin } from "../../services/usuarios.service";
+
+import {
+  getUsuarios,
+  deleteUsuario,
+  createUsuarioAdmin,
+  updateUsuario
+} from "../../services/usuarios.service";
+
 import AddUsuarioModal from "../../components/usuarios/AddUsuarioModal";
+import EditUsuarioModal from "../../components/usuarios/EditUsuarioModal";
 
 export default function UsuariosPage() {
+
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
+
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
 
   useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        const data = await getUsuarios();
-        setUsers(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error("Error cargando usuarios:", err);
-        setUsers([]);
-      }
-    };
-
     loadUsers();
   }, []);
+
+  const loadUsers = async () => {
+    try {
+      const data = await getUsuarios();
+      setUsers(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Error cargando usuarios:", err);
+      setUsers([]);
+    }
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -38,6 +49,20 @@ export default function UsuariosPage() {
       setUsers(prev => [...prev, creado]);
     } catch (err) {
       console.error("Error creando usuario:", err);
+    }
+  };
+
+  const handleUpdateUsuario = async (data) => {
+    try {
+      const actualizado = await updateUsuario(editingUser.id, data);
+
+      setUsers(prev =>
+        prev.map(u => (u.id === actualizado.id ? actualizado : u))
+      );
+
+      setEditingUser(null);
+    } catch (err) {
+      console.error("Error actualizando usuario:", err);
     }
   };
 
@@ -60,32 +85,47 @@ export default function UsuariosPage() {
 
   return (
     <div className="dashboard-content">
+
       <div className="page-header-row">
+
         <div>
           <h1 className="page-title">Gestión de Usuarios</h1>
-          <p className="page-subtitle">Administrar usuarios, roles y permisos</p>
+          <p className="page-subtitle">
+            Administrar usuarios, roles y permisos
+          </p>
         </div>
 
-        <button className="btn-primary-brown" onClick={() => setIsAddOpen(true)}>
+        <button
+          className="btn-primary-brown"
+          onClick={() => setIsAddOpen(true)}
+        >
           <Plus size={18} style={{ marginRight: 8 }} />
           Nuevo Usuario
         </button>
+
       </div>
 
       <div className="search-bar-row">
+
         <div className="search-input-wrapper">
+
           <Search size={18} />
+
           <input
             type="text"
             placeholder="Buscar por email o rol"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+
         </div>
+
       </div>
 
       <div className="users-table-container">
+
         <table className="users-table-custom">
+
           <thead>
             <tr>
               <th>Usuario</th>
@@ -97,15 +137,23 @@ export default function UsuariosPage() {
           </thead>
 
           <tbody>
+
             {filteredUsers?.map((user) => (
+
               <tr key={user.id}>
+
                 <td>
+
                   <div className="user-cell-profile">
+
                     <div className="user-avatar-small">
                       {getInitials(user?.email)}
                     </div>
+
                     <span>{user?.email || "Sin email"}</span>
+
                   </div>
+
                 </td>
 
                 <td>{user?.role || "user"}</td>
@@ -113,17 +161,27 @@ export default function UsuariosPage() {
                 <td>{user?.lastActive || "N/A"}</td>
 
                 <td>
+
                   <div className="status-cell">
+
                     {user?.status === "Activo"
                       ? <Unlock size={14} />
                       : <Lock size={14} />}
+
                     <span>{user?.status || "Activo"}</span>
+
                   </div>
+
                 </td>
 
                 <td>
+
                   <div className="actions-cell">
-                    <button className="icon-btn-ghost">
+
+                    <button
+                      className="icon-btn-ghost"
+                      onClick={() => setEditingUser(user)}
+                    >
                       <Edit3 size={16} />
                     </button>
 
@@ -137,13 +195,19 @@ export default function UsuariosPage() {
                     <button className="icon-btn-ghost">
                       <MoreVertical size={16} />
                     </button>
+
                   </div>
+
                 </td>
+
               </tr>
+
             ))}
+
           </tbody>
 
         </table>
+
       </div>
 
       <AddUsuarioModal
@@ -151,6 +215,14 @@ export default function UsuariosPage() {
         onClose={() => setIsAddOpen(false)}
         onSave={handleCreateUsuario}
       />
+
+      <EditUsuarioModal
+        isOpen={!!editingUser}
+        user={editingUser}
+        onClose={() => setEditingUser(null)}
+        onSave={handleUpdateUsuario}
+      />
+
     </div>
   );
 }

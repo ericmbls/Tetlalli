@@ -10,8 +10,18 @@ export class UsuariosService {
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.user.findMany();
-  }
+  return this.prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      farmName: true,
+      location: true,
+      language: true
+    }
+  });
+}
 
   async findOne(id: number) {
     const user = await this.prisma.user.findUnique({

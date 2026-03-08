@@ -1,22 +1,76 @@
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = "http://localhost:3000/api/usuarios";
+const AUTH_URL = "http://localhost:3000/api/auth";
 
-export async function getPreferences(token) {
-  const res = await fetch(`${API_URL}/usuarios/preferences`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!res.ok) throw new Error('Error al obtener preferencias');
+const getToken = () => localStorage.getItem("token");
+
+const request = async (url, options = {}) => {
+  const res = await fetch(url, options);
+  if (!res.ok) {
+    let message = "Error en la solicitud";
+    try {
+      const data = await res.json();
+      message = data.message || message;
+    } catch {}
+    throw new Error(message);
+  }
   return res.json();
-}
+};
 
-export async function updatePreferences(token, payload) {
-  const res = await fetch(`${API_URL}/usuarios/preferences`, {
-    method: 'PATCH',
+export const getUsuarios = async () => {
+  return request(API_URL, {
     headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(payload),
+      Authorization: `Bearer ${getToken()}`
+    }
   });
-  if (!res.ok) throw new Error('Error al actualizar preferencias');
-  return res.json();
-}
+};
+
+export const createUsuarioAdmin = async (data) => {
+  return request(API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`
+    },
+    body: JSON.stringify(data)
+  });
+};
+
+export const updateUsuario = async (id, data) => {
+  return request(`${API_URL}/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getToken()}`
+    },
+    body: JSON.stringify(data)
+  });
+};
+
+export const deleteUsuario = async (id) => {
+  return request(`${API_URL}/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${getToken()}`
+    }
+  });
+};
+
+export const registerUsuario = async (data) => {
+  return request(`${AUTH_URL}/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+};
+
+export const loginUsuario = async (data) => {
+  return request(`${AUTH_URL}/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+};

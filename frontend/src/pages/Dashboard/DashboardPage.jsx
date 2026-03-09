@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Sprout, AlertCircle, Download, Activity,
   Droplets, CloudSun, CloudRain, Sun
@@ -6,35 +6,79 @@ import {
 import AddCultivoModal from '../../components/cultivo/AddCultivoModal';
 import './DashboardPage.css';
 
-const kpis = [
-  { title: 'Total de cultivos', value: '12', sub: '+2 este mes', icon: <Sprout size={20} />, status: 'neutral' },
-  { title: 'Alertas Activas', value: '3', sub: 'Ver Alertas', icon: <AlertCircle size={20} />, status: 'danger' },
-  { title: 'Estado del Sistema', value: '98%', sub: 'Operativo', icon: <Download size={20} />, status: 'success' },
-  { title: 'Salud Promedio', value: '94%', sub: 'Excelente', icon: <Activity size={20} />, status: 'success' },
-];
-
-const pronostico = [
-  { day: 'Lun', icon: <Sun size={18} color="#F59E0B" />, temp: '24°' },
-  { day: 'Mar', icon: <CloudSun size={18} color="#78716c" />, temp: '22°' },
-  { day: 'Mié', icon: <CloudRain size={18} color="#78716c" />, temp: '20°' },
-  { day: 'Jue', icon: <Sun size={18} color="#F59E0B" />, temp: '23°' },
-  { day: 'Vie', icon: <Sun size={18} color="#F59E0B" />, temp: '25°' },
-];
-
-const zonasCultivo = [
-  { name: 'Tomate', lugar: 'Campo A', humedad: '72%', temp: '24°C', status: 'ok' },
-  { name: 'Lechuga', lugar: 'Hidropónico', humedad: '68%', temp: '22°C', status: 'ok' },
-  { name: 'Pimientos', lugar: 'Invernadero', humedad: '65%', temp: '26°C', status: 'alert' },
-  { name: 'Fresa', lugar: 'Campo B', humedad: '75%', temp: '21°C', status: 'ok' },
-];
-
-const heatmapZones = Array.from({ length: 16 }, (_, i) => ({
-  id: i + 1,
-  status: [6, 12].includes(i + 1) ? 'alert' : 'ok'
-}));
-
 export default function DashboardPage() {
+
   const [showAddModal, setShowAddModal] = useState(false);
+  const [kpis, setKpis] = useState([]);
+  const [zonasCultivo, setZonasCultivo] = useState([]);
+
+  const pronostico = [
+    { day: 'Lun', icon: <Sun size={18} color="#F59E0B" />, temp: '24°' },
+    { day: 'Mar', icon: <CloudSun size={18} color="#78716c" />, temp: '22°' },
+    { day: 'Mié', icon: <CloudRain size={18} color="#78716c" />, temp: '20°' },
+    { day: 'Jue', icon: <Sun size={18} color="#F59E0B" />, temp: '23°' },
+    { day: 'Vie', icon: <Sun size={18} color="#F59E0B" />, temp: '25°' },
+  ];
+
+  const heatmapZones = Array.from({ length: 16 }, (_, i) => ({
+    id: i + 1,
+    status: 'ok'
+  }));
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/cultivos")
+      .then(res => res.json())
+      .then(data => {
+
+        const alertas = data.filter(
+          c => c.humedad < 60 || c.temperatura > 30
+        ).length;
+
+        setKpis([
+          {
+            title: 'Total de cultivos',
+            value: data.length,
+            sub: 'Registrados',
+            icon: <Sprout size={20} />,
+            status: 'neutral'
+          },
+          {
+            title: 'Alertas Activas',
+            value: alertas,
+            sub: 'Ver Alertas',
+            icon: <AlertCircle size={20} />,
+            status: alertas > 0 ? 'danger' : 'neutral'
+          },
+          {
+            title: 'Estado del Sistema',
+            value: '98%',
+            sub: 'Operativo',
+            icon: <Download size={20} />,
+            status: 'success'
+          },
+          {
+            title: 'Salud Promedio',
+            value: '94%',
+            sub: 'Excelente',
+            icon: <Activity size={20} />,
+            status: 'success'
+          },
+        ]);
+
+        const zonas = data.map(c => ({
+          id: c.id,
+          name: c.nombre,
+          lugar: c.lugar,
+          humedad: `${c.humedad}%`,
+          temp: `${c.temperatura}°C`,
+          status: c.humedad < 60 || c.temperatura > 30 ? 'alert' : 'ok'
+        }));
+
+        setZonasCultivo(zonas);
+
+      })
+      .catch(err => console.error(err));
+  }, []);
 
   return (
     <>
@@ -54,6 +98,7 @@ export default function DashboardPage() {
         </section>
 
         <section className="middle-section">
+
           <div className="heatmap-card">
             <h3>Mapa de Calor</h3>
             <div className="heatmap-grid">
@@ -77,12 +122,13 @@ export default function DashboardPage() {
               ))}
             </div>
           </div>
+
         </section>
 
         <section className="zones-section">
           {zonasCultivo.map(zona => (
             <div
-              key={zona.name}
+              key={zona.id}
               className={`zone-card ${zona.status === 'alert' ? 'zone-alert-border' : ''}`}
             >
               <div className="zone-header">

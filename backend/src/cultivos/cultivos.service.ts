@@ -13,7 +13,7 @@ export class CultivosService {
 
   async findOne(id: number) {
     const cultivo = await this.prisma.cultivo.findUnique({
-      where: { id },
+      where: { id: Number(id) },
     });
 
     if (!cultivo) {
@@ -24,16 +24,14 @@ export class CultivosService {
   }
 
   async create(data: CreateCultivoDto & { imagen?: string }) {
-    return this.prisma.cultivo.create({
-      data,
-    });
+    return this.prisma.cultivo.create({ data });
   }
 
   async update(id: number, data: UpdateCultivoDto & { imagen?: string }) {
     await this.findOne(id);
 
     return this.prisma.cultivo.update({
-      where: { id },
+      where: { id: Number(id) },
       data,
     });
   }
@@ -42,7 +40,7 @@ export class CultivosService {
     await this.findOne(id);
 
     return this.prisma.cultivo.delete({
-      where: { id },
+      where: { id: Number(id) },
     });
   }
 }

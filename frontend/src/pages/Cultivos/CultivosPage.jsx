@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import EditCultivoModal from "../../components/cultivo/EditCultivoModal";
 import AddCultivoModal from "../../components/cultivo/AddCultivoModal";
 import "./CultivosPage.css";
-import { getCultivos, createCultivo } from "../../services/cultivos.service";
+import { getCultivos, createCultivo, updateCultivo } from "../../services/cultivos.service";
 
 export default function CultivosPage() {
   const [cultivos, setCultivos] = useState([]);
@@ -18,18 +18,15 @@ export default function CultivosPage() {
         setCultivos([]);
       }
     };
-
     loadCultivos();
   }, []);
 
   const surcos = useMemo(() => {
     const grouped = {};
-
     cultivos.forEach(({ ubicacion = "Sin ubicación", ...cultivo }) => {
       if (!grouped[ubicacion]) grouped[ubicacion] = [];
       grouped[ubicacion].push({ ubicacion, ...cultivo });
     });
-
     return Object.entries(grouped).map(([ubicacion, lista]) => ({
       id: ubicacion,
       nombre: ubicacion,
@@ -49,13 +46,7 @@ export default function CultivosPage() {
 
   const handleUpdateCultivo = async (id, updatedData) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/cultivos/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedData),
-      });
-
-      const data = await res.json();
+      const data = await updateCultivo(id, updatedData);
       setCultivos(prev => prev.map(c => c.id === id ? data : c));
       setSelectedCultivo(null);
     } catch (err) {
@@ -75,11 +66,10 @@ export default function CultivosPage() {
         {surcos.map(({ id, nombre, cultivos }) => (
           <section key={id} className="surco-section">
             <h2>{nombre}</h2>
-
             <div className="cultivos-grid">
-              {cultivos.map(cultivo => (
+              {cultivos.map((cultivo, index) => (
                 <div
-                  key={cultivo.id}
+                  key={cultivo.id || index}
                   className={`cultivo-card-large estado-${cultivo.estado?.toLowerCase()}`}
                   onClick={() => setSelectedCultivo(cultivo)}
                 >
@@ -94,21 +84,15 @@ export default function CultivosPage() {
                       "🌱"
                     )}
                   </div>
-
                   <div className="cultivo-card-content">
-                    <span className="badge badge-cultivo">
-                      {cultivo.nombre}
-                    </span>
-                    <span className="badge badge-source">
-                      Estado: {cultivo.estado}
-                    </span>
+                    <span className="badge badge-cultivo">{cultivo.nombre}</span>
+                    <span className="badge badge-source">Estado: {cultivo.estado}</span>
                   </div>
                 </div>
               ))}
             </div>
           </section>
         ))}
-
         {!surcos.length && (
           <div className="empty-state">
             <p>No tienes cultivos registrados aún 🌾</p>

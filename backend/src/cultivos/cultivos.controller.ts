@@ -31,27 +31,26 @@ export class CultivosController {
   }
 
   @Post()
-@UseInterceptors(
-  FileInterceptor('imagen', {
-    storage: diskStorage({
-      destination: './uploads',
-      filename: (req, file, cb) => {
-        const uniqueSuffix =
-          Date.now() + '-' + Math.round(Math.random() * 1e9);
-        cb(null, uniqueSuffix + extname(file.originalname));
-      },
+  @UseInterceptors(
+    FileInterceptor('imagen', {
+      storage: diskStorage({
+        destination: './uploads',
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, uniqueSuffix + extname(file.originalname));
+        },
+      }),
     }),
-  }),
-)
-create(
-  @Body() createCultivoDto: CreateCultivoDto,
-  @UploadedFile() file: Express.Multer.File,
-) {
-  return this.cultivosService.create({
-    ...createCultivoDto,
-    imagen: file ? `/uploads/${file.filename}` : undefined,
-  });
-}
+  )
+  create(
+    @Body() createCultivoDto: CreateCultivoDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.cultivosService.create({
+      ...createCultivoDto,
+      imagen: file ? `/uploads/${file.filename}` : undefined,
+    });
+  }
 
   @Patch(':id')
   @UseInterceptors(
@@ -59,8 +58,7 @@ create(
       storage: diskStorage({
         destination: './uploads',
         filename: (req, file, cb) => {
-          const uniqueSuffix =
-            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
           cb(null, uniqueSuffix + extname(file.originalname));
         },
       }),
@@ -73,7 +71,7 @@ create(
   ) {
     return this.cultivosService.update(Number(id), {
       ...updateCultivoDto,
-      imagen: file ? `/uploads/${file.filename}` : undefined,
+      imagen: file ? `/uploads/${file.filename}` : updateCultivoDto.imagen,
     });
   }
 

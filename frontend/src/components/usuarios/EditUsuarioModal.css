@@ -36,17 +36,11 @@
   100% { transform: rotate(360deg) scale(1); }
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-2px); }
-  75% { transform: translateX(2px); }
-}
-
 .modal-content {
   background: #fff;
   border-radius: 24px;
   width: 95%;
-  max-width: 700px;
+  max-width: 600px;
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -93,18 +87,29 @@
 .modal-close-btn svg {
   width: 16px;
   height: 16px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s;
 }
 
 .modal-close-btn:hover svg {
   transform: scale(0.9);
 }
 
+h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 20px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  padding-right: 32px;
+}
+
 .modal-body {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 140px 1fr;
   gap: 28px;
-  margin-top: 12px;
+  margin-bottom: 24px;
 }
 
 .left-column {
@@ -113,17 +118,21 @@
   gap: 16px;
 }
 
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
 .image-upload-area {
   background: linear-gradient(145deg, #f8fafc, #f1f5f9);
   border-radius: 18px;
-  height: 200px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: #64748b;
-  cursor: pointer;
-  transition: all 0.3s ease;
   border: 2px dashed #cbd5e1;
   position: relative;
   overflow: hidden;
@@ -135,36 +144,11 @@
   inset: 0;
   background: linear-gradient(45deg, transparent, rgba(139, 111, 71, 0.03), transparent);
   transform: translateX(-100%);
-  transition: transform 0.6s ease;
+  transition: transform 0.6s;
 }
 
 .image-upload-area:hover::before {
   transform: translateX(100%);
-}
-
-.image-upload-area:hover {
-  background: linear-gradient(145deg, #f1f5f9, #e9edf2);
-  border-color: #8B6F47;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(139, 111, 71, 0.2);
-}
-
-.image-upload-area.has-image {
-  border-style: solid;
-  border-color: #8B6F47;
-  background: #000;
-}
-
-.image-upload-area.has-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.9;
-  transition: opacity 0.3s;
-}
-
-.image-upload-area.has-image:hover img {
-  opacity: 0.7;
 }
 
 .upload-icon {
@@ -172,8 +156,14 @@
   margin-bottom: 10px;
   width: 40px;
   height: 40px;
-  stroke-width: 1.5;
   filter: drop-shadow(0 4px 6px rgba(139, 111, 71, 0.2));
+}
+
+.upload-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.5;
+  color: #8B6F47;
 }
 
 .upload-text {
@@ -195,30 +185,10 @@
   gap: 4px;
 }
 
-.right-column {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-h2 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0 0 4px;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  padding-right: 32px;
-}
-
-.section-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: #8B6F47;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 2px;
+.upload-hint svg {
+  width: 10px;
+  height: 10px;
+  color: #94a3b8;
 }
 
 .form-group {
@@ -272,6 +242,13 @@ h2 {
   font-size: 13px;
 }
 
+.input-flushed:disabled {
+  background: #f8fafc;
+  border-bottom-color: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
 .select-wrapper {
   position: relative;
   width: 100%;
@@ -300,6 +277,13 @@ h2 {
   border-bottom-color: #8B6F47;
 }
 
+.select-wrapper select:disabled {
+  background: #f8fafc;
+  border-bottom-color: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
 .select-arrow {
   position: absolute;
   right: 0;
@@ -316,47 +300,26 @@ h2 {
   transform: translateY(-50%) rotate(180deg);
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
+.field-hint {
+  font-size: 9px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
 }
 
-.textarea-bordered {
-  width: 100%;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 10px;
-  font-size: 13px;
-  resize: vertical;
-  min-height: 80px;
-  margin-top: 4px;
-  transition: all 0.2s;
-  font-family: inherit;
-  background: #fff;
-  color: #0f172a;
-}
-
-.textarea-bordered:hover {
-  border-color: #cbd5e1;
-}
-
-.textarea-bordered:focus {
-  outline: none;
-  border-color: #8B6F47;
-  box-shadow: 0 4px 12px rgba(139, 111, 71, 0.1);
-}
-
-.textarea-bordered::placeholder {
-  color: #cbd5e1;
-  font-weight: 400;
+.field-hint svg {
+  width: 10px;
+  height: 10px;
+  color: #94a3b8;
 }
 
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
-  padding-top: 16px;
+  margin-top: 8px;
+  padding-top: 20px;
   border-top: 2px solid #f1f5f9;
 }
 
@@ -387,6 +350,13 @@ h2 {
   transform: translateY(-1px);
 }
 
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 .btn-save.loading {
   position: relative;
   color: transparent;
@@ -409,20 +379,6 @@ h2 {
 .btn-save svg {
   width: 14px;
   height: 14px;
-}
-
-.field-hint {
-  font-size: 9px;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 2px;
-}
-
-.field-hint svg {
-  width: 10px;
-  height: 10px;
 }
 
 .input-flushed.error {
@@ -451,14 +407,9 @@ h2 {
   }
   
   .image-upload-area {
-    height: 180px;
-    max-width: 300px;
+    height: 120px;
+    max-width: 240px;
     margin: 0 auto;
-  }
-  
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 16px;
   }
   
   .modal-close-btn {
@@ -470,6 +421,7 @@ h2 {
   
   h2 {
     font-size: 22px;
+    margin-bottom: 16px;
     padding-right: 32px;
   }
   
@@ -485,13 +437,18 @@ h2 {
   }
   
   .image-upload-area {
-    height: 160px;
+    height: 100px;
   }
   
   .upload-icon {
     width: 32px;
     height: 32px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+  }
+  
+  .upload-icon svg {
+    width: 32px;
+    height: 32px;
   }
   
   .upload-text {
@@ -501,7 +458,7 @@ h2 {
   
   .upload-hint {
     font-size: 9px;
-    margin-top: 6px;
+    margin-top: 4px;
   }
   
   .modal-close-btn {
@@ -516,10 +473,7 @@ h2 {
   
   h2 {
     font-size: 20px;
-  }
-  
-  .section-title {
-    font-size: 11px;
+    margin-bottom: 14px;
   }
   
   .input-flushed {
@@ -530,9 +484,7 @@ h2 {
     font-size: 13px;
   }
   
-  .textarea-bordered {
-    font-size: 12px;
-    min-height: 70px;
-    padding: 8px;
+  .field-hint {
+    font-size: 8px;
   }
 }

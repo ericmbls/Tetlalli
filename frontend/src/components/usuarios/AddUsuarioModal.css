@@ -36,12 +36,6 @@
   100% { transform: rotate(360deg) scale(1); }
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-2px); }
-  75% { transform: translateX(2px); }
-}
-
 .modal-content {
   background: #fff;
   border-radius: 24px;
@@ -93,18 +87,29 @@
 .modal-close-btn svg {
   width: 16px;
   height: 16px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s;
 }
 
 .modal-close-btn:hover svg {
   transform: scale(0.9);
 }
 
+h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 20px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  padding-right: 32px;
+}
+
 .modal-body {
   display: grid;
-  grid-template-columns: 220px 1fr;
+  grid-template-columns: 180px 1fr;
   gap: 28px;
-  margin-top: 12px;
+  margin-bottom: 24px;
 }
 
 .left-column {
@@ -113,17 +118,23 @@
   gap: 16px;
 }
 
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
 .image-upload-area {
   background: linear-gradient(145deg, #f8fafc, #f1f5f9);
   border-radius: 18px;
-  height: 200px;
+  height: 180px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: #64748b;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s;
   border: 2px dashed #cbd5e1;
   position: relative;
   overflow: hidden;
@@ -135,7 +146,7 @@
   inset: 0;
   background: linear-gradient(45deg, transparent, rgba(139, 111, 71, 0.03), transparent);
   transform: translateX(-100%);
-  transition: transform 0.6s ease;
+  transition: transform 0.6s;
 }
 
 .image-upload-area:hover::before {
@@ -193,32 +204,6 @@
   display: flex;
   align-items: center;
   gap: 4px;
-}
-
-.right-column {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-h2 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0 0 4px;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-  padding-right: 32px;
-}
-
-.section-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: #8B6F47;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 2px;
 }
 
 .form-group {
@@ -322,41 +307,25 @@ h2 {
   gap: 18px;
 }
 
-.textarea-bordered {
-  width: 100%;
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 10px;
-  font-size: 13px;
-  resize: vertical;
-  min-height: 80px;
-  margin-top: 4px;
-  transition: all 0.2s;
-  font-family: inherit;
-  background: #fff;
-  color: #0f172a;
+.field-hint {
+  font-size: 9px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
 }
 
-.textarea-bordered:hover {
-  border-color: #cbd5e1;
-}
-
-.textarea-bordered:focus {
-  outline: none;
-  border-color: #8B6F47;
-  box-shadow: 0 4px 12px rgba(139, 111, 71, 0.1);
-}
-
-.textarea-bordered::placeholder {
-  color: #cbd5e1;
-  font-weight: 400;
+.field-hint svg {
+  width: 10px;
+  height: 10px;
 }
 
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
-  padding-top: 16px;
+  margin-top: 8px;
+  padding-top: 20px;
   border-top: 2px solid #f1f5f9;
 }
 
@@ -411,20 +380,6 @@ h2 {
   height: 14px;
 }
 
-.field-hint {
-  font-size: 9px;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 2px;
-}
-
-.field-hint svg {
-  width: 10px;
-  height: 10px;
-}
-
 .input-flushed.error {
   border-bottom-color: #ef4444;
 }
@@ -451,8 +406,8 @@ h2 {
   }
   
   .image-upload-area {
-    height: 180px;
-    max-width: 300px;
+    height: 160px;
+    max-width: 280px;
     margin: 0 auto;
   }
   
@@ -470,6 +425,7 @@ h2 {
   
   h2 {
     font-size: 22px;
+    margin-bottom: 16px;
     padding-right: 32px;
   }
   
@@ -485,7 +441,7 @@ h2 {
   }
   
   .image-upload-area {
-    height: 160px;
+    height: 140px;
   }
   
   .upload-icon {
@@ -516,10 +472,7 @@ h2 {
   
   h2 {
     font-size: 20px;
-  }
-  
-  .section-title {
-    font-size: 11px;
+    margin-bottom: 14px;
   }
   
   .input-flushed {
@@ -530,9 +483,7 @@ h2 {
     font-size: 13px;
   }
   
-  .textarea-bordered {
-    font-size: 12px;
-    min-height: 70px;
-    padding: 8px;
+  .field-hint {
+    font-size: 8px;
   }
 }

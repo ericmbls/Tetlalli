@@ -1,12 +1,7 @@
-<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-=======
-:root {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
->>>>>>> 743b11d50e10de0d8abcac4b1ae09b420b60a52e
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   line-height: 1.6;
@@ -109,13 +104,8 @@ button:focus-visible {
   /* Force vertical stacking for Top Navbar */
   height: 100vh;
   width: 100vw;
-<<<<<<< HEAD
   background-color: #FAF5F0;
   /* Crema cálido de la imagen */
-=======
-  background-color: #fcfbf9;
-  /* Cream background from design */
->>>>>>> 743b11d50e10de0d8abcac4b1ae09b420b60a52e
   overflow: hidden;
 }
 
@@ -135,7 +125,6 @@ button:focus-visible {
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
-<<<<<<< HEAD
 }
 
 /* ======== ANIMACIONES GLOBALES ======== */
@@ -201,6 +190,4 @@ button:not(.chart-tab):not(.settings-tab):not(:disabled):active,
   transform: translateY(1px) scale(0.98) !important;
   box-shadow: 0 4px 8px rgba(139, 111, 71, 0.15) !important;
   /* Sombra comprimida */
-=======
->>>>>>> 743b11d50e10de0d8abcac4b1ae09b420b60a52e
 }

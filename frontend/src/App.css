@@ -6,23 +6,17 @@
   flex: 1;
   padding: 40px;
   min-height: 100vh;
-  background: linear-gradient(
-    180deg,
-    #fffaf8 0%,
-    #fbefe1 35%,
-    #f3e5ca 100%
-  );
-<<<<<<< HEAD
-=======
+  background: linear-gradient(180deg,
+      #fffaf8 0%,
+      #fbefe1 35%,
+      #f3e5ca 100%);
 }
 
 body.dark .main-layout {
-  background: linear-gradient(
-    180deg,
-    #1a1a1a 0%,
-    #222 35%,
-    #2e2e2e 100%
-  );
+  background: linear-gradient(180deg,
+      #1a1a1a 0%,
+      #222 35%,
+      #2e2e2e 100%);
   color: #f5f5f5;
 }
 
@@ -36,5 +30,4 @@ body.dark h3,
 body.dark p,
 body.dark span {
   color: #f5f5f5;
->>>>>>> 743b11d50e10de0d8abcac4b1ae09b420b60a52e
 }

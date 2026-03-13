@@ -7,10 +7,12 @@ import UsuariosPage from './pages/Usuarios/UsuariosPage';
 import AjustesPage from './pages/Ajustes/AjustesPage';           
 import Sidebar from './components/common/Sidebar';
 import Header from './components/common/Header';
+import LandingPage from './pages/Landing/LandingPage';
 import './App.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLanding, setShowLanding] = useState(true);
   const [currentPage, setCurrentPage] = useState('dashboard');
   const [userRole] = useState('admin');
   const [darkMode, setDarkMode] = useState(false);
@@ -31,6 +33,10 @@ function App() {
     usuarios: { component: UsuariosPage, title: 'Usuarios', showButton: false },
     ajustes: { component: AjustesPage, title: 'Ajustes', showButton: false },
   };
+
+  if (showLanding && !isLoggedIn) {
+    return <LandingPage onLoginClick={() => setShowLanding(false)} />;
+  }
 
   if (!isLoggedIn) {
     return <LoginPage setIsLoggedIn={setIsLoggedIn} setToken={setToken} />;

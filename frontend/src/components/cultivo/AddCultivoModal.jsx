@@ -37,39 +37,56 @@ export default function AddCultivoModal({ isOpen, onClose, onSave }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
+      <div className="modal-content cultivo-card" onClick={e => e.stopPropagation()}>
+        
         <button className="modal-close-btn" onClick={onClose} aria-label="Cerrar">
           <X size={16} />
         </button>
-        
-        <h2>Nuevo cultivo</h2>
+
+        <div className="cultivo-card-header">
+          <h2>Nuevo cultivo</h2>
+          <span className="cultivo-badge">Registro</span>
+        </div>
 
         <div className="modal-body">
+
           <div className="left-column">
-            <div className="image-upload-area">
-              <Upload className="upload-icon" size={40} strokeWidth={1.5} />
-              <span className="upload-text">Subir imagen</span>
-              <span className="upload-hint">
-                <Info size={10} />
-                PNG, JPG hasta 5MB
-              </span>
+            <div className={`image-upload-area ${formData.imagen ? "has-image" : ""}`}>
+              
+              {formData.imagen ? (
+                <img
+                  src={URL.createObjectURL(formData.imagen)}
+                  alt="preview"
+                />
+              ) : (
+                <>
+                  <Upload className="upload-icon" size={40} strokeWidth={1.5} />
+                  <span className="upload-text">Subir imagen</span>
+                  <span className="upload-hint">
+                    <Info size={10} />
+                    PNG, JPG hasta 5MB
+                  </span>
+                </>
+              )}
+
               <input
                 type="file"
                 accept="image/*"
                 onChange={e => handleChange("imagen", e.target.files[0])}
-                style={{ 
-                  position: 'absolute', 
-                  inset: 0, 
-                  opacity: 0, 
-                  cursor: 'pointer',
-                  width: '100%',
-                  height: '100%'
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  opacity: 0,
+                  cursor: "pointer",
+                  width: "100%",
+                  height: "100%",
                 }}
               />
             </div>
           </div>
 
           <div className="right-column">
+
             <div className="form-group">
               <label>
                 <FileText size={12} />
@@ -157,6 +174,7 @@ export default function AddCultivoModal({ isOpen, onClose, onSave }) {
                 <span>Guardar cultivo</span>
               </button>
             </div>
+
           </div>
         </div>
       </div>

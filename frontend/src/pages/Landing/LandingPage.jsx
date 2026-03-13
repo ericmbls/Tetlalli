@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   Sprout, 
   BarChart3, 
   BellRing, 
   FileText, 
   CheckCircle2, 
-  Star,
-  Quote,
   Activity,
   Droplets,
   Thermometer,
@@ -28,14 +26,12 @@ const LandingPage = ({ onLoginClick }) => {
 
   return (
     <div className="landing-container" onScroll={handleScroll}>
-      {/* Navigation */}
       <nav className={`landing-nav ${scrolled ? 'nav-scrolled' : ''}`}>
         <div className="landing-logo">
           <Sprout className="logo-icon-svg" />
           <span className="logo-text">Tetlalli</span>
         </div>
         
-        {/* Desktop Menu */}
         <div className="landing-nav-links desktop-only">
           <a href="#features">Características</a>
           <a href="#modules">Módulos</a>
@@ -46,7 +42,6 @@ const LandingPage = ({ onLoginClick }) => {
           </button>
         </div>
 
-        {/* Mobile Menu Toggle */}
         <button 
           className="mobile-menu-toggle mobile-only"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -55,7 +50,6 @@ const LandingPage = ({ onLoginClick }) => {
         </button>
       </nav>
 
-      {/* Mobile Menu Dropdown */}
       <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
         <a href="#features" onClick={() => setMobileMenuOpen(false)}>Características</a>
         <a href="#modules" onClick={() => setMobileMenuOpen(false)}>Módulos</a>
@@ -67,7 +61,6 @@ const LandingPage = ({ onLoginClick }) => {
       </div>
 
       <main className="landing-main">
-        {/* HERO SECTION */}
         <section className="landing-hero">
           <div className="hero-content">
             <div className="badge">
@@ -137,19 +130,6 @@ const LandingPage = ({ onLoginClick }) => {
           </div>
         </section>
 
-        {/* TRUSTED BY LOGOS */}
-        <section className="trusted-by">
-          <p>Confiado por más de 500 productores y cooperativas agrícolas en la región</p>
-          <div className="trusted-logos">
-            <span className="fake-logo">AgroPro</span>
-            <span className="fake-logo">EcoFarm</span>
-            <span className="fake-logo">NaturaGrow</span>
-            <span className="fake-logo">GreenValley</span>
-            <span className="fake-logo">HarvestTier</span>
-          </div>
-        </section>
-
-        {/* FEATURES / MODULES SECTION */}
         <section id="features" className="landing-features">
           <div className="features-head">
             <span className="section-badge">Nuestras Herramientas</span>
@@ -193,7 +173,6 @@ const LandingPage = ({ onLoginClick }) => {
           </div>
         </section>
 
-        {/* HOW IT WORKS */}
         <section id="how-it-works" className="landing-steps">
           <div className="steps-container">
             <h2 className="section-title text-center">Una plataforma potente, 3 pasos simples</h2>
@@ -219,42 +198,6 @@ const LandingPage = ({ onLoginClick }) => {
           </div>
         </section>
 
-        {/* TESTIMONIALS */}
-        <section id="testimonials" className="landing-testimonials">
-          <h2 className="section-title text-center">Lo que dicen nuestros agricultores</h2>
-          <div className="testimonials-grid">
-            <div className="testimonial-card">
-              <Quote className="quote-icon" size={32} />
-              <p className="testimonial-text">"Desde que implementamos Tetlalli, hemos reducido la pérdida de cultivos por cambios climáticos bruscos en un 40%. Las alertas nos avisan a tiempo."</p>
-              <div className="testimonial-author">
-                <div className="author-avatar">JG</div>
-                <div className="author-info">
-                  <h4>Jorge Gutiérrez</h4>
-                  <span>Productor de Aguacate</span>
-                  <div className="stars">
-                    <Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="testimonial-card">
-              <Quote className="quote-icon" size={32} />
-              <p className="testimonial-text">"El módulo de reportes es una maravilla. Antes llevaba todo en cuadernos; ahora con un clic sé exactamente cuánto rindió cada hectárea de mi parcela."</p>
-              <div className="testimonial-author">
-                <div className="author-avatar">MR</div>
-                <div className="author-info">
-                  <h4>María Rodríguez</h4>
-                  <span>Ingeniera Agrónoma</span>
-                  <div className="stars">
-                    <Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FINAL CTA */}
         <section className="landing-cta">
           <div className="cta-shapes">
             <div className="shape shape-1"></div>
@@ -270,7 +213,6 @@ const LandingPage = ({ onLoginClick }) => {
         </section>
       </main>
       
-      {/* FOOTER */}
       <footer className="landing-footer">
         <div className="footer-content">
           <div className="footer-column brand-col">

@@ -1,11 +1,15 @@
 .app-layout {
   display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .main-layout {
   flex: 1;
   padding: 40px;
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
   background: linear-gradient(
     180deg,
     #fffaf8 0%,

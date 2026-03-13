@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import {
   Sprout,
@@ -185,11 +186,10 @@ export default function DashboardPage() {
 
           <div
             key={zona.id}
-            className={`zone-card ${
-              zona.status === "alert"
-                ? "zone-alert-border"
-                : ""
-            }`}
+            className={`zone-card ${zona.status === "alert"
+              ? "zone-alert-border"
+              : ""
+              }`}
           >
 
             <div className="zone-header">
@@ -234,7 +234,7 @@ export default function DashboardPage() {
 
         <div className="recent-card">
 
-          <h3>Cultivos recientes</h3>
+
 
           {cultivosRecientes.map(c => (
             <div key={c.id} className="recent-item">

@@ -14,6 +14,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showLanding, setShowLanding] = useState(true);
   const [currentPage, setCurrentPage] = useState('dashboard');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [userRole] = useState('admin');
   const [darkMode, setDarkMode] = useState(false);
   const [token, setToken] = useState(localStorage.getItem('token') || '');
@@ -48,11 +49,20 @@ function App() {
     <div className="app-layout">
       <Sidebar
         currentPage={currentPage}
-        onNavigate={setCurrentPage}
+        onNavigate={(page) => {
+          setCurrentPage(page);
+          setIsSidebarOpen(false);
+        }}
         role={userRole}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
       />
       <main className="main-layout">
-        <Header title={title} showButton={showButton} />
+        <Header 
+          title={title} 
+          showButton={showButton} 
+          onMenuClick={() => setIsSidebarOpen(true)} 
+        />
         <CurrentPage darkMode={darkMode} setDarkMode={setDarkMode} token={token} />
       </main>
     </div>

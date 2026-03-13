@@ -62,9 +62,6 @@ const LandingPage = ({ onLoginClick }) => {
         
         {/* Desktop Links */}
         <div className="landing-nav-links desktop-only">
-          <a href="#how-it-works">¿Cómo funciona?</a>
-          <a href="#features">Características</a>
-          <a href="#testimonials">Testimonios</a>
           <button className="landing-btn-login" onClick={onLoginClick}>
             Iniciar Sesión
           </button>
@@ -81,9 +78,6 @@ const LandingPage = ({ onLoginClick }) => {
 
       {/* Mobile Menu Content */}
       <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
-        <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)}>¿Cómo funciona?</a>
-        <a href="#features" onClick={() => setMobileMenuOpen(false)}>Características</a>
-        <a href="#testimonials" onClick={() => setMobileMenuOpen(false)}>Testimonios</a>
         <button className="landing-btn-login fluid" onClick={() => { setMobileMenuOpen(false); onLoginClick(); }}>
           Iniciar Sesión
         </button>
@@ -92,6 +86,10 @@ const LandingPage = ({ onLoginClick }) => {
       <main className="landing-main">
         {/* Hero Section Completa */}
         <section className="landing-hero hero-centered">
+          {/* Blobs animados de fondo */}
+          <div className="hero-blob blob-1"></div>
+          <div className="hero-blob blob-2"></div>
+          <div className="hero-blob blob-3"></div>
           <div className="hero-content">
             <div className="badge">
               <Zap size={14} className="badge-icon" />
@@ -113,16 +111,7 @@ const LandingPage = ({ onLoginClick }) => {
               </div>
             </div>
             
-            <div className="hero-stats">
-              <div className="stat-card">
-                <span className="stat-value">+40%</span>
-                <span className="stat-label">Cosechas</span>
-              </div>
-              <div className="stat-card">
-                <span className="stat-value">-30%</span>
-                <span className="stat-label">Uso de Agua</span>
-              </div>
-            </div>
+
           </div>
           
           <div className="hero-visual desktop-only">
@@ -158,16 +147,7 @@ const LandingPage = ({ onLoginClick }) => {
           </div>
         </section>
 
-        {/* Sección de Marcas / Trusted By */}
-        <FadeInSection className="trusted-by">
-          <p>MÁS DE 500 PRODUCTORES CONFIAN EN NOSOTROS</p>
-          <div className="trusted-logos">
-            <span className="fake-logo">AgroCorp</span>
-            <span className="fake-logo">NaturaFarms</span>
-            <span className="fake-logo">BioTech</span>
-            <span className="fake-logo">EcoHarvest</span>
-          </div>
-        </FadeInSection>
+
 
         {/* Pasos */}
         <section id="how-it-works" className="landing-steps">
@@ -260,57 +240,7 @@ const LandingPage = ({ onLoginClick }) => {
           </div>
         </section>
 
-        {/* Testimonios */}
-        <section id="testimonials" className="landing-testimonials">
-          <FadeInSection>
-            <div className="text-center">
-              <span className="section-badge">Casos de Éxito</span>
-              <h2 className="section-title">Resultados probados</h2>
-            </div>
-          </FadeInSection>
-          <div className="testimonials-grid">
-             <FadeInSection delay={100}>
-               <div className="testimonial-card">
-                 <div className="quote-icon">
-                   <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                     <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" />
-                   </svg>
-                 </div>
-                 <p className="testimonial-text">"Instalar Tetlalli ha sido revolucionario. Subimos la eficiencia al 100% y bajamos mis insumos de agua casi de inmediato. Es magia agrícola."</p>
-                 <div className="testimonial-author">
-                   <div className="author-avatar">JG</div>
-                   <div className="author-info">
-                     <h4>Ing. Javier G.</h4>
-                     <span>Productor Tomatero</span>
-                     <div className="stars">
-                       <Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" />
-                     </div>
-                   </div>
-                 </div>
-               </div>
-             </FadeInSection>
-             <FadeInSection delay={300}>
-               <div className="testimonial-card">
-                 <div className="quote-icon">
-                   <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                     <path d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z" />
-                   </svg>
-                 </div>
-                 <p className="testimonial-text">"Pudimos detectar una irregularidad a tiempo antes que afectara el lote A. De no ser por las alertas proactivas habría perdido todo."</p>
-                 <div className="testimonial-author">
-                   <div className="author-avatar">MR</div>
-                   <div className="author-info">
-                     <h4>María Rodríguez</h4>
-                     <span>Finca Michoacán</span>
-                     <div className="stars">
-                       <Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" /><Star size={14} fill="currentColor" />
-                     </div>
-                   </div>
-                 </div>
-               </div>
-             </FadeInSection>
-          </div>
-        </section>
+
 
         {/* CTA */}
         <section className="landing-cta">
@@ -331,32 +261,6 @@ const LandingPage = ({ onLoginClick }) => {
       </main>
 
       <footer className="landing-footer">
-        <div className="footer-content">
-          <div className="brand-col">
-            <div className="footer-brand">
-               <Sprout color="var(--landing-primary)" /> Tetlalli
-            </div>
-            <p className="footer-desc">Plataforma agrícola inteligente para el monitoreo, gestión y control integral de tus campos productivos.</p>
-          </div>
-          <div className="footer-column">
-            <h4>Producto</h4>
-            <a href="#features">Características</a>
-            <a href="#how-it-works">Soluciones</a>
-            <a href="#">Casos de Uso</a>
-          </div>
-          <div className="footer-column">
-            <h4>Soporte</h4>
-            <a href="#">Centro de Ayuda</a>
-            <a href="#">Documentación API</a>
-            <a href="#">Comunidad</a>
-          </div>
-          <div className="footer-column">
-            <h4>Legal</h4>
-            <a href="#">Términos y Condiciones</a>
-            <a href="#">Privacidad de Datos</a>
-            <a href="#">Uso Responsable</a>
-          </div>
-        </div>
         <div className="footer-bottom">
           <p>© {new Date().getFullYear()} Tetlalli Intelligent Farms. Todos los derechos reservados.</p>
         </div>

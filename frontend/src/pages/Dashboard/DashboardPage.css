@@ -481,19 +481,75 @@ body.dark .caudal-chart text {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .dashboard-content {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .kpi-card {
+    padding: 16px;
+  }
+
+  .kpi-value {
+    font-size: 26px;
+  }
+
   .heatmap-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .dashboard-content {
-    padding: 16px;
+  .middle-section {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
+  .zones-section {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .heatmap-card h3,
+  .forecast-card h3,
+  .chart-header h3 {
+    font-size: 15px;
+    margin-bottom: 14px;
+  }
+
+  .chart-section {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
   .kpi-grid {
     grid-template-columns: 1fr;
   }
+
+  .dashboard-content {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .kpi-value {
+    font-size: 22px;
+  }
+
+  .kpi-header {
+    font-size: 12px;
+  }
+
+  .heatmap-card,
+  .forecast-card {
+    padding: 16px;
+  }
 }
+
 
 .kpi-card {
   background: white;

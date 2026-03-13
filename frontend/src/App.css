@@ -6,6 +6,7 @@
 
 .main-layout {
   flex: 1;
+  min-width: 0;
   padding: 40px;
   height: 100vh;
   overflow-y: auto;
@@ -39,3 +40,12 @@ body.dark p,
 body.dark span {
   color: #f5f5f5;
 }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .main-layout {
+    padding: 0;
+    /* El sidebar es position:fixed en móvil, no ocupa espacio en el flujo */
+    width: 100%;
+  }
+}

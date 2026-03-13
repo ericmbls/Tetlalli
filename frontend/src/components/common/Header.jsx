@@ -1,10 +1,13 @@
-import { Search, Plus } from 'lucide-react';
+import { Search, Plus, Menu } from 'lucide-react';
 import './Header.css';
 
-export default function Header({ title, showButton }) {
+export default function Header({ title, showButton, onMenuClick }) {
   return (
     <header className="dashboard-header">
-      <div>
+      <div className="header-left">
+        <button className="hamburger-btn" onClick={onMenuClick} aria-label="Abrir menú">
+          <Menu size={22} />
+        </button>
         <h2>{title}</h2>
       </div>
 
@@ -27,4 +30,4 @@ export default function Header({ title, showButton }) {
       )}
     </header>
   );
-}
+}

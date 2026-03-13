@@ -1,6 +1,5 @@
 # Dependencias principales
 axios
-vite --save-dev
 @nestjs/swagger
 swagger-ui-express
 class-validator
@@ -20,3 +19,4 @@ prisma@5
 
 @nestjs/jwt
 @types/jsonwebtoken
+--save-dev vite

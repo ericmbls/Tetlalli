@@ -33,6 +33,7 @@
     "class-validator": "^0.14.4",
     "mapped-types": "^0.0.1",
     "multer": "^2.1.1",
+    "nest": "^0.1.6",
     "passport-jwt": "^4.0.1",
     "prisma": "^6.19.2",
     "reflect-metadata": "^0.2.2",

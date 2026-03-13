@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import EditCultivoModal from "../../components/cultivo/EditCultivoModal";
 import AddCultivoModal from "../../components/cultivo/AddCultivoModal";
 import "./CultivosPage.css";
-import { getCultivos, createCultivo } from "../../services/cultivos.service";
+import { getCultivos, createCultivo, updateCultivo } from "../../services/cultivos.service";
 
 export default function CultivosPage() {
   const [cultivos, setCultivos] = useState([]);
@@ -14,30 +14,21 @@ export default function CultivosPage() {
       try {
         const data = await getCultivos();
         setCultivos(Array.isArray(data) ? data : []);
-      } catch (err) {
-        console.error("Error cargando cultivos:", err);
+      } catch {
         setCultivos([]);
       }
     };
-
     loadCultivos();
   }, []);
 
   const surcos = useMemo(() => {
     const grouped = {};
-
-    cultivos.forEach((cultivo) => {
-      const ubicacion = cultivo.ubicacion || "Sin ubicación";
-
-      if (!grouped[ubicacion]) {
-        grouped[ubicacion] = [];
-      }
-
-      grouped[ubicacion].push(cultivo);
+    cultivos.forEach(({ ubicacion = "Sin ubicación", ...cultivo }) => {
+      if (!grouped[ubicacion]) grouped[ubicacion] = [];
+      grouped[ubicacion].push({ ubicacion, ...cultivo });
     });
-
-    return Object.entries(grouped).map(([ubicacion, lista], index) => ({
-      id: index + 1,
+    return Object.entries(grouped).map(([ubicacion, lista]) => ({
+      id: ubicacion,
       nombre: ubicacion,
       cultivos: lista,
     }));
@@ -46,7 +37,7 @@ export default function CultivosPage() {
   const handleCreateCultivo = async (nuevoCultivo) => {
     try {
       const creado = await createCultivo(nuevoCultivo);
-      setCultivos((prev) => [...prev, creado]);
+      setCultivos(prev => [...prev, creado]);
       setIsAddOpen(false);
     } catch (error) {
       console.error("Error creando cultivo:", error);
@@ -55,18 +46,8 @@ export default function CultivosPage() {
 
   const handleUpdateCultivo = async (id, updatedData) => {
     try {
-      const res = await fetch(`http://localhost:3000/cultivos/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedData),
-      });
-
-      const data = await res.json();
-
-      setCultivos((prev) =>
-        prev.map((c) => (c.id === id ? data : c))
-      );
-
+      const data = await updateCultivo(id, updatedData);
+      setCultivos(prev => prev.map(c => c.id === id ? data : c));
       setSelectedCultivo(null);
     } catch (err) {
       console.error("Error actualizando cultivo:", err);
@@ -76,44 +57,43 @@ export default function CultivosPage() {
   return (
     <>
       <div className="cultivos-header">
-        <button
-          className="btn-add-cultivo"
-          onClick={() => setIsAddOpen(true)}
-        >
+        <button className="btn-add-cultivo" onClick={() => setIsAddOpen(true)}>
           + Añadir cultivo
         </button>
       </div>
 
       <div className="cultivos-content">
-        {surcos.map((surco) => (
-          <section key={surco.id} className="surco-section">
-            <h2>{surco.nombre}</h2>
-
+        {surcos.map(({ id, nombre, cultivos }) => (
+          <section key={id} className="surco-section">
+            <h2>{nombre}</h2>
             <div className="cultivos-grid">
-              {surco.cultivos.map((cultivo) => (
+              {cultivos.map((cultivo, index) => (
                 <div
-                  key={cultivo.id}
+                  key={cultivo.id || index}
                   className={`cultivo-card-large estado-${cultivo.estado?.toLowerCase()}`}
                   onClick={() => setSelectedCultivo(cultivo)}
                 >
-                  <div className="cultivo-placeholder">🌱</div>
-
+                  <div className="cultivo-placeholder">
+                    {cultivo.imagen ? (
+                      <img
+                        src={`http://localhost:3000${cultivo.imagen}`}
+                        alt={cultivo.nombre}
+                        className="cultivo-img"
+                      />
+                    ) : (
+                      "🌱"
+                    )}
+                  </div>
                   <div className="cultivo-card-content">
-                    <span className="badge badge-cultivo">
-                      {cultivo.nombre}
-                    </span>
-
-                    <span className="badge badge-source">
-                      Estado: {cultivo.estado}
-                    </span>
+                    <span className="badge badge-cultivo">{cultivo.nombre}</span>
+                    <span className="badge badge-source">Estado: {cultivo.estado}</span>
                   </div>
                 </div>
               ))}
             </div>
           </section>
         ))}
-
-        {surcos.length === 0 && (
+        {!surcos.length && (
           <div className="empty-state">
             <p>No tienes cultivos registrados aún 🌾</p>
           </div>

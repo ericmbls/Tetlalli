@@ -1,0 +1,490 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(30px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes rotateAndScale {
+  0% { transform: rotate(0) scale(1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 24px;
+  width: 95%;
+  max-width: 600px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 28px;
+  position: relative;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #f8fafc;
+  border: none;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.modal-close-btn:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+  animation: rotateAndScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modal-close-btn:active {
+  animation: pulse 0.2s ease;
+}
+
+.modal-close-btn:focus-visible {
+  outline: 2px solid #8B6F47;
+  outline-offset: 2px;
+}
+
+.modal-close-btn svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s;
+}
+
+.modal-close-btn:hover svg {
+  transform: scale(0.9);
+}
+
+h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 20px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  padding-right: 32px;
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 28px;
+  margin-bottom: 24px;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.image-upload-area {
+  background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+  border-radius: 18px;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  border: 2px dashed #cbd5e1;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-upload-area::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(139, 111, 71, 0.03), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.image-upload-area:hover::before {
+  transform: translateX(100%);
+}
+
+.upload-icon {
+  color: #8B6F47;
+  margin-bottom: 10px;
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 4px 6px rgba(139, 111, 71, 0.2));
+}
+
+.upload-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke-width: 1.5;
+  color: #8B6F47;
+}
+
+.upload-text {
+  font-size: 13px;
+  color: #475569;
+  font-weight: 500;
+  background: #fff;
+  padding: 5px 12px;
+  border-radius: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.upload-hint {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.upload-hint svg {
+  width: 10px;
+  height: 10px;
+  color: #94a3b8;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-group label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.form-group label svg {
+  width: 12px;
+  height: 12px;
+  color: #8B6F47;
+}
+
+.input-flushed {
+  border: none;
+  border-bottom: 2px solid #e2e8f0;
+  padding: 6px 0;
+  font-size: 14px;
+  color: #0f172a;
+  background: transparent;
+  transition: all 0.2s;
+  width: 100%;
+  font-weight: 500;
+}
+
+.input-flushed:hover {
+  border-bottom-color: #cbd5e1;
+}
+
+.input-flushed:focus {
+  outline: none;
+  border-bottom-color: #8B6F47;
+  padding-left: 4px;
+}
+
+.input-flushed::placeholder {
+  color: #cbd5e1;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.input-flushed:disabled {
+  background: #f8fafc;
+  border-bottom-color: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper select {
+  width: 100%;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+  border-bottom: 2px solid #e2e8f0;
+  padding: 6px 0;
+  font-size: 14px;
+  color: #0f172a;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.select-wrapper select:hover {
+  border-bottom-color: #cbd5e1;
+}
+
+.select-wrapper select:focus {
+  outline: none;
+  border-bottom-color: #8B6F47;
+}
+
+.select-wrapper select:disabled {
+  background: #f8fafc;
+  border-bottom-color: #e2e8f0;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #8B6F47;
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s;
+}
+
+.select-wrapper:hover .select-arrow {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.field-hint {
+  font-size: 9px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.field-hint svg {
+  width: 10px;
+  height: 10px;
+  color: #94a3b8;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 2px solid #f1f5f9;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #8B6F47, #6b4f2f);
+  color: #fff;
+  padding: 10px 28px;
+  border-radius: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 8px 20px -5px rgba(139, 111, 71, 0.4);
+}
+
+.btn-save:hover {
+  background: linear-gradient(135deg, #755938, #5a3d24);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -5px rgba(139, 111, 71, 0.5);
+}
+
+.btn-save:active {
+  transform: translateY(-1px);
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-save.loading {
+  position: relative;
+  color: transparent;
+}
+
+.btn-save.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -8px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.btn-save svg {
+  width: 14px;
+  height: 14px;
+}
+
+.input-flushed.error {
+  border-bottom-color: #ef4444;
+}
+
+.input-flushed.success {
+  border-bottom-color: #10b981;
+}
+
+.error-message {
+  font-size: 9px;
+  color: #ef4444;
+  margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    max-width: 95%;
+    padding: 20px 16px;
+  }
+  
+  .modal-body {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .image-upload-area {
+    height: 120px;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+  
+  .modal-close-btn {
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+  }
+  
+  h2 {
+    font-size: 22px;
+    margin-bottom: 16px;
+    padding-right: 32px;
+  }
+  
+  .btn-save {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 16px 12px;
+  }
+  
+  .image-upload-area {
+    height: 100px;
+  }
+  
+  .upload-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 6px;
+  }
+  
+  .upload-icon svg {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .upload-text {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  
+  .upload-hint {
+    font-size: 9px;
+    margin-top: 4px;
+  }
+  
+  .modal-close-btn {
+    width: 26px;
+    height: 26px;
+  }
+  
+  .modal-close-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+  
+  .input-flushed {
+    font-size: 13px;
+  }
+  
+  .select-wrapper select {
+    font-size: 13px;
+  }
+  
+  .field-hint {
+    font-size: 8px;
+  }
+}

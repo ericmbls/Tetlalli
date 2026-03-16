@@ -8,7 +8,7 @@ import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwtService: JwtService) { }
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
   private generateToken(user: any) {
     const payload = { sub: user.id, email: user.email, role: user.role };
@@ -27,7 +27,7 @@ export class AuthService {
         email: dto.email,
         password: hashedPassword,
         role: Role.user,
-        darkMode: false, // valor inicial
+        darkMode: false, 
       },
     });
 

@@ -2,7 +2,7 @@ import { LayoutDashboard, Sprout, BarChart3, Users, Settings } from 'lucide-reac
 import './Sidebar.css';
 import logo from '../../assets/logo.png';
 
-export default function Sidebar({ currentPage, onNavigate, role = 'admin' }) {
+export default function Sidebar({ currentPage, onNavigate, role = 'admin', isOpen, onClose }) {
   const menu = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
     { id: 'cultivos', label: 'Cultivos', icon: <Sprout size={20} /> },
@@ -16,32 +16,37 @@ export default function Sidebar({ currentPage, onNavigate, role = 'admin' }) {
   menu.push({ id: 'ajustes', label: 'Ajustes', icon: <Settings size={20} /> });
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-header">
-        <img src={logo} alt="Xihuitl" className="sidebar-logo" />
-        <h1>Xihuitl</h1>
-      </div>
+    <>
+      {/* Overlay oscuro para cerrar en móvil */}
+      {isOpen && <div className="sidebar-overlay" onClick={onClose} />}
 
-      <nav className="sidebar-nav">
-        {menu.map(item => (
-          <button
-            key={item.id}
-            className={`nav-item ${currentPage === item.id ? 'active' : ''}`}
-            onClick={() => onNavigate(item.id)}
-          >
-            <span className="nav-icon">{item.icon}</span>
-            <span>{item.label}</span>
-          </button>
-        ))}
-      </nav>
-
-      <div className="sidebar-footer">
-        <div className="user-avatar">U1</div>
-        <div className="user-meta">
-          <span className="user-name">Usuario1</span>
-          <span className="user-role">Administrador</span>
+      <aside className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
+        <div className="sidebar-header">
+          <img src={logo} alt="Xihuitl" className="sidebar-logo" />
+          <h1>Xihuitl</h1>
         </div>
-      </div>
-    </aside>
+
+        <nav className="sidebar-nav">
+          {menu.map(item => (
+            <button
+              key={item.id}
+              className={`nav-item ${currentPage === item.id ? 'active' : ''}`}
+              onClick={() => onNavigate(item.id)}
+            >
+              <span className="nav-icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+
+        <div className="sidebar-footer">
+          <div className="user-avatar">U1</div>
+          <div className="user-meta">
+            <span className="user-name">Usuario1</span>
+            <span className="user-role">Administrador</span>
+          </div>
+        </div>
+      </aside>
+    </>
   );
 }

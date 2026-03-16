@@ -24,7 +24,7 @@ export default function AjustesPage({ darkMode, setDarkMode, token }) {
   });
 
   useEffect(() => {
-    if (!token) return; // Evita llamadas sin token
+    if (!token) return;
     const fetchPreferences = async () => {
       try {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/usuarios/preferences`, {

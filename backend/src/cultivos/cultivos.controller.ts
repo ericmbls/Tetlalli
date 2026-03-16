@@ -8,6 +8,7 @@ import {
   Param,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -15,10 +16,13 @@ import { extname } from 'path';
 import { CultivosService } from './cultivos.service';
 import { CreateCultivoDto } from './dto/create-cultivo.dto';
 import { UpdateCultivoDto } from './dto/update-cultivo.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Role } from '../auth/role.decorator';
 
 @Controller('cultivos')
 export class CultivosController {
-  constructor(private readonly cultivosService: CultivosService) { }
+  constructor(private readonly cultivosService: CultivosService) {}
 
   @Get()
   findAll() {
@@ -76,6 +80,8 @@ export class CultivosController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Role('admin')
   remove(@Param('id') id: string) {
     return this.cultivosService.remove(Number(id));
   }

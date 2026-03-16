@@ -134,6 +134,7 @@ body.dark {
 
 .settings-tab svg {
   transition: transform 0.2s ease;
+  color: var(--text-light);
 }
 
 .settings-tab:hover {
@@ -232,6 +233,12 @@ body.dark {
   transition: var(--transition);
 }
 
+body.dark .select-wrapper select,
+body.dark .input-filled {
+  color: var(--text-dark);
+  background: var(--bg-input);
+}
+
 .select-wrapper select {
   appearance: none;
   cursor: pointer;
@@ -269,6 +276,11 @@ body.dark {
 body.dark .select-wrapper select:focus,
 body.dark .input-filled:focus {
   box-shadow: 0 0 0 3px rgba(176, 137, 90, 0.2);
+}
+
+body.dark .select-wrapper select option {
+  background: var(--bg-input);
+  color: var(--text-dark);
 }
 
 .toggles-list {

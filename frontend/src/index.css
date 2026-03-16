@@ -1,7 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 :root {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   line-height: 1.6;
@@ -104,8 +102,8 @@ button:focus-visible {
   /* Force vertical stacking for Top Navbar */
   height: 100vh;
   width: 100vw;
-  background-color: #FAF5F0;
-  /* Crema cálido de la imagen */
+  background-color: #fcfbf9;
+  /* Cream background from design */
   overflow: hidden;
 }
 
@@ -125,69 +123,4 @@ button:focus-visible {
   width: 100%;
   max-width: 1600px;
   margin: 0 auto;
-}
-
-/* ======== ANIMACIONES GLOBALES ======== */
-@keyframes slideUpFade {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-slide-up {
-  animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  opacity: 0;
-}
-
-.delay-100 {
-  animation-delay: 100ms;
-}
-
-.delay-200 {
-  animation-delay: 200ms;
-}
-
-.delay-300 {
-  animation-delay: 300ms;
-}
-
-.delay-400 {
-  animation-delay: 400ms;
-}
-
-/* Efecto hover suave para tarjetas globales */
-.card-hover-effect {
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.card-hover-effect:hover {
-  transform: translateY(-8px) scale(1.015);
-  box-shadow: 0 20px 40px rgba(139, 111, 71, 0.15);
-  /* Sombra café mucho más pronunciada */
-}
-
-/* ======== ANIMACIONES FLOTANTES PARA BOTONES ======== */
-button:not(.chart-tab):not(.settings-tab),
-[class*="btn-"] {
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease !important;
-}
-
-button:not(.chart-tab):not(.settings-tab):not(:disabled):hover,
-[class*="btn-"]:not(:disabled):hover {
-  transform: translateY(-4px) scale(1.05) !important;
-  box-shadow: 0 12px 32px rgba(139, 111, 71, 0.45) !important;
-  /* Brillo café mucho más intenso y destacado */
-}
-
-button:not(.chart-tab):not(.settings-tab):not(:disabled):active,
-[class*="btn-"]:not(:disabled):active {
-  transform: translateY(1px) scale(0.98) !important;
-  box-shadow: 0 4px 8px rgba(139, 111, 71, 0.15) !important;
-  /* Sombra comprimida */
 }

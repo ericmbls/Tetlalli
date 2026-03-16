@@ -12,4 +12,4 @@ import { CultivosModule } from './cultivos/cultivos.module';
     CultivosModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

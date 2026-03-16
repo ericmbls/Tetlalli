@@ -6,6 +6,6 @@ import { PrismaService } from '../prisma/prisma.service';
 @Module({
   controllers: [CultivosController],
   providers: [CultivosService, PrismaService],
-  exports: [CultivosService],
+  exports: [CultivosService], 
 })
-export class CultivosModule { }
+export class CultivosModule {}

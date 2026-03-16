@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { Mail, Lock, User, AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { useAuth } from "../../context/AuthContext";
 import './LoginForm.css';
 
 export default function LoginForm({ onLogin, mode = 'login' }) {
+
+  const { login } = useAuth();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -41,6 +45,7 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
     setLoading(true);
 
     const endpoint = mode === 'login' ? '/auth/login' : '/auth/register';
+
     const body =
       mode === 'login'
         ? { email: formData.email, password: formData.password }
@@ -67,16 +72,17 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
         throw new Error(data.message || 'Error en autenticación');
       }
 
-      // 🔐 Guardar token SOLO cuando es login
       if (mode === 'login') {
         if (!data.access_token) {
           throw new Error('No se recibió token del servidor');
         }
 
-        localStorage.setItem('token', data.access_token);
+        // 🔐 Guardar sesión usando AuthContext
+        login(data.access_token, data.user);
       }
 
       onLogin();
+
     } catch (err) {
       alert(err.message);
     } finally {
@@ -98,6 +104,7 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
       </div>
 
       <form onSubmit={handleSubmit} className="login-form" noValidate>
+
         {mode === 'register' && (
           <div className={`form-group ${errors['name'] ? 'has-error' : ''}`}>
             <label>Nombre</label>
@@ -113,6 +120,7 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
                 autoComplete="name"
               />
             </div>
+
             {errors['name'] && (
               <span className="error-message">
                 <AlertCircle size={14} /> {errors['name']}
@@ -135,6 +143,7 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
               autoComplete="email"
             />
           </div>
+
           {errors['email'] && (
             <span className="error-message">
               <AlertCircle size={14} /> {errors['email']}
@@ -144,8 +153,10 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
 
         <div className={`form-group ${errors['password'] ? 'has-error' : ''}`}>
           <label>Contraseña</label>
+
           <div className="input-wrapper">
             <Lock size={20} className="input-icon left" />
+
             <input
               type={showPassword ? 'text' : 'password'}
               name="password"
@@ -157,6 +168,7 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
                 mode === 'login' ? 'current-password' : 'new-password'
               }
             />
+
             <button
               type="button"
               className="password-toggle"
@@ -165,6 +177,7 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
+
           {errors['password'] && (
             <span className="error-message">
               <AlertCircle size={14} /> {errors['password']}
@@ -175,6 +188,7 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
         {mode === 'register' && (
           <div className="form-group">
             <label>Rol</label>
+
             <select
               name="role"
               value={formData.role}
@@ -187,13 +201,18 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
           </div>
         )}
 
-        <button type="submit" className="login-button" disabled={loading}>
+        <button
+          type="submit"
+          className="login-button"
+          disabled={loading}
+        >
           {loading
             ? 'Cargando...'
             : mode === 'login'
             ? 'Iniciar Sesión'
             : 'Crear Cuenta'}
         </button>
+
       </form>
     </div>
   );

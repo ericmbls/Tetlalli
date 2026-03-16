@@ -2,6 +2,7 @@ import { useState } from "react";
 import logo from "../../assets/logo.png";
 import "./LoginPage.css";
 import { loginUsuario, registerUsuario } from "../../services/usuarios.service";
+import { useAuth } from "../../context/AuthContext";
 
 export default function LoginPage({ setIsLoggedIn }) {
   const [isLoginActive, setIsLoginActive] = useState(true);
@@ -12,6 +13,8 @@ export default function LoginPage({ setIsLoggedIn }) {
     email: "",
     password: ""
   });
+
+  const { login } = useAuth();
 
   const handleInputChange = ({ target }) => {
     const { name, value } = target;
@@ -24,51 +27,55 @@ export default function LoginPage({ setIsLoggedIn }) {
       setErrorMessage("El nombre debe tener al menos 2 caracteres");
       return false;
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setErrorMessage("Ingresa un email válido");
       return false;
     }
-    
+
     if (formData.password.length < 6) {
       setErrorMessage("La contraseña debe tener al menos 6 caracteres");
       return false;
     }
-    
+
     return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return;
-    
-    if (!validateForm()) {
-      return;
-    }
-    
+
+    if (!validateForm()) return;
+
     setLoading(true);
     setErrorMessage("");
-    
+
     try {
       if (isLoginActive) {
-        const res = await loginUsuario({ 
-          email: formData.email, 
-          password: formData.password 
+        const res = await loginUsuario({
+          email: formData.email,
+          password: formData.password
         });
-        localStorage.setItem("token", res.access_token);
+
+        login(res.access_token, res.user);
         setIsLoggedIn(true);
       } else {
-        const res = await registerUsuario({ 
-          name: formData.nombre, 
-          email: formData.email, 
-          password: formData.password 
+        const res = await registerUsuario({
+          name: formData.nombre,
+          email: formData.email,
+          password: formData.password
         });
-        localStorage.setItem("token", res.access_token);
+
+        login(res.access_token, res.user);
         setIsLoggedIn(true);
       }
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || error.message || "Error al autenticar");
+      setErrorMessage(
+        error.response?.data?.message ||
+        error.message ||
+        "Error al autenticar"
+      );
     } finally {
       setLoading(false);
     }
@@ -89,7 +96,7 @@ export default function LoginPage({ setIsLoggedIn }) {
           </svg>
         </div>
       ))}
-      
+
       <div className={`cards-container ${isLoginActive ? "login-mode" : "register-mode"}`}>
         <div className="welcome-card">
           <div className="welcome-content">
@@ -98,8 +105,8 @@ export default function LoginPage({ setIsLoggedIn }) {
               {isLoginActive ? "¡Hola!" : "¡Bienvenido!"}
             </h2>
             <p className="welcome-text">
-              {isLoginActive 
-                ? "Regístrate con tus datos personales para usar todas las funciones del sistema" 
+              {isLoginActive
+                ? "Regístrate con tus datos personales para usar todas las funciones del sistema"
                 : "Ingresa tus datos personales para acceder a tu cuenta"}
             </p>
             <button onClick={toggleMode} className="welcome-button">
@@ -113,7 +120,7 @@ export default function LoginPage({ setIsLoggedIn }) {
             {errorMessage && (
               <div className="error-message">{errorMessage}</div>
             )}
-            
+
             {isLoginActive ? (
               <>
                 <h2 className="form-title">Iniciar Sesión</h2>
@@ -121,33 +128,35 @@ export default function LoginPage({ setIsLoggedIn }) {
                 <form onSubmit={handleSubmit} className="login-form">
                   <div className="form-group">
                     <label>Email</label>
-                    <input 
-                      type="email" 
-                      name="email" 
-                      value={formData.email} 
-                      onChange={handleInputChange} 
-                      placeholder="ejemplo@email.com" 
-                      required 
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="ejemplo@email.com"
+                      required
                       autoComplete="email"
                       disabled={loading}
                     />
                   </div>
+
                   <div className="form-group">
                     <label>Password</label>
-                    <input 
-                      type="password" 
-                      name="password" 
-                      value={formData.password} 
-                      onChange={handleInputChange} 
-                      placeholder="••••••••" 
-                      required 
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      placeholder="••••••••"
+                      required
                       autoComplete="current-password"
                       disabled={loading}
                     />
                   </div>
-                  <button 
-                    type="submit" 
-                    className="submit-button" 
+
+                  <button
+                    type="submit"
+                    className="submit-button"
                     disabled={loading}
                   >
                     {loading ? "Cargando..." : "INICIAR SESIÓN"}
@@ -161,43 +170,46 @@ export default function LoginPage({ setIsLoggedIn }) {
                 <form onSubmit={handleSubmit} className="login-form">
                   <div className="form-group">
                     <label>Nombre</label>
-                    <input 
-                      type="text" 
-                      name="nombre" 
-                      value={formData.nombre} 
-                      onChange={handleInputChange} 
-                      placeholder="Tu nombre" 
+                    <input
+                      type="text"
+                      name="nombre"
+                      value={formData.nombre}
+                      onChange={handleInputChange}
+                      placeholder="Tu nombre"
                       required
                       disabled={loading}
                     />
                   </div>
+
                   <div className="form-group">
                     <label>Email</label>
-                    <input 
-                      type="email" 
-                      name="email" 
-                      value={formData.email} 
-                      onChange={handleInputChange} 
-                      placeholder="ejemplo@email.com" 
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="ejemplo@email.com"
                       required
                       disabled={loading}
                     />
                   </div>
+
                   <div className="form-group">
                     <label>Password</label>
-                    <input 
-                      type="password" 
-                      name="password" 
-                      value={formData.password} 
-                      onChange={handleInputChange} 
-                      placeholder="••••••••" 
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      placeholder="••••••••"
                       required
                       disabled={loading}
                     />
                   </div>
-                  <button 
-                    type="submit" 
-                    className="submit-button" 
+
+                  <button
+                    type="submit"
+                    className="submit-button"
                     disabled={loading}
                   >
                     {loading ? "Cargando..." : "REGISTRARSE"}

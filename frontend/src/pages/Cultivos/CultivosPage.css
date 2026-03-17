@@ -1,273 +1,442 @@
-.cultivos-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 30px;
+.cultivos-header {
+  padding: 32px 32px 0;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
 }
 
-body.dark .cultivos-content {
-  background: #1a1a1a;
+.btn-add-cultivo {
+  background: linear-gradient(135deg, #8B6F47, #6b4f2f);
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 8px 20px -5px rgba(139, 111, 71, 0.4);
+}
+
+body.dark .btn-add-cultivo {
+  background: linear-gradient(135deg, #b0895a, #8B6F47);
+  box-shadow: 0 8px 20px -5px rgba(176, 137, 90, 0.4);
+}
+
+.btn-add-cultivo:hover {
+  background: linear-gradient(135deg, #755938, #5a3d24);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -5px rgba(139, 111, 71, 0.5);
+}
+
+body.dark .btn-add-cultivo:hover {
+  background: linear-gradient(135deg, #c9a87c, #9b7b4f);
+  box-shadow: 0 12px 28px -5px rgba(176, 137, 90, 0.5);
+}
+
+.btn-add-cultivo:active {
+  transform: translateY(0);
+}
+
+.btn-add-cultivo:focus-visible {
+  outline: 2px solid #8B6F47;
+  outline-offset: 2px;
+}
+
+.cultivos-content {
+  padding: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .surco-section {
-  margin-bottom: 40px;
+  margin-bottom: 48px;
+  animation: slideUp 0.5s ease-out;
 }
 
 .surco-section h2 {
-  font-size: 18px;
-  font-weight: 500;
-  color: #1a1a1a;
-  margin: 0 0 20px 0;
-  letter-spacing: 0.3px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  position: relative;
+  display: inline-block;
 }
 
 body.dark .surco-section h2 {
   color: #f5f5f5;
 }
 
+.surco-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #8B6F47, transparent);
+  border-radius: 3px;
+}
+
+body.dark .surco-section h2::after {
+  background: linear-gradient(90deg, #b0895a, transparent);
+}
+
 .cultivos-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
 }
 
 .cultivo-card-large {
-  background: white;
-  border-radius: 12px;
+  background: #fff;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  cursor: pointer;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 body.dark .cultivo-card-large {
   background: #2a2a2a;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  border-color: #404040;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.2);
+}
+
+.cultivo-card-large::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 0;
+  background: linear-gradient(180deg, #8B6F47, #b0895a);
+  transition: height 0.3s ease;
+  z-index: 1;
+}
+
+.cultivo-card-large:hover::before {
+  height: 100%;
 }
 
 .cultivo-card-large:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 25px 50px -12px rgba(139, 111, 71, 0.25);
+  border-color: #8B6F47;
 }
 
 body.dark .cultivo-card-large:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 25px 50px -12px rgba(176, 137, 90, 0.25);
+  border-color: #b0895a;
 }
 
-.cultivo-card-large img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
+.cultivo-card-large.estado-activo {
+  border-top: 3px solid #10b981;
 }
 
-.cultivo-card-content {
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.cultivo-card-large.estado-inactivo {
+  border-top: 3px solid #94a3b8;
 }
 
-body.dark .cultivo-card-content {
-  color: #f5f5f5;
+.cultivo-card-large.estado-cosechado {
+  border-top: 3px solid #f59e0b;
 }
 
-.badge {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-}
-
-.badge-cultivo {
-  background: #8B6F47;
-  color: white;
-}
-
-body.dark .badge-cultivo {
-  background: #b0895a;
-}
-
-.badge-source {
-  background: #f5f5f5;
-  color: #666;
-  border: 1px solid #ddd;
-  font-size: 11px;
-  font-weight: 500;
-}
-
-body.dark .badge-source {
-  background: #3a3a3a;
-  color: #d0d0d0;
-  border-color: #555;
-}
-
-.estado-activo {
-  border: 2px solid #16a34a;
-}
-
-body.dark .estado-activo {
-  border-color: #4ade80;
-}
-
-.estado-pendiente {
-  border: 2px solid #f59e0b;
-}
-
-body.dark .estado-pendiente {
-  border-color: #fbbf24;
-}
-
-.estado-inactivo {
-  border: 2px solid #dc2626;
-}
-
-body.dark .estado-inactivo {
-  border-color: #f87171;
+.cultivo-card-large.estado-perdido {
+  border-top: 3px solid #ef4444;
 }
 
 .cultivo-placeholder {
   height: 160px;
+  background: linear-gradient(145deg, #f8fafc, #f1f5f9);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 42px;
-  background: #f8f5ef;
-  border-radius: 12px;
+  font-size: 48px;
+  color: #8B6F47;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 body.dark .cultivo-placeholder {
+  background: linear-gradient(145deg, #2a2a2a, #222);
+  color: #b0895a;
+}
+
+.cultivo-placeholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(139, 111, 71, 0.03), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.cultivo-placeholder:hover::before {
+  transform: translateX(100%);
+}
+
+.cultivo-placeholder:hover {
+  background: linear-gradient(145deg, #f1f5f9, #e9edf2);
+}
+
+body.dark .cultivo-placeholder:hover {
+  background: linear-gradient(145deg, #333, #2a2a2a);
+}
+
+.cultivo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cultivo-card-large:hover .cultivo-img {
+  transform: scale(1.05);
+}
+
+.cultivo-card-content {
+  padding: 20px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.02));
+}
+
+body.dark .cultivo-card-content {
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.02));
+}
+
+.badge-cultivo {
+  background: linear-gradient(135deg, #8B6F47, #6b4f2f);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 10px -2px rgba(139, 111, 71, 0.3);
+  display: inline-block;
+  width: fit-content;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+body.dark .badge-cultivo {
+  background: linear-gradient(135deg, #b0895a, #8B6F47);
+  box-shadow: 0 4px 10px -2px rgba(176, 137, 90, 0.3);
+}
+
+.badge-source {
+  background: #f8fafc;
+  color: #475569;
+  padding: 6px 12px;
+  border-radius: 40px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  transition: all 0.2s ease;
+}
+
+body.dark .badge-source {
+  background: #2a2a2a;
+  color: #d1d5db;
+  border-color: #404040;
+}
+
+.cultivo-card-large:hover .badge-source {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+body.dark .cultivo-card-large:hover .badge-source {
   background: #333;
-  color: #a0a0a0;
+  border-color: #666;
+}
+
+.btn-bitacora {
+  background: #f8fafc;
+  color: #475569;
+  padding: 10px 16px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+body.dark .btn-bitacora {
+  background: #2a2a2a;
+  color: #e5e5e5;
+  border-color: #404040;
+}
+
+.btn-bitacora:hover {
+  background: #f1f5f9;
+  border-color: #8B6F47;
+  color: #8B6F47;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(139, 111, 71, 0.2);
+}
+
+body.dark .btn-bitacora:hover {
+  background: #333;
+  border-color: #b0895a;
+  color: #b0895a;
+  box-shadow: 0 8px 16px -4px rgba(176, 137, 90, 0.2);
+}
+
+.btn-bitacora:active {
+  transform: translateY(0);
+}
+
+.btn-bitacora:focus-visible {
+  outline: 2px solid #8B6F47;
+  outline-offset: 2px;
 }
 
 .empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  background: #fff;
+  border-radius: 24px;
+  border: 2px dashed #e2e8f0;
+  color: #94a3b8;
+  font-size: 16px;
   text-align: center;
-  margin-top: 40px;
-  color: #6b7280;
+  animation: fadeIn 0.5s ease-out;
 }
 
 body.dark .empty-state {
-  color: #a0a0a0;
-}
-
-@media (max-width: 1200px) {
-  .cultivos-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 18px;
-  }
-}
-
-@media (max-width: 992px) {
-  .cultivos-content {
-    padding: 25px;
-  }
-  
-  .cultivos-grid {
-    gap: 16px;
-  }
-  
-  .cultivo-card-large img,
-  .cultivo-placeholder {
-    height: 150px;
-  }
+  background: #2a2a2a;
+  border-color: #404040;
+  color: #808080;
 }
 
 @media (max-width: 768px) {
-  .cultivos-content {
-    padding: 20px;
-  }
-
-  .cultivos-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+  .cultivos-header {
+    padding: 24px 24px 0;
   }
   
-  .surco-section {
-    margin-bottom: 30px;
+  .cultivos-content {
+    padding: 24px;
+  }
+  
+  .btn-add-cultivo {
+    padding: 10px 24px;
+    font-size: 13px;
   }
   
   .surco-section h2 {
-    font-size: 17px;
-    margin-bottom: 15px;
+    font-size: 20px;
   }
   
-  .cultivo-card-large img,
+  .cultivos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  
   .cultivo-placeholder {
     height: 140px;
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cultivos-header {
+    padding: 20px 20px 0;
   }
   
-  .cultivo-card-content {
-    padding: 10px;
-    gap: 6px;
+  .cultivos-content {
+    padding: 20px;
   }
   
-  .badge {
-    padding: 5px 10px;
-    font-size: 11px;
+  .btn-add-cultivo {
+    width: 100%;
+    padding: 12px 20px;
+  }
+  
+  .surco-section {
+    margin-bottom: 36px;
+  }
+  
+  .surco-section h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .cultivos-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .cultivo-placeholder {
+    height: 180px;
+    font-size: 48px;
+  }
+  
+  .badge-cultivo {
+    font-size: 13px;
   }
   
   .badge-source {
     font-size: 10px;
   }
-}
-
-@media (max-width: 576px) {
-  .cultivos-content {
-    padding: 15px;
-  }
   
-  .cultivos-grid {
-    gap: 12px;
-  }
-  
-  .surco-section h2 {
-    font-size: 16px;
-  }
-  
-  .cultivo-card-large img,
-  .cultivo-placeholder {
-    height: 120px;
-  }
-  
-  .cultivo-card-content {
-    padding: 8px;
-  }
-  
-  .badge {
-    padding: 4px 8px;
-    font-size: 10px;
-  }
-  
-  .cultivo-placeholder {
-    font-size: 36px;
+  .btn-bitacora {
+    font-size: 11px;
+    padding: 8px 14px;
   }
   
   .empty-state {
-    margin-top: 30px;
+    padding: 60px 20px;
     font-size: 14px;
-  }
-}
-
-@media (max-width: 375px) {
-  .cultivos-content {
-    padding: 12px;
-  }
-  
-  .cultivos-grid {
-    gap: 10px;
-  }
-  
-  .cultivo-card-large img,
-  .cultivo-placeholder {
-    height: 100px;
-  }
-  
-  .cultivo-card-content {
-    padding: 6px;
-  }
-  
-  .cultivo-placeholder {
-    font-size: 30px;
   }
 }

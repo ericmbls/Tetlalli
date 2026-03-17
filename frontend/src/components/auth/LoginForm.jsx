@@ -4,7 +4,6 @@ import { useAuth } from "../../context/AuthContext";
 import './LoginForm.css';
 
 export default function LoginForm({ onLogin, mode = 'login' }) {
-
   const { login } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -22,8 +21,7 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
     const newErrors = {};
     if (!values.email) newErrors.email = 'El correo es requerido';
     if (!values.password) newErrors.password = 'La contraseña es requerida';
-    if (mode === 'register' && !values.name)
-      newErrors.name = 'El nombre es requerido';
+    if (mode === 'register' && !values.name) newErrors.name = 'El nombre es requerido';
     return newErrors;
   };
 
@@ -46,25 +44,21 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
 
     const endpoint = mode === 'login' ? '/auth/login' : '/auth/register';
 
-    const body =
-      mode === 'login'
-        ? { email: formData.email, password: formData.password }
-        : {
-            name: formData.name,
-            email: formData.email,
-            password: formData.password,
-            role: formData.role,
-          };
+    const body = mode === 'login'
+      ? { email: formData.email, password: formData.password }
+      : {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role,
+        };
 
     try {
-      const res = await fetch(
-        `${import.meta.env.VITE_API_URL}${endpoint}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body),
-        }
-      );
+      const res = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
 
       const data = await res.json();
 
@@ -76,13 +70,10 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
         if (!data.access_token) {
           throw new Error('No se recibió token del servidor');
         }
-
-        // 🔐 Guardar sesión usando AuthContext
         login(data.access_token, data.user);
       }
 
       onLogin();
-
     } catch (err) {
       alert(err.message);
     } finally {
@@ -104,7 +95,6 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
       </div>
 
       <form onSubmit={handleSubmit} className="login-form" noValidate>
-
         {mode === 'register' && (
           <div className={`form-group ${errors['name'] ? 'has-error' : ''}`}>
             <label>Nombre</label>
@@ -120,7 +110,6 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
                 autoComplete="name"
               />
             </div>
-
             {errors['name'] && (
               <span className="error-message">
                 <AlertCircle size={14} /> {errors['name']}
@@ -143,7 +132,6 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
               autoComplete="email"
             />
           </div>
-
           {errors['email'] && (
             <span className="error-message">
               <AlertCircle size={14} /> {errors['email']}
@@ -153,10 +141,8 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
 
         <div className={`form-group ${errors['password'] ? 'has-error' : ''}`}>
           <label>Contraseña</label>
-
           <div className="input-wrapper">
             <Lock size={20} className="input-icon left" />
-
             <input
               type={showPassword ? 'text' : 'password'}
               name="password"
@@ -164,11 +150,8 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
               value={formData.password}
               onChange={handleChange}
               className="form-input has-icon-left has-icon-right"
-              autoComplete={
-                mode === 'login' ? 'current-password' : 'new-password'
-              }
+              autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
             />
-
             <button
               type="button"
               className="password-toggle"
@@ -177,7 +160,6 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
-
           {errors['password'] && (
             <span className="error-message">
               <AlertCircle size={14} /> {errors['password']}
@@ -188,7 +170,6 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
         {mode === 'register' && (
           <div className="form-group">
             <label>Rol</label>
-
             <select
               name="role"
               value={formData.role}
@@ -201,18 +182,9 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
           </div>
         )}
 
-        <button
-          type="submit"
-          className="login-button"
-          disabled={loading}
-        >
-          {loading
-            ? 'Cargando...'
-            : mode === 'login'
-            ? 'Iniciar Sesión'
-            : 'Crear Cuenta'}
+        <button type="submit" className="login-button" disabled={loading}>
+          {loading ? 'Cargando...' : mode === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'}
         </button>
-
       </form>
     </div>
   );

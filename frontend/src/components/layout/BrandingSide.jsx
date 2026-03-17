@@ -9,7 +9,7 @@ export default function BrandingSide() {
           <img src={logo} alt="Xihuitl Logo" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
 
-        <h1 className="brand-name">Xihuitl</h1>
+        <h1 className="brand-name">Tetlalli</h1>
       </div>
     </div>
   );

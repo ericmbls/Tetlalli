@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import {
   Sprout,
@@ -14,7 +13,6 @@ import AddCultivoModal from "../../components/cultivo/AddCultivoModal";
 import "./DashboardPage.css";
 
 export default function DashboardPage() {
-
   const [showAddModal, setShowAddModal] = useState(false);
   const [kpis, setKpis] = useState([]);
   const [zonasCultivo, setZonasCultivo] = useState([]);
@@ -31,10 +29,8 @@ export default function DashboardPage() {
   ];
 
   useEffect(() => {
-
     const fetchCultivos = async () => {
       try {
-
         const res = await fetch("http://localhost:3000/api/cultivos");
         const data = await res.json();
 
@@ -107,19 +103,16 @@ export default function DashboardPage() {
             total
           }))
         );
-
       } catch (err) {
         console.error(err);
       }
     };
 
     fetchCultivos();
-
   }, []);
 
   return (
     <div className="dashboard-content">
-
       <section className="kpi-grid">
         {kpis.map(kpi => (
           <div key={kpi.title} className={`kpi-card ${kpi.status}`}>
@@ -127,21 +120,15 @@ export default function DashboardPage() {
               <span>{kpi.title}</span>
               <div className="kpi-icon">{kpi.icon}</div>
             </div>
-
             <div className="kpi-value">{kpi.value}</div>
-
-            <div className={`kpi-sub ${kpi.status}`}>
-              {kpi.sub}
-            </div>
+            <div className={`kpi-sub ${kpi.status}`}>{kpi.sub}</div>
           </div>
         ))}
       </section>
 
       <section className="middle-section">
-
         <div className="heatmap-card">
           <h3>Mapa de Cultivo</h3>
-
           <div className="heatmap-grid">
             {zonasCultivo.map(zone => (
               <div
@@ -155,129 +142,86 @@ export default function DashboardPage() {
         </div>
 
         <div className="forecast-card">
-
           <h3>Pronóstico</h3>
-
           <div className="forecast-list">
             {pronostico.map(day => (
               <div key={day.day} className="forecast-item">
-
                 <span>{day.day}</span>
-
-                <div className="forecast-icon">
-                  {day.icon}
-                </div>
-
-                <span className="forecast-temp">
-                  {day.temp}
-                </span>
-
+                <div className="forecast-icon">{day.icon}</div>
+                <span className="forecast-temp">{day.temp}</span>
               </div>
             ))}
           </div>
-
         </div>
-
       </section>
 
       <section className="zones-section">
-
         {zonasCultivo.map(zona => (
-
           <div
             key={zona.id}
-            className={`zone-card ${zona.status === "alert"
-              ? "zone-alert-border"
-              : ""
-              }`}
+            className={`zone-card ${zona.status === "alert" ? "zone-alert-border" : ""}`}
           >
-
             <div className="zone-header">
-
               <div>
                 <h4>{zona.name}</h4>
-                <span className="zone-location">
-                  {zona.lugar}
-                </span>
+                <span className="zone-location">{zona.lugar}</span>
               </div>
-
               {zona.status === "ok"
                 ? <span className="check-icon">✓</span>
-                : <AlertCircle size={18} className="alert-icon-red" />
-              }
-
+                : <AlertCircle size={18} className="alert-icon-red" />}
             </div>
 
             <div className="zone-metrics">
-
               <div className="z-metric">
                 <Droplets size={14} />
                 <span>Humedad</span>
                 <strong>{zona.humedad}</strong>
               </div>
-
               <div className="z-metric">
                 <CloudSun size={14} />
                 <span>Temperatura</span>
                 <strong>{zona.temp}</strong>
               </div>
-
             </div>
-
           </div>
-
         ))}
-
       </section>
 
       <section className="dashboard-extra">
-
         <div className="recent-card">
-
-
-
           {cultivosRecientes.map(c => (
             <div key={c.id} className="recent-item">
               <strong>{c.nombre}</strong>
               <span>{c.lugar}</span>
             </div>
           ))}
-
         </div>
 
         <div className="activity-card">
-
           <h3>Actividad reciente</h3>
-
           {actividad.map(a => (
             <div key={a.id} className="activity-item">
               <span>{a.text}</span>
               <small>{a.date}</small>
             </div>
           ))}
-
         </div>
 
         <div className="types-card">
-
           <h3>Tipos de cultivo</h3>
-
           {cultivosPorTipo.map(t => (
             <div key={t.tipo} className="type-item">
               <span>{t.tipo}</span>
               <strong>{t.total}</strong>
             </div>
           ))}
-
         </div>
-
       </section>
 
       <AddCultivoModal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
       />
-
     </div>
   );
 }

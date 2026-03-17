@@ -13,10 +13,8 @@ import AddUsuarioModal from "../../components/usuarios/AddUsuarioModal";
 import EditUsuarioModal from "../../components/usuarios/EditUsuarioModal";
 
 export default function UsuariosPage() {
-
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([]);
-
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
 
@@ -55,11 +53,7 @@ export default function UsuariosPage() {
   const handleUpdateUsuario = async (data) => {
     try {
       const actualizado = await updateUsuario(editingUser.id, data);
-
-      setUsers(prev =>
-        prev.map(u => (u.id === actualizado.id ? actualizado : u))
-      );
-
+      setUsers(prev => prev.map(u => (u.id === actualizado.id ? actualizado : u)));
       setEditingUser(null);
     } catch (err) {
       console.error("Error actualizando usuario:", err);
@@ -70,7 +64,6 @@ export default function UsuariosPage() {
     return users.filter((user) => {
       const email = user?.email?.toLowerCase() || "";
       const role = user?.role?.toLowerCase() || "";
-
       return (
         email.includes(searchTerm.toLowerCase()) ||
         role.includes(searchTerm.toLowerCase())
@@ -85,47 +78,32 @@ export default function UsuariosPage() {
 
   return (
     <div className="dashboard-content">
-
       <div className="page-header-row">
-
         <div>
           <h1 className="page-title">Gestión de Usuarios</h1>
-          <p className="page-subtitle">
-            Administrar usuarios, roles y permisos
-          </p>
+          <p className="page-subtitle">Administrar usuarios, roles y permisos</p>
         </div>
 
-        <button
-          className="btn-primary-brown"
-          onClick={() => setIsAddOpen(true)}
-        >
+        <button className="btn-primary-brown" onClick={() => setIsAddOpen(true)}>
           <Plus size={18} style={{ marginRight: 8 }} />
           Nuevo Usuario
         </button>
-
       </div>
 
       <div className="search-bar-row">
-
         <div className="search-input-wrapper">
-
           <Search size={18} />
-
           <input
             type="text"
             placeholder="Buscar por email o rol"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-
         </div>
-
       </div>
 
       <div className="users-table-container">
-
         <table className="users-table-custom">
-
           <thead>
             <tr>
               <th>Usuario</th>
@@ -135,79 +113,40 @@ export default function UsuariosPage() {
               <th></th>
             </tr>
           </thead>
-
           <tbody>
-
             {filteredUsers?.map((user) => (
-
               <tr key={user.id}>
-
                 <td>
-
                   <div className="user-cell-profile">
-
-                    <div className="user-avatar-small">
-                      {getInitials(user?.email)}
-                    </div>
-
+                    <div className="user-avatar-small">{getInitials(user?.email)}</div>
                     <span>{user?.email || "Sin email"}</span>
-
                   </div>
-
                 </td>
-
                 <td>{user?.role || "user"}</td>
-
                 <td>{user?.lastActive || "N/A"}</td>
-
                 <td>
-
                   <div className="status-cell">
-
-                    {user?.status === "Activo"
-                      ? <Unlock size={14} />
-                      : <Lock size={14} />}
-
+                    {user?.status === "Activo" ? <Unlock size={14} /> : <Lock size={14} />}
                     <span>{user?.status || "Activo"}</span>
-
                   </div>
-
                 </td>
-
                 <td>
-
                   <div className="actions-cell">
-
-                    <button
-                      className="icon-btn-ghost"
-                      onClick={() => setEditingUser(user)}
-                    >
+                    <button className="icon-btn-ghost" onClick={() => setEditingUser(user)}>
                       <Edit3 size={16} />
                     </button>
-
-                    <button
-                      className="icon-btn-ghost"
-                      onClick={() => handleDelete(user.id)}
-                    >
+                    <button className="icon-btn-ghost" onClick={() => handleDelete(user.id)}>
                       <Trash2 size={16} />
                     </button>
-
                     <button className="icon-btn-ghost">
                       <MoreVertical size={16} />
                     </button>
-
                   </div>
-
                 </td>
-
               </tr>
-
             ))}
-
           </tbody>
-
         </table>
-
       </div>
 
       <AddUsuarioModal
@@ -222,7 +161,6 @@ export default function UsuariosPage() {
         onClose={() => setEditingUser(null)}
         onSave={handleUpdateUsuario}
       />
-
     </div>
   );
 }

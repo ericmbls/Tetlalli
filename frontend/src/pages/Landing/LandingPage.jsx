@@ -5,7 +5,6 @@ import {
 } from 'lucide-react';
 import './LandingPage.css';
 
-// Componente para animar al hacer scroll
 const FadeInSection = ({ children, delay = 0, className = '' }) => {
   const [isVisible, setVisible] = useState(false);
   const domRef = useRef();
@@ -14,7 +13,6 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
     const currentRef = domRef.current;
     if (!currentRef) return;
     
-    // Solo animamos una vez (unobserve on trigger)
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
@@ -46,28 +44,24 @@ const LandingPage = ({ onLoginClick }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Escuchar scroll del contenedor para cambiar estilo del nav
   const handleScroll = (e) => {
     setScrolled(e.target.scrollTop > 50);
   };
 
   return (
     <div className="landing-container" onScroll={handleScroll}>
-      {/* Navbar Responsivo */}
       <nav className={`landing-nav ${scrolled ? 'nav-scrolled' : ''}`}>
         <div className="landing-logo">
           <Sprout className="logo-icon-svg" />
           <span className="logo-text">Tetlalli</span>
         </div>
         
-        {/* Desktop Links */}
         <div className="landing-nav-links desktop-only">
           <button className="landing-btn-login" onClick={onLoginClick}>
             Iniciar Sesión
           </button>
         </div>
 
-        {/* Mobile menu toggle */}
         <button 
           className="mobile-menu-toggle mobile-only" 
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -76,7 +70,6 @@ const LandingPage = ({ onLoginClick }) => {
         </button>
       </nav>
 
-      {/* Mobile Menu Content */}
       <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
         <button className="landing-btn-login fluid" onClick={() => { setMobileMenuOpen(false); onLoginClick(); }}>
           Iniciar Sesión
@@ -84,9 +77,7 @@ const LandingPage = ({ onLoginClick }) => {
       </div>
 
       <main className="landing-main">
-        {/* Hero Section Completa */}
         <section className="landing-hero hero-centered">
-          {/* Blobs animados de fondo */}
           <div className="hero-blob blob-1"></div>
           <div className="hero-blob blob-2"></div>
           <div className="hero-blob blob-3"></div>
@@ -110,8 +101,6 @@ const LandingPage = ({ onLoginClick }) => {
                 <ShieldCheck size={16} /> <span>Acceso seguro 24/7</span>
               </div>
             </div>
-            
-
           </div>
           
           <div className="hero-visual desktop-only">
@@ -147,9 +136,6 @@ const LandingPage = ({ onLoginClick }) => {
           </div>
         </section>
 
-
-
-        {/* Pasos */}
         <section id="how-it-works" className="landing-steps">
           <div className="steps-container">
             <FadeInSection>
@@ -182,7 +168,6 @@ const LandingPage = ({ onLoginClick }) => {
           </div>
         </section>
 
-        {/* Características */}
         <section id="features" className="landing-features">
           <FadeInSection>
             <div className="features-head">
@@ -240,9 +225,6 @@ const LandingPage = ({ onLoginClick }) => {
           </div>
         </section>
 
-
-
-        {/* CTA */}
         <section className="landing-cta">
           <div className="cta-shapes">
             <div className="shape shape-1"></div>

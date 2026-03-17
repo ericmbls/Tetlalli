@@ -31,8 +31,28 @@ model Cultivo {
   estado          EstadoCultivo  @default(activo)
   userId          Int
   createdAt       DateTime       @default(now())
-  imagen          String?        
+  imagen          String?
   user            User           @relation(fields: [userId], references: [id])
+  reportes        Reporte[]
+}
+
+model Reporte {
+  id          Int          @id @default(autoincrement())
+  titulo      String
+  descripcion String
+  tipo        TipoReporte
+  imagen      String?
+  cultivoId   Int
+  createdAt   DateTime     @default(now())
+  cultivo     Cultivo      @relation(fields: [cultivoId], references: [id])
+}
+
+enum TipoReporte {
+  RIEGO
+  FERTILIZACION
+  PLAGA
+  COSECHA
+  OBSERVACION
 }
 
 enum Role {

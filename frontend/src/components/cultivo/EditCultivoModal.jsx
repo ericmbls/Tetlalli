@@ -2,9 +2,14 @@ import { useState, useEffect } from 'react';
 import { X, Upload, MapPin, Calendar, Droplets, Activity } from 'lucide-react';
 import './EditCultivoModal.css';
 
-export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onDelete, userRole }) {
-
-  
+export default function EditCultivoModal({
+  isOpen,
+  onClose,
+  cultivo,
+  onSave,
+  onDelete,
+  userRole
+}) {
 
   const [formData, setFormData] = useState({
     nombre: '',
@@ -19,7 +24,9 @@ export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onD
   const [previewUrl, setPreviewUrl] = useState('');
 
   useEffect(() => {
+
     if (cultivo) {
+
       setFormData({
         nombre: cultivo.nombre || '',
         fechaSiembra: cultivo.fechaSiembra
@@ -32,34 +39,53 @@ export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onD
         file: null,
       });
 
-      setPreviewUrl(cultivo.imagen || '');
+      if (cultivo.imagen) {
+        setPreviewUrl(`http://localhost:3000${cultivo.imagen}`);
+      } else {
+        setPreviewUrl('');
+      }
+
     }
+
   }, [cultivo]);
 
   if (!isOpen) return null;
 
   const handleChange = (e) => {
+
+    const { name, value } = e.target;
+
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [name]: value
     }));
+
   };
 
   const handleFileChange = (e) => {
+
     const file = e.target.files[0];
 
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
+    if (!file) return;
 
-      setFormData(prev => ({
-        ...prev,
-        file
-      }));
-    }
+    const url = URL.createObjectURL(file);
+
+    setPreviewUrl(url);
+
+    setFormData(prev => ({
+      ...prev,
+      file
+    }));
+
   };
 
   const handleSave = async () => {
+
+    if (!formData.nombre || !formData.fechaSiembra) {
+      alert("Completa los campos obligatorios");
+      return;
+    }
+
     const data = new FormData();
 
     data.append('nombre', formData.nombre);
@@ -74,18 +100,25 @@ export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onD
     }
 
     await onSave(cultivo.id, data);
+
     onClose();
+
   };
 
   const handleDelete = async () => {
-    if (window.confirm("¿Seguro que deseas eliminar este cultivo?")) {
-      await onDelete(cultivo.id);
-      onClose();
-    }
+
+    if (!window.confirm("¿Seguro que deseas eliminar este cultivo?")) return;
+
+    await onDelete(cultivo.id);
+
+    onClose();
+
   };
 
   return (
+
     <div className="modal-overlay" onClick={onClose}>
+
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
 
         <button
@@ -149,6 +182,7 @@ export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onD
             </div>
 
             <div className="form-group">
+
               <label>
                 <MapPin size={12} />
                 Ubicación
@@ -159,7 +193,7 @@ export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onD
                 value={formData.ubicacion}
                 onChange={handleChange}
               >
-                <option value="">Seleccionar invernadero</option>
+                <option value="">Seleccionar ubicación</option>
                 <option value="Invernadero A">Invernadero A</option>
                 <option value="Invernadero B">Invernadero B</option>
                 <option value="Campo Abierto">Campo Abierto</option>
@@ -170,6 +204,7 @@ export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onD
             <div className="form-row">
 
               <div className="form-group">
+
                 <label>
                   <Calendar size={12} />
                   Fecha siembra
@@ -181,9 +216,11 @@ export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onD
                   value={formData.fechaSiembra}
                   onChange={handleChange}
                 />
+
               </div>
 
               <div className="form-group">
+
                 <label>
                   <Droplets size={12} />
                   Riego (días)
@@ -195,6 +232,7 @@ export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onD
                   value={formData.frecuenciaRiego}
                   onChange={handleChange}
                 />
+
               </div>
 
             </div>
@@ -221,6 +259,7 @@ export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onD
             </div>
 
             <div className="form-group">
+
               <label>Descripción</label>
 
               <textarea
@@ -229,16 +268,23 @@ export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onD
                 value={formData.descripcion}
                 onChange={handleChange}
               />
+
             </div>
 
             <div className="modal-actions">
 
-              <button className="btn-save" onClick={handleSave}>
+              <button
+                className="btn-save"
+                onClick={handleSave}
+              >
                 Guardar cambios
               </button>
 
               {userRole === "admin" && (
-                <button className="btn-delete" onClick={handleDelete}>
+                <button
+                  className="btn-delete"
+                  onClick={handleDelete}
+                >
                   Borrar cultivo
                 </button>
               )}
@@ -250,6 +296,9 @@ export default function EditCultivoModal({ isOpen, onClose, cultivo, onSave, onD
         </div>
 
       </div>
+
     </div>
+
   );
+
 }

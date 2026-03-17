@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, User, Mail, Lock, Shield, Building2, MapPin, Globe, Info } from "lucide-react";
+import { X, User, Mail, Lock, Shield, Building2, MapPin, Globe, Info, Eye, EyeOff } from "lucide-react";
 import "./AddUsuarioModal.css";
 
 export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
@@ -13,10 +13,22 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
     language: "es",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+
   if (!isOpen) return null;
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const url = URL.createObjectURL(file);
+    setAvatarPreview(url);
+    handleChange("avatar", file);
   };
 
   const handleSubmit = (e) => {
@@ -37,17 +49,23 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
         <form onSubmit={handleSubmit}>
           <div className="modal-body">
             <div className="left-column">
-              <div className="image-upload-area">
-                <User className="upload-icon" size={40} strokeWidth={1.5} />
-                <span className="upload-text">Foto de perfil</span>
-                <span className="upload-hint">
-                  <Info size={10} />
-                  Opcional
-                </span>
+              <div className={`image-upload-area ${avatarPreview ? 'has-image' : ''}`}>
+                {avatarPreview ? (
+                  <img src={avatarPreview} alt="avatar preview" className="avatar-preview" />
+                ) : (
+                  <>
+                    <User className="upload-icon" size={40} strokeWidth={1.5} />
+                    <span className="upload-text">Foto de perfil</span>
+                    <span className="upload-hint">
+                      <Info size={10} />
+                      Opcional
+                    </span>
+                  </>
+                )}
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={e => handleChange("avatar", e.target.files[0])}
+                  onChange={handleFileChange}
                   style={{ 
                     position: 'absolute', 
                     inset: 0, 
@@ -62,48 +80,64 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
 
             <div className="right-column">
               <div className="form-group">
-                <label>
+                <label htmlFor="user-name">
                   <User size={12} />
                   Nombre completo
                 </label>
                 <input
+                  id="user-name"
                   type="text"
                   className="input-flushed"
                   placeholder="Ej: Juan Pérez"
                   value={formData.name}
                   onChange={e => handleChange("name", e.target.value)}
+                  autoComplete="name"
                   required
                 />
               </div>
 
               <div className="form-group">
-                <label>
+                <label htmlFor="user-email">
                   <Mail size={12} />
                   Correo electrónico
                 </label>
                 <input
+                  id="user-email"
                   type="email"
                   className="input-flushed"
                   placeholder="usuario@ejemplo.com"
                   value={formData.email}
                   onChange={e => handleChange("email", e.target.value)}
+                  autoComplete="email"
                   required
                 />
               </div>
 
-              <div className="form-group">
-                <label>
+              <div className="form-group password-field">
+                <label htmlFor="user-password">
                   <Lock size={12} />
                   Contraseña
                 </label>
-                <input
-                  type="password"
-                  className="input-flushed"
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={e => handleChange("password", e.target.value)}
-                  required
-                />
+                <div className="password-input-wrapper">
+                  <input
+                    id="user-password"
+                    type={showPassword ? "text" : "password"}
+                    className="input-flushed password-input"
+                    placeholder="••••••••"
+                    value={formData.password}
+                    onChange={e => handleChange("password", e.target.value)}
+                    autoComplete="new-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  >
+                    {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
+                </div>
                 <div className="field-hint">
                   <Info size={10} />
                   Mínimo 8 caracteres
@@ -112,12 +146,13 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label>
+                  <label htmlFor="user-role">
                     <Shield size={12} />
                     Rol
                   </label>
                   <div className="select-wrapper">
                     <select
+                      id="user-role"
                       value={formData.role}
                       onChange={e => handleChange("role", e.target.value)}
                     >
@@ -131,12 +166,13 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
                 </div>
 
                 <div className="form-group">
-                  <label>
+                  <label htmlFor="user-language">
                     <Globe size={12} />
                     Idioma
                   </label>
                   <div className="select-wrapper">
                     <select
+                      id="user-language"
                       value={formData.language}
                       onChange={e => handleChange("language", e.target.value)}
                     >
@@ -151,30 +187,34 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
               </div>
 
               <div className="form-group">
-                <label>
+                <label htmlFor="user-farm">
                   <Building2 size={12} />
                   Nombre de la granja
                 </label>
                 <input
+                  id="user-farm"
                   type="text"
                   className="input-flushed"
                   placeholder="Ej: Granja El Rosal"
                   value={formData.farmName}
                   onChange={e => handleChange("farmName", e.target.value)}
+                  autoComplete="organization"
                 />
               </div>
 
               <div className="form-group">
-                <label>
+                <label htmlFor="user-location">
                   <MapPin size={12} />
                   Ubicación
                 </label>
                 <input
+                  id="user-location"
                   type="text"
                   className="input-flushed"
                   placeholder="Ej: Antioquia, Colombia"
                   value={formData.location}
                   onChange={e => handleChange("location", e.target.value)}
+                  autoComplete="address-level1"
                 />
               </div>
             </div>

@@ -2,7 +2,6 @@ const API_URL = "http://localhost:3000/api/cultivos";
 
 const getToken = () => localStorage.getItem("token");
 
-// Obtener todos los cultivos
 export const getCultivos = async () => {
   const res = await fetch(API_URL, {
     headers: {
@@ -17,17 +16,13 @@ export const getCultivos = async () => {
   return res.json();
 };
 
-// Crear cultivo
 export const createCultivo = async (data) => {
-  const headers =
-    data instanceof FormData
-      ? {
-          Authorization: `Bearer ${getToken()}`,
-        }
-      : {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        };
+  const headers = data instanceof FormData
+    ? { Authorization: `Bearer ${getToken()}` }
+    : {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      };
 
   const res = await fetch(API_URL, {
     method: "POST",
@@ -42,17 +37,13 @@ export const createCultivo = async (data) => {
   return res.json();
 };
 
-// Actualizar cultivo
 export const updateCultivo = async (id, data) => {
-  const headers =
-    data instanceof FormData
-      ? {
-          Authorization: `Bearer ${getToken()}`,
-        }
-      : {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${getToken()}`,
-        };
+  const headers = data instanceof FormData
+    ? { Authorization: `Bearer ${getToken()}` }
+    : {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
+      };
 
   const res = await fetch(`${API_URL}/${id}`, {
     method: "PATCH",
@@ -67,7 +58,6 @@ export const updateCultivo = async (id, data) => {
   return res.json();
 };
 
-// Eliminar cultivo
 export const deleteCultivo = async (id) => {
   const res = await fetch(`${API_URL}/${id}`, {
     method: "DELETE",

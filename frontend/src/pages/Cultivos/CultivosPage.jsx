@@ -13,9 +13,8 @@ import {
   deleteCultivo
 } from "../../services/cultivos.service";
 
-export default function CultivosPage() {
-
-  const { user } = useAuth(); // 👈 obtenemos el usuario del contexto
+export default function CultivosPage({ onOpenCultivo }) {
+  const { user } = useAuth();
   const userRole = user?.role;
 
   const [cultivos, setCultivos] = useState([]);
@@ -40,7 +39,6 @@ export default function CultivosPage() {
 
     cultivos.forEach(({ ubicacion = "Sin ubicación", ...cultivo }) => {
       if (!grouped[ubicacion]) grouped[ubicacion] = [];
-
       grouped[ubicacion].push({
         ubicacion,
         ...cultivo
@@ -52,20 +50,13 @@ export default function CultivosPage() {
       nombre: ubicacion,
       cultivos: lista
     }));
-
   }, [cultivos]);
 
   const handleCreateCultivo = async (nuevoCultivo) => {
     try {
       const creado = await createCultivo(nuevoCultivo);
-
-      setCultivos(prev => [
-        ...prev,
-        creado
-      ]);
-
+      setCultivos(prev => [...prev, creado]);
       setIsAddOpen(false);
-
     } catch (error) {
       console.error("Error creando cultivo:", error);
     }
@@ -73,17 +64,9 @@ export default function CultivosPage() {
 
   const handleUpdateCultivo = async (id, updatedData) => {
     try {
-
       const data = await updateCultivo(id, updatedData);
-
-      setCultivos(prev =>
-        prev.map(c =>
-          c.id === id ? data : c
-        )
-      );
-
+      setCultivos(prev => prev.map(c => c.id === id ? data : c));
       setSelectedCultivo(null);
-
     } catch (err) {
       console.error("Error actualizando cultivo:", err);
     }
@@ -91,15 +74,9 @@ export default function CultivosPage() {
 
   const handleDeleteCultivo = async (id) => {
     try {
-
       await deleteCultivo(id);
-
-      setCultivos(prev =>
-        prev.filter(c => c.id !== id)
-      );
-
+      setCultivos(prev => prev.filter(c => c.id !== id));
       setSelectedCultivo(null);
-
     } catch (err) {
       console.error("Error eliminando cultivo:", err);
     }
@@ -108,78 +85,62 @@ export default function CultivosPage() {
   return (
     <>
       <div className="cultivos-header">
-
         <button
           className="btn-add-cultivo"
           onClick={() => setIsAddOpen(true)}
         >
           + Añadir cultivo
         </button>
-
       </div>
 
       <div className="cultivos-content">
-
         {surcos.map(({ id, nombre, cultivos }) => (
-
           <section key={id} className="surco-section">
-
             <h2>{nombre}</h2>
-
             <div className="cultivos-grid">
-
               {cultivos.map((cultivo, index) => (
-
                 <div
                   key={cultivo.id || index}
                   className={`cultivo-card-large estado-${cultivo.estado?.toLowerCase()}`}
-                  onClick={() => setSelectedCultivo(cultivo)}
                 >
-
-                  <div className="cultivo-placeholder">
-
+                  <div
+                    className="cultivo-placeholder"
+                    onClick={() => setSelectedCultivo(cultivo)}
+                  >
                     {cultivo.imagen ? (
-
                       <img
                         src={`http://localhost:3000${cultivo.imagen}`}
                         alt={cultivo.nombre}
                         className="cultivo-img"
                       />
-
                     ) : "🌱"}
-
                   </div>
 
                   <div className="cultivo-card-content">
-
                     <span className="badge badge-cultivo">
                       {cultivo.nombre}
                     </span>
-
                     <span className="badge badge-source">
                       Estado: {cultivo.estado}
                     </span>
-
+                    <button
+                      className="btn-bitacora"
+                      onClick={() => onOpenCultivo(cultivo)}
+                    >
+                      Ver bitácora
+                    </button>
                   </div>
-
                 </div>
-
               ))}
-
             </div>
-
           </section>
-
         ))}
 
         {!surcos.length && (
-
           <div className="empty-state">
             <p>No tienes cultivos registrados aún 🌾</p>
           </div>
-
         )}
-
       </div>
 
       <EditCultivoModal
@@ -196,7 +157,6 @@ export default function CultivosPage() {
         onClose={() => setIsAddOpen(false)}
         onSave={handleCreateCultivo}
       />
-
     </>
   );
 }

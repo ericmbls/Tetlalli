@@ -1,12 +1,16 @@
 import { useState, useEffect } from "react";
-import { getReportesByCultivo, createReporte } from "../../services/reportes.service";
+import { getReportesByCultivo, createReporte, updateReporte, removeReporte } from "../../services/reportes.service";
 import AddReporteModal from "../../components/cultivo/AddReporteModal";
+import EditReporteModal from "../../components/cultivo/EditReporteModal";
+import Swal from "sweetalert2";
+import { Edit, Trash2 } from "lucide-react";
 import "./CultivoDetallePage.css";
 
 export default function CultivoDetallePage({ cultivo }) {
 
   const [reportes, setReportes] = useState([]);
   const [isReporteOpen, setIsReporteOpen] = useState(false);
+  const [reporteToEdit, setReporteToEdit] = useState(null);
 
   if (!cultivo) {
     return (
@@ -52,6 +56,49 @@ export default function CultivoDetallePage({ cultivo }) {
 
     }
 
+  };
+
+  const handleDeleteReporte = async (id) => {
+    const result = await Swal.fire({
+      title: '¿Eliminar reporte?',
+      text: "Esta acción no se puede deshacer. Escribe 'ELIMINAR' para confirmar.",
+      icon: 'warning',
+      input: 'text',
+      inputPlaceholder: "ELIMINAR",
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#d33',
+      didOpen: () => {
+        const confirmBtn = Swal.getConfirmButton();
+        if (confirmBtn) confirmBtn.disabled = true;
+        const input = Swal.getInput();
+        if (input) {
+          input.addEventListener('input', () => {
+            confirmBtn.disabled = input.value !== 'ELIMINAR';
+          });
+        }
+      }
+    });
+
+    if (result.isConfirmed && result.value === 'ELIMINAR') {
+      try {
+        await removeReporte(id);
+        setReportes(prev => prev.filter(r => r.id !== id));
+        Swal.fire('¡Eliminado!', 'El reporte ha sido eliminado.', 'success');
+      } catch (error) {
+        Swal.fire('Error', 'Hubo un problema al eliminar el reporte.', 'error');
+      }
+    }
+  };
+
+  const handleUpdateReporte = async (id, data) => {
+    try {
+      await updateReporte(id, data);
+      setReportes(prev => prev.map(r => r.id === id ? { ...r, ...data } : r));
+    } catch (error) {
+      console.error("Error actualizando reporte", error);
+    }
   };
 
   const formatDate = (date) => {
@@ -140,9 +187,19 @@ export default function CultivoDetallePage({ cultivo }) {
 
               <div key={reporte.id} className="reporte-card">
 
-                <span className="reporte-fecha">
-                  {formatDate(reporte.createdAt)}
-                </span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span className="reporte-fecha">
+                    {formatDate(reporte.createdAt)}
+                  </span>
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'gray' }} onClick={() => setReporteToEdit(reporte)}>
+                      <Edit size={16} />
+                    </button>
+                    <button style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'red' }} onClick={() => handleDeleteReporte(reporte.id)}>
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
 
                 <h4>{reporte.titulo}</h4>
 
@@ -163,6 +220,13 @@ export default function CultivoDetallePage({ cultivo }) {
         onClose={() => setIsReporteOpen(false)}
         cultivoId={cultivo.id}
         onSave={handleCreateReporte}
+      />
+
+      <EditReporteModal
+        isOpen={!!reporteToEdit}
+        onClose={() => setReporteToEdit(null)}
+        reporte={reporteToEdit}
+        onUpdate={handleUpdateReporte}
       />
 
     </div>

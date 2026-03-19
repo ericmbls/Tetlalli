@@ -6,7 +6,7 @@ import PDFDocument from "pdfkit";
 
 @Injectable()
 export class ReportesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(dto: CreateReporteDto, imagen?: string | null) {
     return this.prisma.reporte.create({
@@ -16,6 +16,7 @@ export class ReportesService {
         tipo: dto.tipo,
         cultivoId: dto.cultivoId,
         imagen: imagen ?? null,
+        ...(dto.fecha && { createdAt: new Date(dto.fecha) }),
       },
     });
   }

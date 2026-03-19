@@ -68,6 +68,7 @@ export default function DashboardPage() {
           lugar: c.lugar,
           humedad: `${c.humedad ?? 0}%`,
           temp: `${c.temperatura ?? 0}°C`,
+          estado: c.estado,
           status:
             (c.humedad ?? 0) < 60 || (c.temperatura ?? 0) > 30
               ? "alert"
@@ -133,7 +134,7 @@ export default function DashboardPage() {
             {zonasCultivo.map(zone => (
               <div
                 key={zone.id}
-                className={`heatmap-zone zone-${zone.status}`}
+                className={`heatmap-zone zone-${zone.estado} ${zone.status === "alert" ? "pulse-alert" : ""}`}
               >
                 {zone.name}
               </div>

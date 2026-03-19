@@ -28,3 +28,21 @@ export async function createReporte(data) {
   return res.json();
 
 }
+
+export async function updateReporte(id, data) {
+  const res = await authFetch(`/api/reportes/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  });
+  if (!res.ok) throw new Error("Error actualizando reporte");
+  return res.json();
+}
+
+export async function removeReporte(id) {
+  const res = await authFetch(`/api/reportes/${id}`, {
+    method: "DELETE"
+  });
+  if (!res.ok) throw new Error("Error eliminando reporte");
+  return res.json();
+}

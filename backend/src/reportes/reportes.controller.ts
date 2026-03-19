@@ -13,6 +13,8 @@ import {
 } from "@nestjs/common";
 
 import { FileInterceptor } from "@nestjs/platform-express";
+import { diskStorage } from "multer";
+import { extname } from "path";
 import type { Express, Response } from "express";
 import { ReportesService } from "./reportes.service";
 import { CreateReporteDto } from "./dto/create-reporte.dto";
@@ -20,23 +22,25 @@ import { UpdateReporteDto } from "./dto/update-reporte.dto";
 
 @Controller("reportes")
 export class ReportesController {
-  constructor(private readonly reportesService: ReportesService) {}
+  constructor(private readonly reportesService: ReportesService) { }
 
   @Post()
-  @UseInterceptors(FileInterceptor("imagen"))
+  @UseInterceptors(
+    FileInterceptor("imagen", {
+      storage: diskStorage({
+        destination: "./uploads",
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+          cb(null, uniqueSuffix + extname(file.originalname));
+        },
+      }),
+    }),
+  )
   async create(
-    @Body() body: any,
+    @Body() dto: CreateReporteDto,
     @UploadedFile() file?: Express.Multer.File
   ) {
     const imagen = file ? `/uploads/${file.filename}` : null;
-
-    const dto: CreateReporteDto = {
-      titulo: body.titulo,
-      descripcion: body.descripcion,
-      tipo: body.tipo,
-      cultivoId: Number(body.cultivoId),
-    };
-
     return this.reportesService.create(dto, imagen);
   }
 

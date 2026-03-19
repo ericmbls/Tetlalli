@@ -1,8 +1,11 @@
-import { LayoutDashboard, Sprout, BarChart3, Users, Settings } from 'lucide-react';
+import { LayoutDashboard, Sprout, BarChart3, Users, Settings, LogOut } from 'lucide-react';
+import Swal from 'sweetalert2';
 import './Sidebar.css';
 import logo from '../../assets/logo.png';
+import { useAuth } from '../../context/AuthContext';
 
-export default function Sidebar({ currentPage, onNavigate, role = 'admin', isOpen, onClose }) {
+export default function Sidebar({ currentPage, onNavigate, role = 'admin', isOpen, onClose, onLogout }) {
+  const { logout } = useAuth();
   const menu = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
     { id: 'cultivos', label: 'Cultivos', icon: <Sprout size={20} /> },
@@ -21,8 +24,13 @@ export default function Sidebar({ currentPage, onNavigate, role = 'admin', isOpe
 
       <aside className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-header">
-          <img src={logo} alt="Xihuitl" className="sidebar-logo" />
-          <h1>Xihuitl</h1>
+          <button
+            onClick={() => window.location.href = '/'}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+          >
+            <img src={logo} alt="Xihuitl" className="sidebar-logo" />
+            <h1 style={{ color: 'var(--landing-title)', fontWeight: 800 }}>Xihuitl</h1>
+          </button>
         </div>
 
         <nav className="sidebar-nav">
@@ -37,14 +45,50 @@ export default function Sidebar({ currentPage, onNavigate, role = 'admin', isOpe
               <span>{item.label}</span>
             </button>
           ))}
+          <div style={{ margin: '1rem 1rem 0', height: '1px', background: 'var(--landing-border)' }}></div>
+          <button
+            className="nav-item"
+            style={{ marginTop: '1rem' }}
+            onClick={() => window.location.href = '/'}
+            type="button"
+          >
+            <span className="nav-icon"><LayoutDashboard size={20} /></span>
+            <span>Volver al inicio</span>
+          </button>
         </nav>
 
         <div className="sidebar-footer">
-          <div className="user-avatar">U1</div>
-          <div className="user-meta">
-            <span className="user-name">Usuario1</span>
-            <span className="user-role">Administrador</span>
+          <div style={{ display: 'flex', alignItems: 'center', width: '100%', gap: '10px' }}>
+            <div className="user-avatar">U1</div>
+            <div className="user-meta" style={{ flex: 1 }}>
+              <span className="user-name">Usuario1</span>
+              <span className="user-role">Administrador</span>
+            </div>
           </div>
+          <button
+            className="nav-item"
+            style={{ color: '#d33', marginTop: '10px', width: '100%' }}
+            onClick={() => {
+              Swal.fire({
+                title: '¿Cerrar sesión?',
+                text: "Saldrás de tu cuenta actual.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  logout();
+                  if (onLogout) onLogout();
+                }
+              });
+            }}
+          >
+            <span className="nav-icon"><LogOut size={20} /></span>
+            <span>Cerrar Sesión</span>
+          </button>
         </div>
       </aside>
     </>

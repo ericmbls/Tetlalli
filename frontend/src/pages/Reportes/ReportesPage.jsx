@@ -15,6 +15,8 @@ export default function ReportesPage() {
   const [reportes, setReportes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("todos");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const API = "http://localhost:3000/api/reportes";
 
@@ -52,9 +54,16 @@ export default function ReportesPage() {
     }
   };
 
-  const filteredReportes = filter === "todos" 
-    ? reportes 
+  const filteredReportes = filter === "todos"
+    ? reportes
     : reportes.filter(rep => rep.type?.toLowerCase() === filter);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter]);
+
+  const totalPages = Math.ceil(filteredReportes.length / itemsPerPage);
+  const currentReportes = filteredReportes.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   if (loading) {
     return (
@@ -75,37 +84,37 @@ export default function ReportesPage() {
       </div>
 
       <div className="reportes-filters">
-        <button 
+        <button
           className={`filter-chip ${filter === "todos" ? "active" : ""}`}
           onClick={() => setFilter("todos")}
         >
           Todos
         </button>
-        <button 
+        <button
           className={`filter-chip ${filter === "riego" ? "active" : ""}`}
           onClick={() => setFilter("riego")}
         >
           Riego
         </button>
-        <button 
+        <button
           className={`filter-chip ${filter === "fertilizacion" ? "active" : ""}`}
           onClick={() => setFilter("fertilizacion")}
         >
           Fertilización
         </button>
-        <button 
+        <button
           className={`filter-chip ${filter === "plaga" ? "active" : ""}`}
           onClick={() => setFilter("plaga")}
         >
           Plaga
         </button>
-        <button 
+        <button
           className={`filter-chip ${filter === "cosecha" ? "active" : ""}`}
           onClick={() => setFilter("cosecha")}
         >
           Cosecha
         </button>
-        <button 
+        <button
           className={`filter-chip ${filter === "observacion" ? "active" : ""}`}
           onClick={() => setFilter("observacion")}
         >
@@ -116,29 +125,30 @@ export default function ReportesPage() {
       <div className="reportes-stats">
         <div className="stat-item">
           <span className="stat-label">Total reportes</span>
-          <span className="stat-value">{reportes.length}</span>
+          <span className="stat-value">{filteredReportes.length}</span>
         </div>
         <div className="stat-item">
           <span className="stat-label">Este mes</span>
           <span className="stat-value">
-            {reportes.filter(r => {
-              const fecha = new Date(r.date);
+            {filteredReportes.filter(r => {
+              const fecha = new Date(r.date.split('/').reverse().join('-') || r.date);
+              // Try to parse since date comes as a localized string from backend getList()
               const hoy = new Date();
-              return fecha.getMonth() === hoy.getMonth() && fecha.getFullYear() === hoy.getFullYear();
+              return !isNaN(fecha) && fecha.getMonth() === hoy.getMonth() && fecha.getFullYear() === hoy.getFullYear();
             }).length}
           </span>
         </div>
       </div>
 
       <div className="reportes-grid">
-        {filteredReportes.length === 0 ? (
+        {currentReportes.length === 0 ? (
           <div className="empty-state">
             <FileText size={48} className="empty-icon" />
             <h3>No hay reportes</h3>
             <p>No se encontraron reportes con los filtros seleccionados</p>
           </div>
         ) : (
-          filteredReportes.map((rep) => (
+          currentReportes.map((rep) => (
             <div key={rep.id} className="reporte-card">
               <div className="reporte-card-header">
                 <div className="reporte-type-badge" data-type={rep.type?.toLowerCase()}>
@@ -156,7 +166,7 @@ export default function ReportesPage() {
               </div>
 
               <h3 className="reporte-card-title">{rep.title}</h3>
-              
+
               {rep.cultivo && (
                 <div className="reporte-cultivo">
                   <Tag size={12} />
@@ -177,16 +187,16 @@ export default function ReportesPage() {
                 </div>
 
                 <div className="reporte-card-actions">
-                  <button 
+                  <button
                     className="btn-icon"
                     onClick={() => descargarReporte(rep.id)}
                     title="Descargar"
                   >
                     <Download size={16} />
                   </button>
-                  <button 
+                  <button
                     className="btn-icon"
-                    onClick={() => {/* compartir */}}
+                    onClick={() => {/* compartir */ }}
                     title="Compartir"
                   >
                     <Share2 size={16} />
@@ -204,6 +214,26 @@ export default function ReportesPage() {
           ))
         )}
       </div>
+
+      {totalPages > 1 && (
+        <div className="pagination-controls" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px', gap: '15px' }}>
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(p => p - 1)}
+            style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #ddd', background: currentPage === 1 ? '#eee' : '#fff', cursor: currentPage === 1 ? 'not-allowed' : 'pointer' }}
+          >
+            Anterior
+          </button>
+          <span>Página {currentPage} de {totalPages}</span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(p => p + 1)}
+            style={{ padding: '8px 16px', borderRadius: '8px', border: '1px solid #ddd', background: currentPage === totalPages ? '#eee' : '#fff', cursor: currentPage === totalPages ? 'not-allowed' : 'pointer' }}
+          >
+            Siguiente
+          </button>
+        </div>
+      )}
     </div>
   );
 }

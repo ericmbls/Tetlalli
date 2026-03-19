@@ -21,6 +21,7 @@ export default function AjustesPage({ darkMode, setDarkMode, token }) {
     language: 'es-mx',
     farmName: 'Xihuitl Farms S.A de C.V.',
     location: 'Jalisco, México',
+    phone: '',
   });
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function AjustesPage({ darkMode, setDarkMode, token }) {
         if (data.language) setSettings(prev => ({ ...prev, language: data.language }));
         if (data.farmName) setSettings(prev => ({ ...prev, farmName: data.farmName }));
         if (data.location) setSettings(prev => ({ ...prev, location: data.location }));
+        if (data.phone) setSettings(prev => ({ ...prev, phone: data.phone }));
       } catch (err) {
         console.error('Error cargando preferencias:', err);
       }
@@ -106,43 +108,27 @@ export default function AjustesPage({ darkMode, setDarkMode, token }) {
       <div className="settings-section">
         <div className="section-header">
           <Globe size={22} strokeWidth={1.5} />
-          <h3>Configuración Regional</h3>
+          <h3>Detalles de la Granja</h3>
         </div>
-        <div className="form-grid-2">
-          <div className="form-group">
-            <label>Idioma del sistema</label>
-            <div className="select-wrapper">
-              <select
-                value={settings.language}
-                onChange={(e) => handleChange('language', e.target.value)}
-              >
-                <option value="es-mx">Español México</option>
-                <option value="en-us">English US</option>
-              </select>
-            </div>
-          </div>
+        <div className="form-group">
+          <label>Ubicación</label>
+          <input
+            type="text"
+            className="input-filled"
+            value={settings.location}
+            onChange={(e) => handleChange('location', e.target.value)}
+            placeholder="Ej: Jalisco, México"
+          />
         </div>
-        <div className="form-grid-1">
-          <div className="form-group">
-            <label>Nombre de la Granja</label>
-            <input
-              type="text"
-              className="input-filled"
-              value={settings.farmName}
-              onChange={(e) => handleChange('farmName', e.target.value)}
-              placeholder="Ej: Xihuitl Farms"
-            />
-          </div>
-          <div className="form-group">
-            <label>Ubicación</label>
-            <input
-              type="text"
-              className="input-filled"
-              value={settings.location}
-              onChange={(e) => handleChange('location', e.target.value)}
-              placeholder="Ej: Jalisco, México"
-            />
-          </div>
+        <div className="form-group">
+          <label>Teléfono</label>
+          <input
+            type="text"
+            className="input-filled"
+            value={settings.phone}
+            onChange={(e) => handleChange('phone', e.target.value)}
+            placeholder="Ej: +52 33 1234 5678"
+          />
         </div>
       </div>
       <div className="settings-section">
@@ -175,7 +161,7 @@ export default function AjustesPage({ darkMode, setDarkMode, token }) {
           ))}
         </div>
       </div>
-    </div>
+    </div >
   );
 
   return (

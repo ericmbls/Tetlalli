@@ -72,6 +72,7 @@ function App() {
       <LoginPage
         setIsLoggedIn={setIsLoggedIn}
         setToken={setToken}
+        setShowLanding={setShowLanding}
       />
     );
   }
@@ -90,6 +91,7 @@ function App() {
         role={userRole}
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
+        onLogout={() => setIsLoggedIn(false)}
       />
 
       <main className="main-layout">

@@ -7,8 +7,11 @@ export default function AddReporteModal({ isOpen, onClose, cultivoId, onSave }) 
     titulo: "",
     descripcion: "",
     tipo: "OBSERVACION",
+    fecha: new Date().toISOString().split("T")[0],
     file: null
   });
+
+  const [errorImg, setErrorImg] = useState("");
 
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -26,6 +29,15 @@ export default function AddReporteModal({ isOpen, onClose, cultivoId, onSave }) 
     const file = e.target.files[0];
     if (!file) return;
 
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!validTypes.includes(file.type)) {
+      setErrorImg("Formato no válido. Solo JPG, PNG o WEBP.");
+      setPreview(null);
+      setFormData(prev => ({ ...prev, file: null }));
+      return;
+    }
+
+    setErrorImg("");
     setPreview(URL.createObjectURL(file));
     setFormData(prev => ({
       ...prev,
@@ -44,6 +56,7 @@ export default function AddReporteModal({ isOpen, onClose, cultivoId, onSave }) 
       data.append("titulo", formData.titulo);
       data.append("descripcion", formData.descripcion);
       data.append("tipo", formData.tipo);
+      data.append("fecha", new Date(formData.fecha).toISOString());
       data.append("cultivoId", String(cultivoId));
 
       if (formData.file) {
@@ -56,10 +69,12 @@ export default function AddReporteModal({ isOpen, onClose, cultivoId, onSave }) 
         titulo: "",
         descripcion: "",
         tipo: "OBSERVACION",
+        fecha: new Date().toISOString().split("T")[0],
         file: null
       });
 
       setPreview(null);
+      setErrorImg("");
       onClose();
     } catch (error) {
       console.error(error);
@@ -110,6 +125,17 @@ export default function AddReporteModal({ isOpen, onClose, cultivoId, onSave }) 
           </div>
 
           <div className="form-group">
+            <label>Fecha</label>
+            <input
+              type="date"
+              name="fecha"
+              value={formData.fecha}
+              max={new Date().toISOString().split("T")[0]}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
             <label>Descripción</label>
             <textarea
               name="descripcion"
@@ -134,9 +160,10 @@ export default function AddReporteModal({ isOpen, onClose, cultivoId, onSave }) 
                   <span>Subir imagen</span>
                 </>
               )}
+              {errorImg && <div style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>{errorImg}</div>}
               <input
                 type="file"
-                accept="image/*"
+                accept=".jpg, .jpeg, .png, .webp"
                 onChange={handleFile}
               />
             </div>

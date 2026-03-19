@@ -10,16 +10,4 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @Transform(({ value }) => value?.toLowerCase())
   @IsEnum(Role)
   role?: Role;
-
-  @IsString()
-  @IsOptional()
-  farmName?: string;
-
-  @IsString()
-  @IsOptional()
-  location?: string;
-
-  @IsString()
-  @IsOptional()
-  language?: string;
 }

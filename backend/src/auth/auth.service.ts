@@ -8,7 +8,7 @@ import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
+  constructor(private prisma: PrismaService, private jwtService: JwtService) { }
 
   private generateToken(user: any) {
     const payload = { sub: user.id, email: user.email, role: user.role };
@@ -16,8 +16,12 @@ export class AuthService {
   }
 
   async register(dto: RegisterDto) {
-    const exists = await this.prisma.user.findUnique({ where: { email: dto.email } });
-    if (exists) throw new ConflictException('El correo ya está registrado');
+    const countEmail = await this.prisma.user.count({ where: { email: dto.email } });
+    if (countEmail >= 2) throw new ConflictException('El correo ha superado el límite de 2 cuentas');
+
+    // Validar nombre también? "Permitir datos repetidos (nombre, correo)" 
+    const countName = await this.prisma.user.count({ where: { name: dto.name } });
+    if (countName >= 2) throw new ConflictException('El nombre ha superado el límite de 2 cuentas');
 
     const hashedPassword = await bcrypt.hash(dto.password, 10);
 
@@ -26,8 +30,8 @@ export class AuthService {
         name: dto.name,
         email: dto.email,
         password: hashedPassword,
-        role: Role.user,
-        darkMode: false, 
+        role: Role.admin,
+        darkMode: false,
       },
     });
 
@@ -46,7 +50,7 @@ export class AuthService {
   }
 
   async login(dto: LoginDto) {
-    const user = await this.prisma.user.findUnique({ where: { email: dto.email } });
+    const user = await this.prisma.user.findFirst({ where: { email: dto.email } });
     if (!user) throw new UnauthorizedException('Usuario no encontrado');
 
     const isValid = await bcrypt.compare(dto.password, user.password);

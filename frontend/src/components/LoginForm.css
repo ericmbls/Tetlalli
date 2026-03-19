@@ -62,6 +62,11 @@
   /* Green like original image */
 }
 
+.forgot-icon {
+  background: linear-gradient(135deg, #FBBF24, #D97706);
+  /* Yellow/Orange */
+}
+
 .form-header-center h2 {
   font-size: 1.85rem;
   font-weight: 800;
@@ -105,18 +110,32 @@
 }
 
 .input-group label {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #5A4734;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #8C7862;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.forgot-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
 }
 
 .forgot-link {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #0288D1;
-  /* Cyan like image */
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #A58F78;
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.forgot-link:hover {
+  color: #5A4734;
+  text-decoration: underline;
 }
 
 .forgot-link:hover {
@@ -314,7 +333,8 @@
 }
 
 /* Footer Link */
-.footer-link {
+.footer-link,
+.footer-link-back {
   text-align: center;
   font-size: 0.9rem;
   font-weight: 600;
@@ -322,19 +342,80 @@
   margin-top: 10px;
 }
 
-.footer-link span {
+.footer-link span,
+.footer-link-back span {
   color: #0288D1;
   cursor: pointer;
   margin-left: 4px;
 }
 
-.footer-link span:hover {
+.footer-link span:hover,
+.footer-link-back span:hover {
   text-decoration: underline;
 }
 
-@media (max-width: 500px) {
+.footer-link-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.footer-link-back:hover {
+  color: #5A4734;
+}
+
+/* ── Responsividad móvil ── */
+@media (max-width: 520px) {
   .login-form-container.glass-panel {
-    padding: 32px 24px;
-    border-radius: 20px;
+    padding: 28px 18px;
+    border-radius: 18px;
+  }
+
+  .form-header-center h2 {
+    font-size: 1.5rem;
+  }
+
+  .social-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .row-inputs {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .custom-form {
+    gap: 16px;
+  }
+
+  .glass-btn {
+    padding: 13px;
+    font-size: 0.95rem;
+  }
+
+  .password-rules-glass {
+    padding: 12px;
+  }
+
+  .rules-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 360px) {
+  .login-form-container.glass-panel {
+    padding: 22px 14px;
+  }
+
+  .form-header-center h2 {
+    font-size: 1.3rem;
+  }
+
+  .icon-box {
+    width: 46px;
+    height: 46px;
   }
 }

@@ -98,40 +98,47 @@ export default function CultivosPage({ onOpenCultivo }) {
           <section key={id} className="surco-section">
             <h2>{nombre}</h2>
             <div className="cultivos-grid">
-              {cultivos.map((cultivo, index) => (
-                <div
-                  key={cultivo.id || index}
-                  className={`cultivo-card-large estado-${cultivo.estado?.toLowerCase()}`}
-                >
+              {cultivos.map((cultivo, index) => {
+                const hasPlaga = cultivo.reportes?.some(r => r.tipo === 'PLAGA');
+                return (
                   <div
-                    className="cultivo-placeholder"
-                    onClick={() => setSelectedCultivo(cultivo)}
+                    key={cultivo.id || index}
+                    className={`cultivo-card-large estado-${cultivo.estado?.toLowerCase()}`}
+                    style={{
+                      border: hasPlaga ? '2px solid #ef4444' : undefined,
+                      boxShadow: hasPlaga ? '0 0 15px rgba(239, 68, 68, 0.4)' : undefined
+                    }}
                   >
-                    {cultivo.imagen ? (
-                      <img
-                        src={`http://localhost:3000${cultivo.imagen}`}
-                        alt={cultivo.nombre}
-                        className="cultivo-img"
-                      />
-                    ) : "🌱"}
-                  </div>
-
-                  <div className="cultivo-card-content">
-                    <span className="badge badge-cultivo">
-                      {cultivo.nombre}
-                    </span>
-                    <span className="badge badge-source">
-                      Estado: {cultivo.estado}
-                    </span>
-                    <button
-                      className="btn-bitacora"
-                      onClick={() => onOpenCultivo(cultivo)}
+                    <div
+                      className="cultivo-placeholder"
+                      onClick={() => setSelectedCultivo(cultivo)}
                     >
-                      Ver bitácora
-                    </button>
+                      {cultivo.imagen ? (
+                        <img
+                          src={`http://localhost:3000${cultivo.imagen}`}
+                          alt={cultivo.nombre}
+                          className="cultivo-img"
+                        />
+                      ) : "🌱"}
+                    </div>
+
+                    <div className="cultivo-card-content">
+                      <span className="badge badge-cultivo">
+                        {cultivo.nombre}
+                      </span>
+                      <span className="badge badge-source">
+                        Estado: {cultivo.estado}
+                      </span>
+                      <button
+                        className="btn-bitacora"
+                        onClick={() => onOpenCultivo(cultivo)}
+                      >
+                        Ver bitácora
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
         ))}
@@ -141,7 +148,7 @@ export default function CultivosPage({ onOpenCultivo }) {
             <p>No tienes cultivos registrados aún 🌾</p>
           </div>
         )}
-      </div>
+      </div >
 
       <EditCultivoModal
         isOpen={!!selectedCultivo}

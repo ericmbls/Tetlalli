@@ -1,7 +1,4 @@
-import { TipoReporte } from "@prisma/client";
+import { PartialType } from "@nestjs/mapped-types";
+import { CreateReporteDto } from "./create-reporte.dto";
 
-export class UpdateReporteDto {
-  titulo?: string;
-  descripcion?: string;
-  tipo?: TipoReporte;
-}
+export class UpdateReporteDto extends PartialType(CreateReporteDto) { }

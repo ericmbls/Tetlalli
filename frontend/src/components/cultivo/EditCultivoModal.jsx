@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { X, Upload, MapPin, Calendar, Droplets, Activity } from 'lucide-react';
+import { X, Upload, MapPin, Calendar, Droplets, Activity, Trash2 } from 'lucide-react';
+import Swal from 'sweetalert2';
 import './EditCultivoModal.css';
 
 export default function EditCultivoModal({
@@ -106,13 +107,21 @@ export default function EditCultivoModal({
   };
 
   const handleDelete = async () => {
+    const result = await Swal.fire({
+      title: '¿Seguro que deseas eliminar este cultivo?',
+      text: "Esta acción no se puede revertir",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#9ca3af',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    });
 
-    if (!window.confirm("¿Seguro que deseas eliminar este cultivo?")) return;
-
-    await onDelete(cultivo.id);
-
-    onClose();
-
+    if (result.isConfirmed) {
+      await onDelete(cultivo.id);
+      onClose();
+    }
   };
 
   return (
@@ -284,8 +293,9 @@ export default function EditCultivoModal({
                 <button
                   className="btn-delete"
                   onClick={handleDelete}
+                  title="Borrar cultivo"
                 >
-                  Borrar cultivo
+                  <Trash2 size={16} /> Borrar
                 </button>
               )}
 

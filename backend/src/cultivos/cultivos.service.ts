@@ -7,10 +7,10 @@ import * as path from 'path';
 
 @Injectable()
 export class CultivosService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async findAll() {
-    return this.prisma.cultivo.findMany();
+    return this.prisma.cultivo.findMany({ include: { reportes: true } });
   }
 
   async findOne(id: number) {

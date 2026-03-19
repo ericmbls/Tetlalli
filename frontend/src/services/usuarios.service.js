@@ -10,7 +10,9 @@ const request = async (url, options = {}) => {
     try {
       const data = await res.json();
       message = data.message || message;
-    } catch {}
+    } catch (e) {
+      // ignore
+    }
     throw new Error(message);
   }
   return res.json();
@@ -37,7 +39,7 @@ export const createUsuarioAdmin = async (data) => {
 
 export const updateUsuario = async (id, data) => {
   if (data.role) {
-    data.role = data.role.toLowerCase(); 
+    data.role = data.role.toLowerCase();
   }
 
   return request(`${API_URL}/${id}`, {

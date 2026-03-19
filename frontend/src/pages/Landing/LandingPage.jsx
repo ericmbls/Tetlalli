@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Sprout, ShieldCheck, Zap, Menu, X, ChevronRight, 
+import {
+  Sprout, ShieldCheck, Zap, Menu, X, ChevronRight,
   Droplets, Thermometer, Activity, Leaf, CloudSun, BarChart3, Star
 } from 'lucide-react';
 import './LandingPage.css';
@@ -12,7 +12,7 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
   useEffect(() => {
     const currentRef = domRef.current;
     if (!currentRef) return;
-    
+
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
@@ -21,10 +21,10 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
             observer.unobserve(currentRef);
           }
         });
-      }, 
+      },
       { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
-    
+
     observer.observe(currentRef);
     return () => observer.disconnect();
   }, []);
@@ -42,7 +42,6 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
 
 const LandingPage = ({ onLoginClick }) => {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleScroll = (e) => {
     setScrolled(e.target.scrollTop > 50);
@@ -55,26 +54,13 @@ const LandingPage = ({ onLoginClick }) => {
           <Sprout className="logo-icon-svg" />
           <span className="logo-text">Tetlalli</span>
         </div>
-        
-        <div className="landing-nav-links desktop-only">
+
+        <div className="landing-nav-links">
           <button className="landing-btn-login" onClick={onLoginClick}>
             Iniciar Sesión
           </button>
         </div>
-
-        <button 
-          className="mobile-menu-toggle mobile-only" 
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
       </nav>
-
-      <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
-        <button className="landing-btn-login fluid" onClick={() => { setMobileMenuOpen(false); onLoginClick(); }}>
-          Iniciar Sesión
-        </button>
-      </div>
 
       <main className="landing-main">
         <section className="landing-hero hero-centered">
@@ -102,28 +88,28 @@ const LandingPage = ({ onLoginClick }) => {
               </div>
             </div>
           </div>
-          
+
           <div className="hero-visual desktop-only">
             <div className="glass-card main-glass pulse-glow">
-               <div className="glass-header">
-                 <div className="dot red"></div>
-                 <div className="dot yellow"></div>
-                 <div className="dot green"></div>
-                 <span className="glass-title">Visor de Cultivo</span>
-               </div>
-               <div className="glass-body">
-                 <div className="eco-chart">
-                   <div className="eco-bar e1"><Droplets size={14}/><span>Humedad Óptima</span></div>
-                   <div className="eco-bar e2"><Thermometer size={14}/><span>Temperatura Ideal</span></div>
-                   <div className="eco-bar e3"><Activity size={14}/><span>Salud General</span></div>
-                 </div>
-                 <div className="mock-info">
-                   <div className="info-line w-full"></div>
-                   <div className="info-line w-half"></div>
-                 </div>
-               </div>
+              <div className="glass-header">
+                <div className="dot red"></div>
+                <div className="dot yellow"></div>
+                <div className="dot green"></div>
+                <span className="glass-title">Visor de Cultivo</span>
+              </div>
+              <div className="glass-body">
+                <div className="eco-chart">
+                  <div className="eco-bar e1"><Droplets size={14} /><span>Humedad Óptima</span></div>
+                  <div className="eco-bar e2"><Thermometer size={14} /><span>Temperatura Ideal</span></div>
+                  <div className="eco-bar e3"><Activity size={14} /><span>Salud General</span></div>
+                </div>
+                <div className="mock-info">
+                  <div className="info-line w-full"></div>
+                  <div className="info-line w-half"></div>
+                </div>
+              </div>
             </div>
-            
+
             <div className="floating-badge badge-1">
               <Leaf size={18} /> Crecimiento +15%
             </div>
@@ -145,7 +131,7 @@ const LandingPage = ({ onLoginClick }) => {
                 <p className="section-desc">Tres sencillos pasos para modernizar y potenciar la gestión de tu terreno.</p>
               </div>
             </FadeInSection>
-            
+
             <div className="steps-wrapper">
               <FadeInSection delay={100} className="step-item">
                 <div className="step-number">1</div>
@@ -176,7 +162,7 @@ const LandingPage = ({ onLoginClick }) => {
               <p className="section-desc">Olvídate de las conjeturas. Usa datos de alta precisión para reducir tiempos y aumentar permanentemente la calidad final.</p>
             </div>
           </FadeInSection>
-          
+
           <div className="features-grid">
             <FadeInSection delay={100}>
               <div className="feature-card glass-morph">
@@ -207,7 +193,7 @@ const LandingPage = ({ onLoginClick }) => {
                 </ul>
               </div>
             </FadeInSection>
-            
+
             <FadeInSection delay={300}>
               <div className="feature-card glass-morph">
                 <div className="feature-icon-wrapper">

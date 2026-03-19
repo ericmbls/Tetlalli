@@ -7,21 +7,22 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuariosService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async findAll() {
-  return this.prisma.user.findMany({
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      farmName: true,
-      location: true,
-      language: true
-    }
-  });
-}
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        farmName: true,
+        location: true,
+        language: true,
+        phone: true
+      }
+    });
+  }
 
   async findOne(id: number) {
     const user = await this.prisma.user.findUnique({
@@ -82,6 +83,7 @@ export class UsuariosService {
         language: true,
         farmName: true,
         location: true,
+        phone: true,
       },
     });
   }
@@ -94,6 +96,7 @@ export class UsuariosService {
         language: true,
         farmName: true,
         location: true,
+        phone: true,
       },
     });
 

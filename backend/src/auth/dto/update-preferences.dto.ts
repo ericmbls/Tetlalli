@@ -23,4 +23,9 @@ export class UpdatePreferencesDto {
   @Transform(({ value }) => value === true || value === 'true')
   darkMode?: boolean;
 
+  @IsOptional()
+  @IsString()
+  @MaxLength(20)
+  phone?: string;
+
 }

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 # Dependencias principales
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
 axios
 @nestjs/swagger
 swagger-ui-express
@@ -6,6 +9,7 @@ class-validator
 class-transformer
 dotenv
 cors
+<<<<<<< HEAD
 bcrypt
 
 # Prisma ORM v5
@@ -13,6 +17,15 @@ bcrypt
 prisma@5
 
 # desarrollo
+=======
+
+
+
+@prisma/client@5
+prisma@5
+
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
 @types/node
 @types/bcrypt
 @types/express

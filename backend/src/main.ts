@@ -10,7 +10,11 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+<<<<<<< HEAD
       transform: true, 
+=======
+      transform: true,
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     }),
   );
 

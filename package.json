@@ -10,20 +10,30 @@
     "class-validator": "^0.14.4",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
+<<<<<<< HEAD
     "nest": "^0.1.6",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+=======
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
+<<<<<<< HEAD
     "@types/node": "^25.5.0",
     "@types/passport-jwt": "^4.0.1",
     "@vitejs/plugin-react": "^5.2.0",
+=======
+    "@types/node": "^25.3.5",
+    "@types/passport-jwt": "^4.0.1",
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     "prisma": "^5.22.0",
     "vite": "^7.3.1"
   }

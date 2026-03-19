@@ -1,8 +1,17 @@
 import { useState } from 'react';
 import { Mail, Lock, User, AlertCircle, Eye, EyeOff } from 'lucide-react';
+<<<<<<< HEAD
 import './LoginForm.css';
 
 export default function LoginForm({ onLogin, mode = 'login' }) {
+=======
+import { useAuth } from "../../context/AuthContext";
+import './LoginForm.css';
+
+export default function LoginForm({ onLogin, mode = 'login' }) {
+  const { login } = useAuth();
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,8 +27,12 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
     const newErrors = {};
     if (!values.email) newErrors.email = 'El correo es requerido';
     if (!values.password) newErrors.password = 'La contraseña es requerida';
+<<<<<<< HEAD
     if (mode === 'register' && !values.name)
       newErrors.name = 'El nombre es requerido';
+=======
+    if (mode === 'register' && !values.name) newErrors.name = 'El nombre es requerido';
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     return newErrors;
   };
 
@@ -41,6 +54,7 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
     setLoading(true);
 
     const endpoint = mode === 'login' ? '/auth/login' : '/auth/register';
+<<<<<<< HEAD
     const body =
       mode === 'login'
         ? { email: formData.email, password: formData.password }
@@ -60,6 +74,24 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
           body: JSON.stringify(body),
         }
       );
+=======
+
+    const body = mode === 'login'
+      ? { email: formData.email, password: formData.password }
+      : {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role,
+        };
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
 
       const data = await res.json();
 
@@ -67,13 +99,20 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
         throw new Error(data.message || 'Error en autenticación');
       }
 
+<<<<<<< HEAD
       // 🔐 Guardar token SOLO cuando es login
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
       if (mode === 'login') {
         if (!data.access_token) {
           throw new Error('No se recibió token del servidor');
         }
+<<<<<<< HEAD
 
         localStorage.setItem('token', data.access_token);
+=======
+        login(data.access_token, data.user);
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
       }
 
       onLogin();
@@ -153,9 +192,13 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
               value={formData.password}
               onChange={handleChange}
               className="form-input has-icon-left has-icon-right"
+<<<<<<< HEAD
               autoComplete={
                 mode === 'login' ? 'current-password' : 'new-password'
               }
+=======
+              autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
             />
             <button
               type="button"
@@ -188,11 +231,15 @@ export default function LoginForm({ onLogin, mode = 'login' }) {
         )}
 
         <button type="submit" className="login-button" disabled={loading}>
+<<<<<<< HEAD
           {loading
             ? 'Cargando...'
             : mode === 'login'
             ? 'Iniciar Sesión'
             : 'Crear Cuenta'}
+=======
+          {loading ? 'Cargando...' : mode === 'login' ? 'Iniciar Sesión' : 'Crear Cuenta'}
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
         </button>
       </form>
     </div>

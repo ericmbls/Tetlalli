@@ -27,7 +27,11 @@ export class AuthService {
         email: dto.email,
         password: hashedPassword,
         role: Role.user,
+<<<<<<< HEAD
         darkMode: false, // valor inicial
+=======
+        darkMode: false, 
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
       },
     });
 

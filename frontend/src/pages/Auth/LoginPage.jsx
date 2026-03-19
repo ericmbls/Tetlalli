@@ -2,6 +2,10 @@ import { useState } from "react";
 import logo from "../../assets/logo.png";
 import "./LoginPage.css";
 import { loginUsuario, registerUsuario } from "../../services/usuarios.service";
+<<<<<<< HEAD
+=======
+import { useAuth } from "../../context/AuthContext";
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
 
 export default function LoginPage({ setIsLoggedIn }) {
   const [isLoginActive, setIsLoginActive] = useState(true);
@@ -13,6 +17,11 @@ export default function LoginPage({ setIsLoggedIn }) {
     password: ""
   });
 
+<<<<<<< HEAD
+=======
+  const { login } = useAuth();
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
   const handleInputChange = ({ target }) => {
     const { name, value } = target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -24,24 +33,37 @@ export default function LoginPage({ setIsLoggedIn }) {
       setErrorMessage("El nombre debe tener al menos 2 caracteres");
       return false;
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setErrorMessage("Ingresa un email válido");
       return false;
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     if (formData.password.length < 6) {
       setErrorMessage("La contraseña debe tener al menos 6 caracteres");
       return false;
     }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return;
+<<<<<<< HEAD
     
     if (!validateForm()) {
       return;
@@ -69,6 +91,39 @@ export default function LoginPage({ setIsLoggedIn }) {
       }
     } catch (error) {
       setErrorMessage(error.response?.data?.message || error.message || "Error al autenticar");
+=======
+
+    if (!validateForm()) return;
+
+    setLoading(true);
+    setErrorMessage("");
+
+    try {
+      if (isLoginActive) {
+        const res = await loginUsuario({
+          email: formData.email,
+          password: formData.password
+        });
+
+        login(res.access_token, res.user);
+        setIsLoggedIn(true);
+      } else {
+        const res = await registerUsuario({
+          name: formData.nombre,
+          email: formData.email,
+          password: formData.password
+        });
+
+        login(res.access_token, res.user);
+        setIsLoggedIn(true);
+      }
+    } catch (error) {
+      setErrorMessage(
+        error.response?.data?.message ||
+        error.message ||
+        "Error al autenticar"
+      );
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     } finally {
       setLoading(false);
     }
@@ -89,7 +144,11 @@ export default function LoginPage({ setIsLoggedIn }) {
           </svg>
         </div>
       ))}
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
       <div className={`cards-container ${isLoginActive ? "login-mode" : "register-mode"}`}>
         <div className="welcome-card">
           <div className="welcome-content">
@@ -98,8 +157,13 @@ export default function LoginPage({ setIsLoggedIn }) {
               {isLoginActive ? "¡Hola!" : "¡Bienvenido!"}
             </h2>
             <p className="welcome-text">
+<<<<<<< HEAD
               {isLoginActive 
                 ? "Regístrate con tus datos personales para usar todas las funciones del sistema" 
+=======
+              {isLoginActive
+                ? "Regístrate con tus datos personales para usar todas las funciones del sistema"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                 : "Ingresa tus datos personales para acceder a tu cuenta"}
             </p>
             <button onClick={toggleMode} className="welcome-button">
@@ -113,7 +177,11 @@ export default function LoginPage({ setIsLoggedIn }) {
             {errorMessage && (
               <div className="error-message">{errorMessage}</div>
             )}
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
             {isLoginActive ? (
               <>
                 <h2 className="form-title">Iniciar Sesión</h2>
@@ -121,6 +189,7 @@ export default function LoginPage({ setIsLoggedIn }) {
                 <form onSubmit={handleSubmit} className="login-form">
                   <div className="form-group">
                     <label>Email</label>
+<<<<<<< HEAD
                     <input 
                       type="email" 
                       name="email" 
@@ -128,10 +197,20 @@ export default function LoginPage({ setIsLoggedIn }) {
                       onChange={handleInputChange} 
                       placeholder="ejemplo@email.com" 
                       required 
+=======
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="ejemplo@email.com"
+                      required
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                       autoComplete="email"
                       disabled={loading}
                     />
                   </div>
+<<<<<<< HEAD
                   <div className="form-group">
                     <label>Password</label>
                     <input 
@@ -141,13 +220,32 @@ export default function LoginPage({ setIsLoggedIn }) {
                       onChange={handleInputChange} 
                       placeholder="••••••••" 
                       required 
+=======
+
+                  <div className="form-group">
+                    <label>Password</label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      placeholder="••••••••"
+                      required
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                       autoComplete="current-password"
                       disabled={loading}
                     />
                   </div>
+<<<<<<< HEAD
                   <button 
                     type="submit" 
                     className="submit-button" 
+=======
+
+                  <button
+                    type="submit"
+                    className="submit-button"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                     disabled={loading}
                   >
                     {loading ? "Cargando..." : "INICIAR SESIÓN"}
@@ -161,16 +259,26 @@ export default function LoginPage({ setIsLoggedIn }) {
                 <form onSubmit={handleSubmit} className="login-form">
                   <div className="form-group">
                     <label>Nombre</label>
+<<<<<<< HEAD
                     <input 
                       type="text" 
                       name="nombre" 
                       value={formData.nombre} 
                       onChange={handleInputChange} 
                       placeholder="Tu nombre" 
+=======
+                    <input
+                      type="text"
+                      name="nombre"
+                      value={formData.nombre}
+                      onChange={handleInputChange}
+                      placeholder="Tu nombre"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                       required
                       disabled={loading}
                     />
                   </div>
+<<<<<<< HEAD
                   <div className="form-group">
                     <label>Email</label>
                     <input 
@@ -179,10 +287,22 @@ export default function LoginPage({ setIsLoggedIn }) {
                       value={formData.email} 
                       onChange={handleInputChange} 
                       placeholder="ejemplo@email.com" 
+=======
+
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="ejemplo@email.com"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                       required
                       disabled={loading}
                     />
                   </div>
+<<<<<<< HEAD
                   <div className="form-group">
                     <label>Password</label>
                     <input 
@@ -191,13 +311,31 @@ export default function LoginPage({ setIsLoggedIn }) {
                       value={formData.password} 
                       onChange={handleInputChange} 
                       placeholder="••••••••" 
+=======
+
+                  <div className="form-group">
+                    <label>Password</label>
+                    <input
+                      type="password"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      placeholder="••••••••"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                       required
                       disabled={loading}
                     />
                   </div>
+<<<<<<< HEAD
                   <button 
                     type="submit" 
                     className="submit-button" 
+=======
+
+                  <button
+                    type="submit"
+                    className="submit-button"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                     disabled={loading}
                   >
                     {loading ? "Cargando..." : "REGISTRARSE"}

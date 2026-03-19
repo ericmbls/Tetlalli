@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
 import { useState, useEffect } from "react";
 import {
   Sprout,
@@ -14,7 +17,10 @@ import AddCultivoModal from "../../components/cultivo/AddCultivoModal";
 import "./DashboardPage.css";
 
 export default function DashboardPage() {
+<<<<<<< HEAD
 
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
   const [showAddModal, setShowAddModal] = useState(false);
   const [kpis, setKpis] = useState([]);
   const [zonasCultivo, setZonasCultivo] = useState([]);
@@ -31,10 +37,15 @@ export default function DashboardPage() {
   ];
 
   useEffect(() => {
+<<<<<<< HEAD
 
     const fetchCultivos = async () => {
       try {
 
+=======
+    const fetchCultivos = async () => {
+      try {
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
         const res = await fetch("http://localhost:3000/api/cultivos");
         const data = await res.json();
 
@@ -107,19 +118,28 @@ export default function DashboardPage() {
             total
           }))
         );
+<<<<<<< HEAD
 
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
       } catch (err) {
         console.error(err);
       }
     };
 
     fetchCultivos();
+<<<<<<< HEAD
 
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
   }, []);
 
   return (
     <div className="dashboard-content">
+<<<<<<< HEAD
 
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
       <section className="kpi-grid">
         {kpis.map(kpi => (
           <div key={kpi.title} className={`kpi-card ${kpi.status}`}>
@@ -127,21 +147,31 @@ export default function DashboardPage() {
               <span>{kpi.title}</span>
               <div className="kpi-icon">{kpi.icon}</div>
             </div>
+<<<<<<< HEAD
 
             <div className="kpi-value">{kpi.value}</div>
 
             <div className={`kpi-sub ${kpi.status}`}>
               {kpi.sub}
             </div>
+=======
+            <div className="kpi-value">{kpi.value}</div>
+            <div className={`kpi-sub ${kpi.status}`}>{kpi.sub}</div>
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
           </div>
         ))}
       </section>
 
       <section className="middle-section">
+<<<<<<< HEAD
 
         <div className="heatmap-card">
           <h3>Mapa de Cultivo</h3>
 
+=======
+        <div className="heatmap-card">
+          <h3>Mapa de Cultivo</h3>
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
           <div className="heatmap-grid">
             {zonasCultivo.map(zone => (
               <div
@@ -155,6 +185,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="forecast-card">
+<<<<<<< HEAD
 
           <h3>Pronóstico</h3>
 
@@ -210,17 +241,53 @@ export default function DashboardPage() {
 
             <div className="zone-metrics">
 
+=======
+          <h3>Pronóstico</h3>
+          <div className="forecast-list">
+            {pronostico.map(day => (
+              <div key={day.day} className="forecast-item">
+                <span>{day.day}</span>
+                <div className="forecast-icon">{day.icon}</div>
+                <span className="forecast-temp">{day.temp}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="zones-section">
+        {zonasCultivo.map(zona => (
+          <div
+            key={zona.id}
+            className={`zone-card ${zona.status === "alert" ? "zone-alert-border" : ""}`}
+          >
+            <div className="zone-header">
+              <div>
+                <h4>{zona.name}</h4>
+                <span className="zone-location">{zona.lugar}</span>
+              </div>
+              {zona.status === "ok"
+                ? <span className="check-icon">✓</span>
+                : <AlertCircle size={18} className="alert-icon-red" />}
+            </div>
+
+            <div className="zone-metrics">
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
               <div className="z-metric">
                 <Droplets size={14} />
                 <span>Humedad</span>
                 <strong>{zona.humedad}</strong>
               </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
               <div className="z-metric">
                 <CloudSun size={14} />
                 <span>Temperatura</span>
                 <strong>{zona.temp}</strong>
               </div>
+<<<<<<< HEAD
 
             </div>
 
@@ -236,12 +303,22 @@ export default function DashboardPage() {
 
 
 
+=======
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <section className="dashboard-extra">
+        <div className="recent-card">
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
           {cultivosRecientes.map(c => (
             <div key={c.id} className="recent-item">
               <strong>{c.nombre}</strong>
               <span>{c.lugar}</span>
             </div>
           ))}
+<<<<<<< HEAD
 
         </div>
 
@@ -249,12 +326,19 @@ export default function DashboardPage() {
 
           <h3>Actividad reciente</h3>
 
+=======
+        </div>
+
+        <div className="activity-card">
+          <h3>Actividad reciente</h3>
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
           {actividad.map(a => (
             <div key={a.id} className="activity-item">
               <span>{a.text}</span>
               <small>{a.date}</small>
             </div>
           ))}
+<<<<<<< HEAD
 
         </div>
 
@@ -262,22 +346,35 @@ export default function DashboardPage() {
 
           <h3>Tipos de cultivo</h3>
 
+=======
+        </div>
+
+        <div className="types-card">
+          <h3>Tipos de cultivo</h3>
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
           {cultivosPorTipo.map(t => (
             <div key={t.tipo} className="type-item">
               <span>{t.tipo}</span>
               <strong>{t.total}</strong>
             </div>
           ))}
+<<<<<<< HEAD
 
         </div>
 
+=======
+        </div>
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
       </section>
 
       <AddCultivoModal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
       />
+<<<<<<< HEAD
 
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     </div>
   );
 }

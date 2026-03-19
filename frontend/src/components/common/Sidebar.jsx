@@ -17,7 +17,10 @@ export default function Sidebar({ currentPage, onNavigate, role = 'admin', isOpe
 
   return (
     <>
+<<<<<<< HEAD
       {/* Overlay oscuro para cerrar en móvil */}
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
       {isOpen && <div className="sidebar-overlay" onClick={onClose} />}
 
       <aside className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
@@ -32,6 +35,10 @@ export default function Sidebar({ currentPage, onNavigate, role = 'admin', isOpe
               key={item.id}
               className={`nav-item ${currentPage === item.id ? 'active' : ''}`}
               onClick={() => onNavigate(item.id)}
+<<<<<<< HEAD
+=======
+              type="button"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
             >
               <span className="nav-icon">{item.icon}</span>
               <span>{item.label}</span>

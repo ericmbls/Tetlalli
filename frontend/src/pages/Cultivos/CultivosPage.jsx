@@ -1,10 +1,31 @@
 import { useState, useEffect, useMemo } from "react";
+<<<<<<< HEAD
 import EditCultivoModal from "../../components/cultivo/EditCultivoModal";
 import AddCultivoModal from "../../components/cultivo/AddCultivoModal";
 import "./CultivosPage.css";
 import { getCultivos, createCultivo, updateCultivo } from "../../services/cultivos.service";
 
 export default function CultivosPage() {
+=======
+import { useAuth } from "../../context/AuthContext";
+
+import EditCultivoModal from "../../components/cultivo/EditCultivoModal";
+import AddCultivoModal from "../../components/cultivo/AddCultivoModal";
+
+import "./CultivosPage.css";
+
+import {
+  getCultivos,
+  createCultivo,
+  updateCultivo,
+  deleteCultivo
+} from "../../services/cultivos.service";
+
+export default function CultivosPage({ onOpenCultivo }) {
+  const { user } = useAuth();
+  const userRole = user?.role;
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
   const [cultivos, setCultivos] = useState([]);
   const [selectedCultivo, setSelectedCultivo] = useState(null);
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -18,11 +39,16 @@ export default function CultivosPage() {
         setCultivos([]);
       }
     };
+<<<<<<< HEAD
+=======
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     loadCultivos();
   }, []);
 
   const surcos = useMemo(() => {
     const grouped = {};
+<<<<<<< HEAD
     cultivos.forEach(({ ubicacion = "Sin ubicación", ...cultivo }) => {
       if (!grouped[ubicacion]) grouped[ubicacion] = [];
       grouped[ubicacion].push({ ubicacion, ...cultivo });
@@ -31,6 +57,21 @@ export default function CultivosPage() {
       id: ubicacion,
       nombre: ubicacion,
       cultivos: lista,
+=======
+
+    cultivos.forEach(({ ubicacion = "Sin ubicación", ...cultivo }) => {
+      if (!grouped[ubicacion]) grouped[ubicacion] = [];
+      grouped[ubicacion].push({
+        ubicacion,
+        ...cultivo
+      });
+    });
+
+    return Object.entries(grouped).map(([ubicacion, lista]) => ({
+      id: ubicacion,
+      nombre: ubicacion,
+      cultivos: lista
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     }));
   }, [cultivos]);
 
@@ -54,10 +95,30 @@ export default function CultivosPage() {
     }
   };
 
+<<<<<<< HEAD
   return (
     <>
       <div className="cultivos-header">
         <button className="btn-add-cultivo" onClick={() => setIsAddOpen(true)}>
+=======
+  const handleDeleteCultivo = async (id) => {
+    try {
+      await deleteCultivo(id);
+      setCultivos(prev => prev.filter(c => c.id !== id));
+      setSelectedCultivo(null);
+    } catch (err) {
+      console.error("Error eliminando cultivo:", err);
+    }
+  };
+
+  return (
+    <>
+      <div className="cultivos-header">
+        <button
+          className="btn-add-cultivo"
+          onClick={() => setIsAddOpen(true)}
+        >
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
           + Añadir cultivo
         </button>
       </div>
@@ -71,15 +132,24 @@ export default function CultivosPage() {
                 <div
                   key={cultivo.id || index}
                   className={`cultivo-card-large estado-${cultivo.estado?.toLowerCase()}`}
+<<<<<<< HEAD
                   onClick={() => setSelectedCultivo(cultivo)}
                 >
                   <div className="cultivo-placeholder">
+=======
+                >
+                  <div
+                    className="cultivo-placeholder"
+                    onClick={() => setSelectedCultivo(cultivo)}
+                  >
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                     {cultivo.imagen ? (
                       <img
                         src={`http://localhost:3000${cultivo.imagen}`}
                         alt={cultivo.nombre}
                         className="cultivo-img"
                       />
+<<<<<<< HEAD
                     ) : (
                       "🌱"
                     )}
@@ -87,12 +157,34 @@ export default function CultivosPage() {
                   <div className="cultivo-card-content">
                     <span className="badge badge-cultivo">{cultivo.nombre}</span>
                     <span className="badge badge-source">Estado: {cultivo.estado}</span>
+=======
+                    ) : "🌱"}
+                  </div>
+
+                  <div className="cultivo-card-content">
+                    <span className="badge badge-cultivo">
+                      {cultivo.nombre}
+                    </span>
+                    <span className="badge badge-source">
+                      Estado: {cultivo.estado}
+                    </span>
+                    <button
+                      className="btn-bitacora"
+                      onClick={() => onOpenCultivo(cultivo)}
+                    >
+                      Ver bitácora
+                    </button>
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   </div>
                 </div>
               ))}
             </div>
           </section>
         ))}
+<<<<<<< HEAD
+=======
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
         {!surcos.length && (
           <div className="empty-state">
             <p>No tienes cultivos registrados aún 🌾</p>
@@ -105,6 +197,11 @@ export default function CultivosPage() {
         onClose={() => setSelectedCultivo(null)}
         cultivo={selectedCultivo}
         onSave={handleUpdateCultivo}
+<<<<<<< HEAD
+=======
+        onDelete={handleDeleteCultivo}
+        userRole={userRole}
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
       />
 
       <AddCultivoModal

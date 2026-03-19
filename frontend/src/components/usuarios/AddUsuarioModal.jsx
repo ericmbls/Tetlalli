@@ -1,5 +1,9 @@
 import { useState } from "react";
+<<<<<<< HEAD
 import { X, User, Mail, Lock, Shield, Building2, MapPin, Globe, Info } from "lucide-react";
+=======
+import { X, User, Mail, Lock, Shield, Building2, MapPin, Globe, Info, Eye, EyeOff } from "lucide-react";
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
 import "./AddUsuarioModal.css";
 
 export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
@@ -13,12 +17,30 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
     language: "es",
   });
 
+<<<<<<< HEAD
+=======
+  const [showPassword, setShowPassword] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
   if (!isOpen) return null;
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+<<<<<<< HEAD
+=======
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const url = URL.createObjectURL(file);
+    setAvatarPreview(url);
+    handleChange("avatar", file);
+  };
+
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
   const handleSubmit = (e) => {
     e.preventDefault();
     onSave(formData);
@@ -37,6 +59,7 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
         <form onSubmit={handleSubmit}>
           <div className="modal-body">
             <div className="left-column">
+<<<<<<< HEAD
               <div className="image-upload-area">
                 <User className="upload-icon" size={40} strokeWidth={1.5} />
                 <span className="upload-text">Foto de perfil</span>
@@ -48,6 +71,25 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
                   type="file"
                   accept="image/*"
                   onChange={e => handleChange("avatar", e.target.files[0])}
+=======
+              <div className={`image-upload-area ${avatarPreview ? 'has-image' : ''}`}>
+                {avatarPreview ? (
+                  <img src={avatarPreview} alt="avatar preview" className="avatar-preview" />
+                ) : (
+                  <>
+                    <User className="upload-icon" size={40} strokeWidth={1.5} />
+                    <span className="upload-text">Foto de perfil</span>
+                    <span className="upload-hint">
+                      <Info size={10} />
+                      Opcional
+                    </span>
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   style={{ 
                     position: 'absolute', 
                     inset: 0, 
@@ -62,35 +104,60 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
 
             <div className="right-column">
               <div className="form-group">
+<<<<<<< HEAD
                 <label>
+=======
+                <label htmlFor="user-name">
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   <User size={12} />
                   Nombre completo
                 </label>
                 <input
+<<<<<<< HEAD
+=======
+                  id="user-name"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   type="text"
                   className="input-flushed"
                   placeholder="Ej: Juan Pérez"
                   value={formData.name}
                   onChange={e => handleChange("name", e.target.value)}
+<<<<<<< HEAD
+=======
+                  autoComplete="name"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   required
                 />
               </div>
 
               <div className="form-group">
+<<<<<<< HEAD
                 <label>
+=======
+                <label htmlFor="user-email">
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   <Mail size={12} />
                   Correo electrónico
                 </label>
                 <input
+<<<<<<< HEAD
+=======
+                  id="user-email"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   type="email"
                   className="input-flushed"
                   placeholder="usuario@ejemplo.com"
                   value={formData.email}
                   onChange={e => handleChange("email", e.target.value)}
+<<<<<<< HEAD
+=======
+                  autoComplete="email"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   required
                 />
               </div>
 
+<<<<<<< HEAD
               <div className="form-group">
                 <label>
                   <Lock size={12} />
@@ -104,6 +171,33 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
                   onChange={e => handleChange("password", e.target.value)}
                   required
                 />
+=======
+              <div className="form-group password-field">
+                <label htmlFor="user-password">
+                  <Lock size={12} />
+                  Contraseña
+                </label>
+                <div className="password-input-wrapper">
+                  <input
+                    id="user-password"
+                    type={showPassword ? "text" : "password"}
+                    className="input-flushed password-input"
+                    placeholder="••••••••"
+                    value={formData.password}
+                    onChange={e => handleChange("password", e.target.value)}
+                    autoComplete="new-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  >
+                    {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
+                </div>
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                 <div className="field-hint">
                   <Info size={10} />
                   Mínimo 8 caracteres
@@ -112,12 +206,20 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
 
               <div className="form-row">
                 <div className="form-group">
+<<<<<<< HEAD
                   <label>
+=======
+                  <label htmlFor="user-role">
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                     <Shield size={12} />
                     Rol
                   </label>
                   <div className="select-wrapper">
                     <select
+<<<<<<< HEAD
+=======
+                      id="user-role"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                       value={formData.role}
                       onChange={e => handleChange("role", e.target.value)}
                     >
@@ -131,12 +233,20 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
                 </div>
 
                 <div className="form-group">
+<<<<<<< HEAD
                   <label>
+=======
+                  <label htmlFor="user-language">
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                     <Globe size={12} />
                     Idioma
                   </label>
                   <div className="select-wrapper">
                     <select
+<<<<<<< HEAD
+=======
+                      id="user-language"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                       value={formData.language}
                       onChange={e => handleChange("language", e.target.value)}
                     >
@@ -151,30 +261,54 @@ export default function AddUsuarioModal({ isOpen, onClose, onSave }) {
               </div>
 
               <div className="form-group">
+<<<<<<< HEAD
                 <label>
+=======
+                <label htmlFor="user-farm">
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   <Building2 size={12} />
                   Nombre de la granja
                 </label>
                 <input
+<<<<<<< HEAD
+=======
+                  id="user-farm"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   type="text"
                   className="input-flushed"
                   placeholder="Ej: Granja El Rosal"
                   value={formData.farmName}
                   onChange={e => handleChange("farmName", e.target.value)}
+<<<<<<< HEAD
+=======
+                  autoComplete="organization"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                 />
               </div>
 
               <div className="form-group">
+<<<<<<< HEAD
                 <label>
+=======
+                <label htmlFor="user-location">
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   <MapPin size={12} />
                   Ubicación
                 </label>
                 <input
+<<<<<<< HEAD
+=======
+                  id="user-location"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                   type="text"
                   className="input-flushed"
                   placeholder="Ej: Antioquia, Colombia"
                   value={formData.location}
                   onChange={e => handleChange("location", e.target.value)}
+<<<<<<< HEAD
+=======
+                  autoComplete="address-level1"
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
                 />
               </div>
             </div>

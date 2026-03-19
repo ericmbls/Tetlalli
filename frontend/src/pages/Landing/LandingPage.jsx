@@ -5,7 +5,10 @@ import {
 } from 'lucide-react';
 import './LandingPage.css';
 
+<<<<<<< HEAD
 // Componente para animar al hacer scroll
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
 const FadeInSection = ({ children, delay = 0, className = '' }) => {
   const [isVisible, setVisible] = useState(false);
   const domRef = useRef();
@@ -14,7 +17,10 @@ const FadeInSection = ({ children, delay = 0, className = '' }) => {
     const currentRef = domRef.current;
     if (!currentRef) return;
     
+<<<<<<< HEAD
     // Solo animamos una vez (unobserve on trigger)
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
     const observer = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
@@ -46,28 +52,40 @@ const LandingPage = ({ onLoginClick }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+<<<<<<< HEAD
   // Escuchar scroll del contenedor para cambiar estilo del nav
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
   const handleScroll = (e) => {
     setScrolled(e.target.scrollTop > 50);
   };
 
   return (
     <div className="landing-container" onScroll={handleScroll}>
+<<<<<<< HEAD
       {/* Navbar Responsivo */}
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
       <nav className={`landing-nav ${scrolled ? 'nav-scrolled' : ''}`}>
         <div className="landing-logo">
           <Sprout className="logo-icon-svg" />
           <span className="logo-text">Tetlalli</span>
         </div>
         
+<<<<<<< HEAD
         {/* Desktop Links */}
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
         <div className="landing-nav-links desktop-only">
           <button className="landing-btn-login" onClick={onLoginClick}>
             Iniciar Sesión
           </button>
         </div>
 
+<<<<<<< HEAD
         {/* Mobile menu toggle */}
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
         <button 
           className="mobile-menu-toggle mobile-only" 
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -76,7 +94,10 @@ const LandingPage = ({ onLoginClick }) => {
         </button>
       </nav>
 
+<<<<<<< HEAD
       {/* Mobile Menu Content */}
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
       <div className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
         <button className="landing-btn-login fluid" onClick={() => { setMobileMenuOpen(false); onLoginClick(); }}>
           Iniciar Sesión
@@ -84,9 +105,13 @@ const LandingPage = ({ onLoginClick }) => {
       </div>
 
       <main className="landing-main">
+<<<<<<< HEAD
         {/* Hero Section Completa */}
         <section className="landing-hero hero-centered">
           {/* Blobs animados de fondo */}
+=======
+        <section className="landing-hero hero-centered">
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
           <div className="hero-blob blob-1"></div>
           <div className="hero-blob blob-2"></div>
           <div className="hero-blob blob-3"></div>
@@ -110,8 +135,11 @@ const LandingPage = ({ onLoginClick }) => {
                 <ShieldCheck size={16} /> <span>Acceso seguro 24/7</span>
               </div>
             </div>
+<<<<<<< HEAD
             
 
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
           </div>
           
           <div className="hero-visual desktop-only">
@@ -147,9 +175,12 @@ const LandingPage = ({ onLoginClick }) => {
           </div>
         </section>
 
+<<<<<<< HEAD
 
 
         {/* Pasos */}
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
         <section id="how-it-works" className="landing-steps">
           <div className="steps-container">
             <FadeInSection>
@@ -182,7 +213,10 @@ const LandingPage = ({ onLoginClick }) => {
           </div>
         </section>
 
+<<<<<<< HEAD
         {/* Características */}
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
         <section id="features" className="landing-features">
           <FadeInSection>
             <div className="features-head">
@@ -240,9 +274,12 @@ const LandingPage = ({ onLoginClick }) => {
           </div>
         </section>
 
+<<<<<<< HEAD
 
 
         {/* CTA */}
+=======
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
         <section className="landing-cta">
           <div className="cta-shapes">
             <div className="shape shape-1"></div>

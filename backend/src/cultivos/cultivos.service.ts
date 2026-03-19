@@ -2,6 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCultivoDto } from './dto/create-cultivo.dto';
 import { UpdateCultivoDto } from './dto/update-cultivo.dto';
+<<<<<<< HEAD
+=======
+import * as fs from 'fs';
+import * as path from 'path';
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
 
 @Injectable()
 export class CultivosService {
@@ -37,7 +42,20 @@ export class CultivosService {
   }
 
   async remove(id: number) {
+<<<<<<< HEAD
     await this.findOne(id);
+=======
+    const cultivo = await this.findOne(id);
+
+    // eliminar imagen del servidor si existe
+    if (cultivo.imagen) {
+      const imagePath = path.join(process.cwd(), cultivo.imagen);
+
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
+    }
+>>>>>>> afc32421451b588d80cea275fc0fe7e2b2d1c756
 
     return this.prisma.cultivo.delete({
       where: { id: Number(id) },
